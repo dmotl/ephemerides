@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<link rel="stylesheet" type="text/css" href="ephem.css">
+<Title>Daily ephemerides</Title>
+</HEAD>
+<BODY>
+
+<h3>Daily ephemerides</h3>
+
+<p align=justify>The page <em>Daily ephemerides</em> is designed to find all minima which occur on a specified night.
+
+<h5>Instructions</h5>
+
+<ol>
+<li><p>Start the program <em>Ephemerides</em> and click on the tab <i>Daily ephemerides</i>.</p>
+
+<li><p>Enter a date which you want to compute data for. Specify date that is valid before midnight (evening date).</p>
+
+<li><p>In the section <i>Catalogues</i>, check catalogues which shall be researched.</p>
+
+<li><p>In the next section <i>Filters</i>, specify additional conditions for selecting variable stars and times of
+minimum. Only records that meet all conditions will be displayed.</p>
+
+<li><p><em>Update</em> button <img src="retry.png" alt="Retry"> to start the processing. The results are displayed 
+in the table. Every odd row is tinged by light gray color.</p>
+
+<li><p>If you change the date or other settings, it is necessary to start the computation again.</p>
+
+</ol>
+
+<img src="scr_den.png" alt="Daily ephemerides" class="block">
+
+<h5>Meaning of table columns</h5>
+
+<ul>
+
+<li><p><i>Name</i> - variable star designation including constellation, e.g. RT And</p>
+
+<li><p><i>PS</i> - P for primary minimum, S for secondary minimum</p>
+
+<li><p><i>Date</i> and <i>UT</i> - date and time of minimum in Universal time. A date is always
+printed in the form year-month-day. A time is displayed in hours and it is always rounded
+to the nearest half-hour.</p>
+
+<li><p><i>Az</i> and <i>Alt</i> - apparent altitude of the object in degrees at the time of
+minimum. An azimuth is presented as an abbreviation of a direction, e.g. WNW is west-north-west. 
+A value of azimuth in degrees can be found in the detailed information (see below).</p>
+
+<li><p><i>R.A.</i> and <i>Dec.</i> - equatorial coordinates of the object. A right ascension is 
+shown in hours and minutes, a declination is presented in degrees.</p>
+
+<li><p><i>Type</i> - type of variability. Most frequently used abbreviations are:
+<ol><li>EA denotes an eclipsing binary of Algol type, the D parameter is eclipse duration in hours.
+    <li>EW denotes an eclipsing binary of W UMa type, the P parameter is period in days.
+    <li>EB denotes an eclipsing binary of &beta; Lyr type, the P parameter is period in days.
+</ol>
+The detailed descrption of variability types can be found in the description of the GCVS catalog - 
+<a href="http://www.sai.msu.su/gcvs/gcvs/">link</a>.
+</p>
+
+<li><p><i>Mag</i> - brightness in minimum and maximum in magnitudes.</p>
+
+<li><p><i>Catalogue</i> - catalog designation, source of elements that were used for this ephemeris</p>
+
+<li><p><i>Pts</i> - for BRKA catalogue this value denotes a measure of usefulness of visual observation
+of the variable star. In user-defined catalogues, this field can be used to express a priority.</p>
+
+<li><p><i>Obj-Moon</i> - distance between the variable star and the Moon (disk center) at time of 
+minimum in degrees. It is computed as an angle between two lines observer-object and observer-Moon.</p>
+
+<li><p><i>Remarks</i> - any remarks from the catalogue.</p>
+
+</ul>
+
+<h5>Sorting the table data</h5>
+
+<p align=justify>The data displayed in the table are sorted by its order in the catalogue files. It is possible to change
+the sorting order. Click on a gray field in the table heading (field's name). You can also press the <em>Sort</em> button 
+<img src="sort.gif" alt="Sort"> on the toolbar. A context menu appears, select a sort key from the menu.</p>
+
+<h5>Displaying detailed information</h5>
+
+<p align=justify>It is possible to show detailed information on the selected eclipsing binary star and the selected 
+minimum by pressing the <em>Info</em> button <img src="info.png" alt="Info"> on the toolbar. The information are displayed
+in a separated floating panel. The panel consists of two tables located on separated tabs. The <em>Catalogue</em> tab shows 
+all information on the selected variable star. The <em>Ephemeris</em> tab includes computed results on the selected minimum - 
+predicted time of minimum, heliocentric correction, azimuth and altitude of the star in time of minimum and times of its 
+rise, transit and set. If the star do not rise/set, the stars are printed out in this fields. The values of the airmass 
+coefficient at the time of minimum, half an hour before and after the minimum are enlisted too.</p>
+
+<p align=justify>The information panel stays on the top of the main window. By selecting another row in the table of 
+minima, the content of the panel is automatically updated. You can hide the panel by clicking on the close button 
+in its right top corner.</p>
+
+<h5>Deleting rows from the table</h5>
+
+<p align=justify>After coarse selection of the minima by means of the filters, it is possible to make fine selection 
+before printing or saving the table to a file. It allows you to make a final plan of an observation. To delete a particular 
+row or rows from the table, select them by clicking the left mouse button a press the <tt>Delete</tt> key or the <em>Delete</em>
+button <img src="delete.gif" alt="Delete"> on the toolbar.</p>
+
+<h5>Printing the ephemerides</h5>
+
+<p align=justify>You can print the current content of the table on connected printer. Press the <em>Print</em> button 
+<img src="print.gif" alt="Print"> on the toolbar. The new window is displayed with a preview. In the window, press 
+<em>Print</em> button, check selection and settings of the printer and confirm by the <em>OK</em> button.</p>
+
+<p align=justify>To save space, the first column combines variable star designation, followed by a colon if it is
+a secondary minimum (this used to be standard in the BRNO catalogue), followed by the constellation designation. For
+example: 'RT:And' is indicated that the row is ephemeris for a secondary minimum of RT And.</p>
+
+<h5>Saving results to a file</h5>
+
+<p align=justify>You can save the current content of the table to a file. Press the <em>Save</em> button 
+<img src="save.png" alt="Save"> on the toolbar. The standard save dialog is displayed. You can choose between
+several file formats - HTML, ASCII text or CSV.</p>
+
+<h5>Solar and lunar data</h5>
+
+<p align=justify>Time of rising and setting of the Sun and Moon are also important for making observation plan, 
+especially for observations of eclipsing binary systems. This is why program also computes and displays this 
+information. Press the <em>Sun</em> button <img src="sun.png" alt="Sun"> button to open a new dialog window.
+The dialog shows the times of the sunrise, sunset and the start and the end of twilight. All times are in UT.</p>
+
+<p align=justify>The next button <em>Moon</em> <img src="moon.png" alt="Moon"> opens a similar dialog window. The 
+dialog shows the phase of the Moon at the date of selected minimum, times of rising and setting of the Moon. All 
+times are in UT.</p>
+
+<h5>Sky chart</h5>
+
+<p align=justify>It is possible to show a position of the selected variable star on an overview sky chart with 
+bright stars and constellations. Click on the <em>Chart</em> button <img src="sky.png" alt="Chart">. A new dialog
+window appears. The dialog shows a sky chart centered on the variable star. The width of the viewfield is about 
+40 degrees. The cross in the middle of the chart marks the position of the variable star.</p>
+
+</BODY>
+</HTML>

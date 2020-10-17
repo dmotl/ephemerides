@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<link rel="stylesheet" type="text/css" href="ephem.css">
+<Title>Getting started</Title>
+</HEAD>
+<BODY>
+
+<h3>Getting started</h3>
+
+<p align=justify>The configuration dialog is automaticaly opened when the program is launched for the
+first time. A user shall provide the geographical coordinates of observation site, otherwise the computed 
+values won't be valid for the site. You can change the entered values later, in the <a href="Setup.htm">configuration dialog</a>.</p>
+
+<ol>
+
+<li><p>Start the program <em>Ephemerides</em>. When the program is started for the first time, the
+configuration dialog is automaticaly displayed.</p></li>
+
+<li><p>Enter the name of the observation site and its geographical coordinates - <i>latitude</i> and 
+<i>longitude</i>. The values are given in the decimal form, e.g. 16.6667 and 49.2167 for Brno, Czech 
+republic. Use <b>positive</b> values of longitude for locations on the <b>eastern</b> hemisphere and 
+<b>negative</b> values for the <b>western</b> hemisphere. Use <b>positive</b> values of latitude for 
+locations on the <b>northern</b> hemisphere and <b>negative</b> values for the southern hemisphere.</p></li>
+
+<li><p>If your computer is set to the local time zone, you can let the <i>time zone</i> parameter
+set to the default value 'Read from system', which means that the program will read the standard time zone 
+from the opeating system. Please note, that displayed times of minima, rise times and set times of celestial
+objects are presented <b>always in UTC</b>, regardless of the time zone selected.</p></li>
+
+<li><p>Click on the <em>Save</em> button to save configuration settings and close the dialog. Now, 
+you have finished the configuration and you can make ephemerides. The settings are saved to the configuration
+file and this dialog won't appear. You can change the location in the <a href="Setup.htm"><em>Setup</em></a> 
+dialog.</p></li>
+
+</ol>
+
+<img src="scr_setup.png" alt="Observation site coordinates" class="block">
+
+<h5>Making daily ephemerides</h5>
+
+<p align=justify>The page <em>Daily ephemerides</em> is designed to find all minima 
+for a subset of variable stars which occur on a specified night.</p>
+
+<h5>Instructions</h5>
+
+<ol>
+
+<li><p>Click on the tab <i>Daily ephemerides</i>.</p>
+
+<li><p>Enter a date which you want to compute data for, this field is automaticaly filled with actual date. 
+You have to specify the date that is valid before midnight (evening date).</p></li>
+
+<li><p>In the section <i>Catalogues</i>, check all catalogues for simplicity.</p></li>
+
+<li><p>In the next section <i>Filters</i>, specify conditions for selecting variable stars and times of minimum. 
+Only records that meet all conditions will be displayed. Check the field <em>Time of minimum</em> and check the
+option <em>during nighttime</em>. It means that only minima that occur after the dusk and before dawn will be
+displayed. Check the field <em>Altitude</em> and set the field <em>from</em> to the value 25 and the field <em>to
+</em> to value 90. It means that only minima that occur on altitudes (elevations) grater than 25 degree will be
+listed. You can leave all other filters unchecked.</p></li>
+
+<li><p>Click on the <em>Update</em> button to make a list of minima. If you change the date or filter settings, 
+it is necessary to start the computation again.</p></li>
+
+<li><p>For more information about daily ephemerides, see <a href="den.htm">this page</a>.</p></li>
+
+</ol>
+
+<img src="scr_den.png" alt="Daily ephemerides" class="block">
+
+<h5>Making star ephemerides</h5>
+
+<p align=justify>The page <em>Star ephemerides</em> is designed to find all minima for 
+a particular variable star that occur in a specified season.</p>
+
+<ol>
+
+<li><p>Click on the tab <em>Star ephemerides</em>.</p>
+
+<li><p>In the field <em>Catalogue</em>, choose the catalogue file that shall be researched.</p>
+
+<li><p>In the next field <em>Constellation</em>, choose the constellation that the star is located in. Variables which
+do not include the name of the constellation in the name are enlisted in the <em>OTHER</em> group.</p>
+
+<li><p>Select a star in the list of the <em>Variable stars</em>. The colon in the star's name indicates the secondary minimum.</p>
+
+<li><p>Set up the interval of days that the ephemerides shall be computed for - section <em>Date</em>, fields <em>from</em> and <em>to</em>.</p>
+
+<li><p>In the next section <em>Filters</em>, specify additional conditions for filtering minima, which shall be included 
+in the results. Only the records that meet all conditions will be displayed. Check the field <em>Time of minimum</em> and check the
+option <em>during nighttime</em>. It means that only minima that occur after the dusk and before dawn will be
+displayed. Check the field <em>Altitude</em> and set the field <em>from</em> to the value 25 and the field <em>to
+</em> to value 90. It means that only minima that occur on altitudes (elevations) grater than 25 degree will be
+listed. You can leave all other filters unchecked.</p></li>
+
+<li><p>Click on the <em>Update</em> button to make a list of minima. If you change the date or filter settings, 
+it is necessary to start the computation again.</p></li>
+
+<li><p>For more information about star ephemerides, see <a href="hvezda.htm">this page</a>.</p></li>
+
+</ol>
+
+<img src="scr_hvezda.png" alt="Star ephemerides" class="block">
+
+</BODY>
+</HTML>

@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<link rel="stylesheet" type="text/css" href="ephem.css">
+<Title>Vytvoøení uživatelského katalogu</Title>
+</HEAD>
+<BODY>
+
+<h3>Vytvoøení uživatelského katalogu</h3>
+
+<p align=justify>Katalogový soubor mùžete vytvoøit pomocí textového editoru (napø. <i>Poznámkový blok</i>, 
+<i>Crimson Editor</i> apod.). Soubor uložte do adresáøe programu a jeho pøíponu zmìòte na <i>dat</i>, 
+napø. <tt>Moje hvìzdy.dat</tt>. (Pozor na dvojí pøíponu - <tt>moje hvìzdy.dat.<u>txt</u></tt>.)</p>
+
+<h5>Struktura souboru</h5>
+
+<p align=justify>První øádek v katalogovém souboru mùže být hlavièka obsahující názvy polí. Dále následují 
+údaje o promìnných hvìzdách. Jednotlivé položky jsou uloženy na pevných pozicích v øádku vyplnìné mezerami.
+Pro oddìlení desetinných míst se vždy používá teèka. Údaje pro primární a sekundární minimum téže hvìzdy 
+se ukládá na dva samostatné øádky, pøièemž sekundární minimum se rozliší tak, že pole Název obsahuje buïto 
+dvojteèku nebo znaky '+S'. Napøíklad: <tt>EK Cep</tt> a <tt>EK+P Cep</tt> oznaèují primární minimum a 
+<tt>EK:Cep</tt> a <tt>EK+S Cep</tt> oznaèují sekundární minimum téže hvìzdy.</p>
+
+<table>
+<tr><td><b>Pozice od</b><td><b>Pozice do</b><td><b>Název pole</b><td><b>Význam</b>
+<tr><td>2
+    <td>13
+	<td>NAZEV
+	<td>Oznaèení hvìzdy.
+<tr><td>15
+    <td>17
+	<td>TYP
+	<td>Zaøazení hvìzdy v rámci programu BRNO. U uživatelkého katalogu mùže obsahovat libovolný text; nepovinná položka.
+	    Pozn.: Typ promìnnosti obsahuje pole VD.
+<tr><td>19
+    <td>22
+    <td>BODY
+	<td>Priorita, od 1 do 10 bodù.
+<tr><td>24
+    <td>31
+    <td>RA2000
+    <td>Rektascenze hvìzdy ve formátu (hhmmss.s)
+<tr><td>33
+    <td>39
+    <td>DE2000
+    <td>Deklinace hvìzdy ve formátu (+ddmmss)
+<tr><td>41
+    <td>51
+    <td>M0
+	<td>Základní minimum Mo v juliánském datování JD-2400000 (první dvì èíslice se tedy neuvádìjí)
+<tr><td>53
+    <td>64
+    <td>PER
+    <td>Perioda P svìtelných zmìn ve dnech
+<tr><td>66
+    <td>70
+	<td>MAX
+    <td>Hvìzdná velikost promìnné hvìzdy v maximu jasnosti (v magnitudách)
+<tr><td>72
+    <td>76
+    <td>PRIM
+    <td>Hvìzdná velikost promìnné hvìzdy v primárním minimu jasnosti (v magnitudách)
+<tr><td>78
+    <td>82
+    <td>SEK
+	<td>Hvìzdná velikost promìnné hvìzdy v sekundárním minimu jasnosti (v magnitudách)
+<tr><td>84
+    <td>85
+    <td>OBOR
+    <td>Obor, v nìmž byly urèeny hvìzdné velikosti (pole MAX, PRIM, SEK); nepovinné.
+<tr><td>87
+    <td>107
+    <td>ZDROJ
+    <td>Zdroj elementù svìtelných zmìn; nepovinné.
+<tr><td>109
+    <td>112
+    <td>VD
+    <td>Doba trvání svìtelné zmìny v minimu (D) v hodinách (u algolid); pro hvìzdy typu &beta; Lyr nebo W UMa 
+	je uvedena znaèka B, respektive W.
+<tr><td>114
+    <td>117
+    <td>MD
+    <td>Doba trvání fáze konstantní jasnosti v minimu (d) v hodinách; nepovinné.
+<tr><td>119
+    <td>126
+    <td>MAPA
+    <td>Mapka okolí promìnné hvìzdy; nepovinné.
+<tr><td>128
+    <td>137
+    <td>ATRAKTIV
+    <td>Astrofyzikální atraktivita systému; nepovinné.
+<tr><td>139
+    <td>153
+    <td>POZNAMKA
+    <td>Poznámky; nepovinné.
+<tr><td>155
+    <td>165
+    <td>GSC
+	<td>Identifikaèní èíslo dle Guide Star Catalogue ve tvaru XXXXX.XXXXX.
+<tr><td>167
+    <td>171
+    <td>ZMENA
+	<td>Hvìzdièka indikuje zmìnu oproti minulé verzi katalogu; nepovinné.
+</table>
+
+</BODY>
+</HTML>

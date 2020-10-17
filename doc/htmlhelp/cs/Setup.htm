@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<link rel="stylesheet" type="text/css" href="ephem.css">
+<Title>Nastavení programu</Title>
+</HEAD>
+<BODY>
+
+<h3>Nastavení programu</h3>
+
+<p align=justify>Jediné nastavení, které je nutné v programu provést, je nastavení zemìpisnıch 
+souøadic pozorovacího stanovištì. Tyto údaje se pouívají pøi vıpoètu azimutu, vıšky nad obzorem 
+a okamikù západu a vıchodu hvìzd, Slunce a Mìsíce.</p>
+
+<ul>
+
+<li><p><em>Location</em> - název pozorovacího stanovištì. Pøíklad: Brno, Czech Republic.</p></li>
+
+<li><p><em>Longitude</em> - zemìpisná délka v desetinném tvaru. Pouívejte <b>kladná</b> èísla pro stanovištì 
+na <b>vıchodní</b> polokouli a <b>záporná</b> èísla pro <b>západní</b> polokouli. Pøíklad: 16.6667.</p></li>
+
+<li><p><em>Latitude</em> - zemìpisná šíøka v desetinném tvaru. Pouívejte <b>kladná</b> èísla pro stanovištì
+na <b>severní</b> polokouli a <b>záporná</b> èísla pro <b>jiní</b> polokouli. Pøíklad: 49.2167.</p></li>
+
+<li><p><em>Time zone</em> - místní èasové pásmo. Podle této poloky se urèuje zaèátek a konec pozorovací noci,
+která zaèíná a konèí v místní poledne. Pøednastavená poloka 'Read from system' znamená, e program bude
+pouívat standardní èasové pásmo nastavené v operaèním systému. Mìjte na pamìti, e všechny zobrazované 
+èasy minim, vıchodù a západù nebeskıch objektù jsou zobrazovány v UTC bez ohledu na nastavené èasové pásmo.</p></li>
+
+</ul>
+
+<img src="scr_setup.png" alt="Observation site coordinates" class="block">
+
+<h5>Pøednastavené pozice</h5>
+
+<p align=justify>Pokud generujete pøedpovìdi pro více stanoviš, mùete si uloit polohy do tabulky pøednastavenıch 
+pozic.</p>
+<ul>
+<li><p>V konfiguraèním dialogu stisknìte tlaèítko s teèkami (...). Otevøe se nové dialogové okno.</p>
+<li><p>V dialogu vlote jméno pozorovacího stanovištì, zemìpisnou šíøku a délku.</p>
+<li><p>Stisknìte tlaèítko <i>Add</i> pro uloení nového záznamu do tabulky.</p>
+<li><p>Pouijte tlaèítka <i>Replace</i> a <i>Delete</i> pro editaci tabulky.</p>
+<li><p>Tlaèítkem <i>Save</i> ulote zmìny a zavøete dialog.</p>
+</ul>
+
+<h5>Soumrak</h5>
+
+<p align=justify>Pokud nastavení nezmìníte, poèítá program konec a zaèátek soumraku jako nautickı soumrak,
+tedy v okamiku kdy úhlová vıška Slunce je 12 stupòù pod obzorem. Pokud vám toto nastavení nevyhovuje,
+mùete jej zmìnit ve zvláštním dialogu, kterı se otevírá tlaèítkem <em>Advanced settings</em> v
+dialogu pro nastavení místa pozorování (tlaèítko <em>Setup</em> na ovládacím panelu).</p>
+
+<h5>Aktualizace data</h5>
+
+<p align=justify>Pokud nastavení nezmìníte, pøi startu programu se datum a èas v obou sekcích aktualizuje
+podle aktuálního data v poèítaèi. Pokud vám toto nastavení nevyhovuje, mùete program nastavit tak, aby
+pouil poslední datum a èas. Stisknìte (tlaèítko <em>Setup</em> na ovládacím panelu) a v dialogu pro nastavení
+zmìòte volbu v sekci <em>Application start</em> na <em>Resore last selected date</em>.</p>
+
+</BODY>
+</HTML>

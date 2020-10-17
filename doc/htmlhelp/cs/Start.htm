@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<link rel="stylesheet" type="text/css" href="ephem.css">
+<Title>První spuštìní</Title>
+</HEAD>
+<BODY>
+
+<h3>První spuštìní</h3>
+
+<p align=justify>Pøi prvním spuštìní programu se automaticky otevøe konfiguraèní dialog. V nìm vyplòte
+zemìpisné souøadnice pozorovacího místa. Tyto údaje jsou dùleité pro vıpoèet pøedpovìdí. Zadané
+hodnoty je moné pozdìji zmìnit v <a href="Setup.htm">konfiguraèním dialogu.</a></p>
+
+<ol>
+
+<li><p>Spuste program <em>Ephemerides</em>. V pøípadì, e je program spuštìn poprvé, zobrazí se po startu
+konfiguraèní dialog.</p></li>
+
+<li><p>Zadejte název a zemìpisné souøadnice pozorovacího stanovištì. Hodnoty délky a šíøky se zadávají
+v desetinném tvaru, pøíklad: 16.6667 a 49.2167 pro Brno. Pouijte <b>kladné</b> hodnoty délky pro místa
+na <b>vıchodní</b> polokouli a <b>záporná</b> èísla pro <b>zápdní</b> polokouli. Pro šíøku pouijte <b>kladná</b> 
+èísla pro místa na <b>severní</b> polokouli a <b>záporná</b> èísla pro <b>jiní</b> polokouli.</p></li>
+
+<li><p>Pokud je Váš poèítaè nastaven tak, aby ukazoval místní èasové pásmo, ponechte nastavení èasového pásma 
+na pøedvolené poloce 'Read from system', program bude pouívat èasové pásmo nastavené v poèítaèi. Mìjte na 
+pamìti, e všechny zobrazované èasy minim, vıchodù a západù nebeskıch objektù jsou zobrazovány v UTC bez ohledu 
+na nastavené èasové pásmo.</p></li>
+
+<li><p>Tlaèítkem <em>Save</em> uloíte zadané souøadnice do konfiguraèního souboru a zavøete dialog. Nyní
+jste dokonèili nastavení programu a mùete pøikroèit k sestavení pøedpovìdí. Nastavení jsou uloena v konfiguraèním
+souboru a pøi dalším startu se pouije toto nastavení. Pokud chcete vypoèítat pøedpovìdi pro jiné místo,
+mùete nastavení zmìnit v dialogu, kterı je dostupnı pod tlaèítkem <a href="Setup.htm"><em>Setup</em></a>.</p></li>
+
+</ol>
+
+<img src="scr_setup.png" alt="Zemìpisné souøadice pozorovacího stanovištì" class="block">
+
+<h5>Denní pøedpovìï</h5>
+
+<p align=justify>Stránka <em>Daily ephemerides</em> je urèena pro sestavení pøedpovìdí minim pro více promìnnıch
+hvìzd, které by mìly nastat v zadanou noc.</p>
+
+<h5>Postup</h5>
+
+<ol>
+
+<li><p>Kliknutím na záloku <i>Daily ephemerides</i> pøejdìte na stránku pro vıpoèet denní pøedpovìdí.</p>
+
+<li><p>V prvním poli zadejte datum pro které se mají pøedpovìdi sestavit, v tomto poli je automaticky vyplnìno
+dnešní datum. Zadává se vdy datum platné v daném místì pøed pùlnocí (veèerní datum).</p></li>
+
+<li><p>V sekci <i>Catalogues</i> zatrhnìte pro jednoduchost všechny katalogy.</p></li>
+
+<li><p>V následující èásti oznaèené <i>Filters</i> zadejte podmínky pro vıbìr promìnnıch hvìzd a vhodnıch 
+okamikù minim. Pouze hvìzdy a minima, která odpovídají všem zadanım podmínkám budou zobrazena v pøehledu.
+Zatrhnìte volbu <em>Time of minimum</em> a zatrhnìte také volbu <em>during nighttime</em>. To znamená, e
+se v pøehledu zobrazí pouze minima, která nastanou po setmìní a pøed svítáním. Zatrhnìte také volbu 
+<em>Altitude</em> a do editaèního pole <em>from</em> zadejte hodnotu 25 a v editaèním poli <em>to</em> 
+ponechte vıchozí hodnotu 90. Tento filtr vyøadí všechna minima, která nastanou v niší vıšce ne 25 stupòù
+nad obzorem. Ostatní pole mùete zatím nechat nezatrená.</p></li>
+
+<li><p>Stisknìte tlaèítko <em>Update</em>. Program sestaví pøedpovìdi minim podle zadanıch kritérií a 
+zobrazí je v pøehledné tabulce v pravé èásti programu. Pokud zmìníte datum nebo filtry, je nutné znovu
+vıpoèet znovu spustit.</p></li>
+
+<li><p>Více informací o denních pøedpovìdích naleznete v <a href="den.htm">této kapitole</a>.</p></li>
+
+</ol>
+
+<img src="scr_den.png" alt="Denní pøedpovìï" class="block">
+
+<h5>Pøedpovìï pro hvìzdu</h5>
+
+<p align=justify>Stránka <em>Star ephemerides</em> je urèena pro sestavení pøedpovìdí minim pro jednu vybranou 
+promìnnou hvìzdu, které nastávají v zadaném období mezi dvìma daty.</p>
+
+<ol>
+
+<li><p>Kliknutím na záloku <em>Star ephemerides</em> pøejdìte na stránku pro vıpoèet pøedpovìdí pro konkrétní hvìzdu.</p>
+
+<li><p>V sekci <em>Catalogue</em> vyberte katalogovı soubor, v nìm se hvìzdna nachází.</p>
+
+<li><p>V následující èásti oznaèené <em>Constellation</em> vyberte souhvìzdí, v nìm se promìnná hvìzda nachází, 
+Promìnné hvìzdy, které nemají ve svém názvu uvedeno jméno promìnné jsou zaøazenı pod speciální polokou
+v názvem <em>OTHER</em>.</p>
+
+<li><p>V èásti oznaèené <em>Variable stars</em> vyberte promìnnou hvìzdu. Dvojteèka v názvu promìnné oznaèují 
+poloky pro vıpoèet okamikù sekundárních minim.</p>
+
+<li><p>Pomocí dvou editaèních polí <em>from</em> a <em>to</em> v sekci <em>Date</em> zadejte zaèátek a konec 
+období.</p>
+
+<li><p>V následující sekci <em>Filters</em> zadejte podmínky zadejte podmínky pro vıbìr promìnnıch hvìzd a vhodnıch 
+okamikù minim. Pouze hvìzdy a minima, která odpovídají všem zadanım podmínkám budou zobrazena v pøehledu.
+Zatrhnìte volbu <em>Time of minimum</em> a zatrhnìte také volbu <em>during nighttime</em>. To znamená, e
+se v pøehledu zobrazí pouze minima, která nastanou po setmìní a pøed svítáním. Zatrhnìte také volbu 
+<em>Altitude</em> a do editaèního pole <em>from</em> zadejte hodnotu 25 a v editaèním poli <em>to</em> 
+ponechte vıchozí hodnotu 90. Tento filtr vyøadí všechna minima, která nastanou v niší vıšce ne 25 stupòù
+nad obzorem. Ostatní pole mùete zatím nechat nezatrená.</p></li>
+
+<li><p>Stisknìte tlaèítko <em>Update</em>. Program sestaví pøedpovìdi minim podle zadanıch kritérií a 
+zobrazí je v pøehledné tabulce v pravé èásti programu. Pokud zmìníte datum nebo filtry, je nutné znovu
+vıpoèet znovu spustit.</p></li>
+
+<li><p>Více informací o pøedpovìdích pro hvìzdu naleznete v <a href="hvezda.htm">této kapitole</a>.</p></li>
+
+</ol>
+
+<img src="scr_hvezda.png" alt="Pøedpovìï pro hvìzdu" class="block">
+
+</BODY>
+</HTML>

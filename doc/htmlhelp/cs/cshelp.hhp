@@ -1,0 +1,36 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=cshelp.chm
+Contents file=toc.hhc
+Default Font=MS Sans Serif,10,238
+Default Window=WindowType
+Default topic=index.htm
+Display compile progress=Yes
+Error log file=cshelp.log
+Index file=Index.hhk
+Language=0x405 Èeština
+Title=Pøedpovìdi minim
+
+[WINDOWS]
+WindowType="Pøedpovìdi minim - nápovìda","toc.hhc","Index.hhk","index.htm",,,,,,0x2120,,0x200c,[127,85,922,654],,,,,,,0
+
+
+[FILES]
+index.htm
+ephem.css
+About.htm
+web.htm
+hvezda.htm
+den.htm
+Vypocet.htm
+Editace.htm
+Uziv.htm
+Setup.htm
+Historie.htm
+Start.htm
+
+[MAP]
+#include ctxhelp.h
+
+[INFOTYPES]
+

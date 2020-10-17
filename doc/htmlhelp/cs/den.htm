@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<link rel="stylesheet" type="text/css" href="ephem.css">
+<Title>Denní pøedpovìï</Title>
+</HEAD>
+<BODY>
+
+<h3>Denní pøedpovìï</h3>
+
+<p align=justify>Stránka <em>Daily ephemerides</em> je urèena pro vyhledání okamikù minim podle
+zadanıch kritérií, které nastávající v urèitou noc.</p>
+
+<h5>Postup:</h5>
+
+<ol>
+
+<li><p>Spuste program <i>Ephemerides</i> a kliknìte na záloku <i>Daily ephemerides</i>.</p>
+
+<li><p>Do editaèního pole <i>Date</i> zadejte datum, pro které chcete pøedpovìdi vypoèítat; zadává se den zaèátku pozorování (t.j. veèer).</p>
+
+<li><p>V tabulce <i>Catalogues</i> zatrhnìte katalogy, které chcete pro vıpoèet pouít.</p>
+
+<li><p>V další sekci <i>Filters</i> mùete zadat další podmínky pro vıbìr hvìzd a minim.</p>
+
+<li><p>Tlaèítkem <em>Update</em><img src="retry.png" alt="Update"> zahájíte vıpoèet. Vısledky se 
+zobrazí do tabulky. Pro lepší orientaci má kadı lichı øádek v tabulce svìtle šedı podklad.</p>
+
+<li><p>Zmìníte-li datum nebo jiné nastavení, je nutné znovu spustit vıpoèet ruènì.</p>
+
+</ol>
+
+<img src="scr_den.png" alt="Daily ephemerides" class="block">
+
+<h5>Vıznam údajù v tabulce</h5>
+
+<ul>
+
+<li><p><i>Name</i> - oznaèení promìnné hvìzdy v katalogu vèetnì souhvìzdí, napø. RT And</p>
+
+<li><p><i>PS</o> - P pro primární minimum, S pro sekundární minimum</p>
+
+<li><p><i>Date</i> a <i>UT</i> - datum a èas minima ve svìtovém èase. Datum se uvádí vdy ve formátu
+rok-mìsíc-den. Èas je uveden v hodinách zaokrouhlenı na nejbliší pùlhodinu.</p>
+
+<li><p><i>Az</i> a <i>Alt</i> - zdánlivá vıška objektu nad obzorem ve stupních v okamiku minima
+a azimut uvedenı pomocí zkratky svìtové strany, napø. WNW odpovídá západo-severo-západu. Hodnotu
+azimutu vyjádøenou ve stupních lze nalézt v podrobnıch informacích (viz dále).</p>
+
+<li><p><i>R.A.</i> a <i>Dec.</i> - rovníkové souøadnice objektu. Rektascenze je vyjádøena v hodinách 
+a minutách, deklinace se uvádí ve stupních.</p>
+
+<li><p><i>Type</i> - typ promìnnosti. Nejèastìji pouívané typy zákrytovıch promìnnıch hvìzd jsou:
+<ol><li>EA oznaèuje zákrytovou promìnnou hvìzdu typu Algol a pøipojuje se délka trvání zákrytu ve hodinách (D)
+    <li>EW oznaèuje zákrytovou promìnnou hvìzdu typu W UMa a pøipojuje se perioda ve dnech (P)
+    <li>EB oznaèuje zákrytovou promìnnou hvìzdu typu &beta; Lyr a pøipojuje se perioda ve dnech (P)
+</ol>
+Vıznam dalších zkratek lze najít v dokumentaci ke katalogu GCVS - viz <a href="http://www.sai.msu.su/gcvs/gcvs/">tyto stránky</a>.
+</p>
+
+<li><p><i>Mag</i> - jasnost hvìzdy v maximu a v minimum v magnitudách</p>
+
+<li><p><i>Catalogue</i> - oznaèení katalogu, kterı byl pouit pro vıpoèet pøedpovìdi</p>
+
+<li><p><i>Rat.</i> - u katalogu BRKA udává tato hodnota míru úèelnosti vizuálního pozorování hvìzdy.
+Vychází z poètu pozorování za posledních 10 let. U uivatelskıch katalogù lze toto pole pouít pro 
+zápis priority pozorování objektu.</p>
+
+<li><p><i>Obj-Moon</i> - vzdálenost objektu od Mìsíce (støed kotouèe) v okamiku minima ve stupních.
+Poèítá se jako úhel mezi dvìma pøímkami pozorovatel-objekt a pozorovatel-Mìsíc.</p>
+
+<li><p><i>Remarks</i> - poznámky uvedené v pøíslušném katalogu.</p>
+
+</ul>
+
+<h5>Øazení údajù v tabulce</h5>
+
+<p align=justify>Údaje zobrazené v tabulce jsou automaticky seøazeny podle poøadí hvìzd v katalogu. 
+Chcete-li údaje seøadit podle jiného kritétia, kliknìte na odpovídající šedé políèko v záhlaví tabulky 
+(s názvem pole). Jinou moností je stisknutím tlaèítka <em>Sort</em><img src="sort.gif" alt="Sort"> 
+na ovládacím panelu otevøít kontextovou nabídku s vıbìrem moností øazení.</p>
+
+<h5>Zobrazení podrobnıch informací</h5>
+
+<p align=justify>Podrobné informace o vybrané hvìzdì a okamiku minima lze zobrazit stisknutím tlaèítka 
+<em>Info</em> <img src="info.png" alt="Info">. Tlaèítkem zobrazíte informaèní panel, v nìm jsou údaje pøehlednì 
+rozdìleny do dvou záloek. Záloka <i>Catalogue</i> obsahuje vıpis všech údajù uloenıch v katalogovém 
+souboru, zatímco na záloce <i>Ephemeris</i> jsou dostupné dùleité vypoètené údaje pro vypoètenı okamik 
+minima -- pøesnı èas okamiku minima, heliocentrická korekce, azimut a vıška hvìzdy nad obzorem v okamiku 
+minima a také okamik vıchodu, západu hvìzdy a prùchodu meridiánem (tranzit). Jsou-li v poli vıchod a západ 
+uvedeny pouze hvìzdièky, pak hvìzda pro daného pozorovatele nezapadá a nevychází.</p>
+
+<p align=justify>Informaèní panel zùstává zobrazen na popøedí, kliknutím na jinı øádek v tabulce se 
+automaticky obsah panelu zmìní. Chcete-li panel skrıt, stisknìte tlaèítko s køíkem v jeho pravém horním rohu.</p>
+
+<h5>Vımaz øádkù z tabulky</h5>
+
+<p align=justify>Po té, co provedete základní vıbìr hvìzd pomocí filtrù v levé èásti okna, mùete ještì 
+manuálnì provést selekci minim a vytvoøit tak skuteènı plán pozorování. Øádek z tabulky odstraníte tak, 
+e jej myší oznaèíte a stisknete klávesu <tt>Delete</tt> nebo tlaèítko <em>Delete</em><img src="delete.gif" alt="Delete"> 
+na ovládacím panelu.</p>
+
+<h5>Tisk pøedpovìdí</h5>
+
+<p align=justify>Vytvoøenou tabulku minim mùete vytisknout na pøipojené tiskárnì. Stisknìte tlaèítko 
+<em>Print</em> <img src="print.gif" alt="Print">, v náhledu stisknìte <i>Print</i>, zkontrolujte e 
+v dialogu je vybrána správná tiskárna a potvrïte tlaèítkem <i>OK</i>.</p>
+
+<p align=justify>Kvùli úspoøe místa obsahuje první soupec jméno promìnné, následuje dvojteèka, pokud se jedná
+o sekundární minimum a nakonec je pøipojena zkratka souhvìzdí. Napøíklad 'RT:And' indikuje pøedpovìd sekundárního
+minima promìnné RT v souhvìzdí Andromedy.</p>
+
+<h5>Uloení vısledkù do souboru</h5>
+
+<p align=justify>Pøedpovìdi lze uloit do souboru v nìkolika formátech - prostı text, stránka HTML nebo
+jako soubor CSV. Stisknutím tlaèítka <em>Save</em> <img src="save.png" alt="Save"> na ovládacím panelu otevøete
+bìnı dialog pro ukládání souborù. V nìm lze zvolit formát souboru.</p>
+
+<h5>Slunce a Mìsíc</h5>
+
+<p align=justify>Pro pøípravu pozorování jsou dùleité údaje o západu a vıchodu Slunce a Mìsíce, z toho 
+dùvodu program poèítá i tyto údaje. Tlaèítkem <em>Sun</em> <img src="sun.png" alt="Sun"> otevøete dialog, ve kterém 
+jsou vypsány údaje o západu a vıchodu Slunce a zaèátku a konci nautického soumraku v danou noc (veškeré 
+èasové údaje jsou v UT). Druhé tlaèítko <em>Moon</em> <img src="moon.png" alt="Moon"> otevírá dialog se zobrazenou 
+fází Mìsíce a také okamiky vıchodu a západu Mìsíce nejblíe zadané noci (opìt v UT).</p>
+
+<h5>Orientaèní mapka</h5>
+
+<p align=justify>Pro vybranı øádek v tabulce lze tlaèítkem <em>Chart</em> <img src="sky.png" alt="Chart"> 
+také zobrazit jednoduchou orientaèní mapku s nejjasnìjšími hvìzdami, obrázky a hranicemi souhvìzdí. Velikost 
+pole je pøiblinì 40 úhlovıch stupòù. Køíkem ve støedu pole je vyznaèena poloha promìnné.</p>
+
+</BODY>
+</HTML>

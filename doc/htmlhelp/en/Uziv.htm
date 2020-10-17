@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<link rel="stylesheet" type="text/css" href="ephem.css">
+<Title>Custom catalogue files</Title>
+</HEAD>
+<BODY>
+<h3>Custom catalogue files</h3>
+
+<p align=justify>New catalogue files can be created by means of simple text editor (e.g. <i>Notepad</i>, <i>Crimson Editor</i> etc.). A file have to be stored in the directory with the program binary and the extension have to be changed to
+<i>dat</i>. Example: <tt>My catalogue.dat</tt>. Beware of double extensions - <tt>My catalogue.dat.<u>txt</u></tt>.)</p>
+
+<h5>Syntax of the file</h5>
+<p align=justify>First line can be header, but it is not mandatory. Next lines are data on eclipsing binaries. Each line
+defines one record. The fields are stored on fixed positions, gaps are filled by spaces. Always use decimal point to
+divide integer part and decimals.</p>
+<p align=justify>Elements for primary and secondary minimum are stored on separated line, they are discriminated
+by colon character or '+S' string in the star's designation. Examples: <tt>EK Cep</tt> and <tt>EK+P Cep</tt>
+labels data for primary minima, on the other hand, <tt>EK:Cep</tt> and <tt>EK+S Cep</tt> labels data for secondary minima.</p>
+
+<table>
+<tr><td><p><b>Position from</b></td><td><b>Position to</b></td><td><b>Field name</b></td><td><b>Meaning</b></td></tr>
+<tr><td>2<td>13
+	<td>NAME
+	<td>Star's designation. Colon in the name denotes that data concern to secondary minimum of the variable.
+<tr><td>15<td>17
+	<td>TYPE
+	<td>The categorization of the star in B.R.N.O. observational program. For custom catalogues,
+you can optionally enter any text. Note: type of variability is stored in the VD.
+<tr><td>19<td>22
+	<td>RATING
+	<td>Given ratings are measures of usefulness of mainly visual observations.
+<tr><td>24<td>31
+	<td>RA2000
+	<td>Equatorial co-ordinates in equinox 2000.0 - right ascension (hhmmss.s)
+<tr><td>33<td>39
+    	<td>DE2000
+    	<td>Equatorial co-ordinates in equinox 2000.0 - declination (+ddmmss)
+<tr><td>41<td>51
+    	<td>M0
+   	<td>One of light elements represented by the Julian date of the basic light minimum (epoch E = 0) with the front-end figures 24... omitted.
+<tr><td>53<td>64
+    	<td>PER
+    	<td>Period P of light changes in days
+<tr><td>66<td>70
+	<td>MAX
+    	<td>Brightness of variable star in maximum (in magnitudes)
+<tr><td>72<td>76
+    	<td>PRIM
+    	<td>Brightness of variable star in primary light minimum (in magnitudes)
+<tr><td>78<td>82
+    	<td>SEK
+	<td>Brightness of variable star in secondary light minimum (in magnitudes)
+<tr><td>84<td>85
+    	<td>BRANCH
+    	<td>The photometric system in which Max, Min and Sec are reported. The main codes are P (photographic magnitudes), V (visual, photovisual, or Johnson's V), "Rc" (R magnitudes in Cousins' I system), "Hp" (Hipparcos magnitudes) and C (unfiltered CCD observations)
+<tr><td>87<td>107
+    	<td>ZDROJ
+    	<td>Source of elements of light changes
+<tr><td>109<td>112
+    	<td>VD
+    	<td>Duration of eclipse in hours (for Algol like stars); the letter "B" or "W" is given for b Lyrae stars or W UMa stars, respectively. The sign "*" means variability of given value (see Notes). The sign ":" indicates possible uncertainty in given value.
+<tr><td>114<td>117
+    	<td>MD
+    	<td>Duration of constant phase in minimum light in hours. The sign ":" indicates potential uncertainty in given value
+<tr><td>119<td>126
+    	<td>CHART
+    	<td>Availability of the chart.
+<tr><td>128<td>137
+    	<td>ATRAKTIV
+    	<td>Astrophysical attractiveness of system.
+<tr><td>139<td>153
+    	<td>POZNAMKA
+    	<td>Remarks.
+<tr><td>155<td>165
+    	<td>GSC
+	<td>The Guide Star Catalogue identification number is given in form XXXXX.XXXXX.
+<tr><td>167<td>171
+    	<td>ZMENA
+	<td>The sign "*" means change in light elements relative to previous catalogue BRKA 2004 Z and "N" means the new added star.
+</table>
+
+</BODY>
+</HTML>

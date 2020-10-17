@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<link rel="stylesheet" type="text/css" href="ephem.css">
+<Title>Pøedpovìdi pro hvìzdu</Title>
+</HEAD>
+<BODY>
+<h3>Pøedpovìdi pro hvìzdu</h3>
+
+<p align=justify>Stránka <em>Star ephemerides</em> je urèena pro vyhledání okamikù minim 
+podle zadanıch kritérií pro konkrétní promìnnou hvìzdu.</p>
+
+<h5>Postup:</h5>
+
+<ol>
+
+<li><p>Spuste program <i>Ephemerides</i> a kliknìte na záloku <i>Star ephemerides</i>.</p>
+
+<li><p>V políèku <i>Catalogue</i> vyberte katalog, ve kterém se nachází hvìzda, její pøedpovìdi chcete vypoèítat.</p>
+
+<li><p>Hvìzdy z katalogu jsou dále rozdìleny podle souhvìzdí - pole <i>Constellation</i>. Promìnné, u kterıch 
+není v názvu uvedeno jméno souhvìzdí, jsou zaøazeny pod polokou <i>OTHER</i>.</p>
+
+<li><p>V tabulce <i>Variable star</i> jsou ji zobrazeny pouze hvìzdy z vybraného katalogu a souhvìzdí. 
+Oznaète v tabulce odpovídající øádek. (Dvojteèka v názvu hvìzdy indikuje sekundární minimum.)</p>
+
+<li><p>Dvojice editaèních polí <i>Date from - to</i> slouí pro zadání poèáteèního a koncového data 
+období, pro které mají bıt minima poèítána.</p>
+
+<li><p>V sekci <i>Filters</i> mùete zadat další podmínky pro vıbìr minim.</p>
+
+<li><p>Tlaèítkem <img src="retry.png" alt="Retry"> zahájíte vıpoèet. Vısledky se zobrazí do tabulky. 
+Pro lepší orientaci má kadı lichı øádek v tabulce svìtle šedı podklad.</p>
+
+<li><p>Zmìníte-li vıbìr promìnné nebo jiné nastavení, je nutné znovu spustit vıpoèet ruènì.</p>
+
+</ol>
+
+<img src="scr_hvezda.png" alt="Star ephemerides" class="block">
+
+<h5>Vıznam údajù v tabulce</h5>
+
+<ul>
+
+<li><p><i>Date</i> a <i>UT</i> - datum a èas minima ve svìtovém èase. Datum se uvádí vdy ve formátu
+rok-mìsíc-den. Èas je uveden v hodinách zaokrouhlenı na nejbliší pùlhodinu.</p>
+
+<li><p><i>Day of week</i> - dny v tıdnu, které odpovídají místní noci, ve které nastane okamik
+minima. Den v tıdnu je uveden jako den v tıdnu pøed místní pùlnocí a za lomítkem je uveden den 
+v tıdnu po místní pùlnoci.</p>
+
+<li><p><i>Julian date</i> - okamik minima vyjádøenı jako juliánské datum.</p>
+
+<li><p><i>Epoch</i> - epocha (poèet period mezi základním minimem a pøedpovìzenım minimem).</p>
+
+<li><p><i>PS</o> - P pro primární minimum, S pro sekundární minimum</p>
+
+<li><p><i>Az</i> a <i>Alt</i> - zdánlivá vıška objektu nad obzorem ve stupních v okamiku minima
+a azimut uvedenı pomocí zkratky svìtové strany, napø. WNW odpovídá západo-severo-západu. Hodnotu
+azimutu vyjádøenou ve stupních lze nalézt v podrobnıch informacích (viz dále).</p>
+
+<li><p><i>Moon</i> - podíl osvìtlené èásti disku Mìsíce vyjádøenı v procentech, znaménko indikuje 
+trend: '+' znamená, e se podíl osvìtlené èásti v daném okamiku zvìtšuje, '-' znamená, e se 
+zmenšuje.</p>
+
+<li><p><i>Obj-Moon</i> - vzdálenost objektu od Mìsíce (støed kotouèe) v okamiku minima ve stupních.
+Poèítá se jako úhel mezi dvìma pøímkami pozorovatel-objekt a pozorovatel-Mìsíc.</p>
+
+</ul>
+
+<h5>Øazení údajù v tabulce</h5>
+
+<p align=justify>Údaje zobrazené v tabulce jsou automaticky seøazeny podle juliánského data. Chcete-li 
+údaje seøadit podle jiného kritétia, kliknìte na odpovídající šedé políèko v záhlaví tabulky (s názvem 
+pole). Jinou moností je stisk tlaèítka <img src="sort.gif" alt="Sort"> na ovládacím panelu a vıbìr jedné z moností 
+v nabídce.</p>
+
+<h5>Zobrazení podrobnıch informací</h5>
+
+<p align=justify>Podrobné informace o vybraném okamiku minima lze zobrazit stisknutím tlaèítka 
+<img src="info.png" alt="Info">. Tlaèítkem zobrazíte informaèní panel, v nìm jsou údaje pøehlednì rozdìleny 
+do dvou záloek. Záloka <i>Catalogue</i> obsahuje vıpis všech údajù uloenıch v katalogovém souboru, zatímco 
+na záloce <i>Ephemeris</i> jsou dostupné dùleité vypoètené údaje pro vypoètenı okamik minima -- pøesnı 
+èas okamiku minima, heliocentrická korekce, azimut a vıška hvìzdy nad obzorem v okamiku minima a také 
+okamik vıchodu, západu hvìzdy a prùchodu meridiánem (tranzit). Jsou-li v poli vıchod a západ uvedeny pouze 
+hvìzdièky, pak hvìzda pro daného pozorovatele nezapadá a nevychází.</p>
+
+<p align=justify>Informaèní panel zùstává zobrazen na popøedí, kliknutím na jinı øádek v tabulce se automaticky 
+obsah panelu zmìní. Chcete-li panel skrıt, stisknìte tlaèítko s køíkem v jeho pravém horním rohu.</p>
+
+<h5>Vımaz øádkù z tabulky</h5>
+
+<p align=justify>Po té, co provedete základní vıbìr minim pomocí filtrù v levé èásti okna, mùete ještì 
+manuálnì provést selekci minim a vytvoøit tak skuteènı plán pozorování. Øádek z tabulky odstraníte tak, 
+e jej myší oznaèíte a stisknete klávesu <tt>Delete</tt> nebo tlaèítko <em>Delete</em><img src="delete.gif" alt="Delete"> 
+na ovládacím panelu.</p>
+
+<h5>Tisk pøedpovìdí</h5>
+
+<p align=justify>Vytvoøenou tabulku minim mùete vytisknout na pøipojené tiskárnì. Stisknìte tlaèítko 
+<em>Print</em> <img src="print.gif" alt="Print">, v náhledu stisknìte <i>Print</i>, zkontrolujte e 
+v dialogu je vybrána správná tiskárna a potvrïte tlaèítkem <i>OK</i>.</p>
+
+<h5>Uloení vısledkù do souboru</h5>
+
+<p align=justify>Pøedpovìdi lze uloit do souboru v nìkolika formátech - prostı text, stránka HTML nebo
+jako soubor CSV. Stisknutím tlaèítka <em>Save</em> <img src="save.png" alt="Save"> na ovládacím panelu otevøete
+bìnı dialog pro ukládání souborù. V nìm lze zvolit formát souboru.</p>
+
+<h5>Slunce a Mìsíc</h5>
+
+<p align=justify>Pro pøípravu pozorování jsou dùleité údaje o západu a vıchodu Slunce a Mìsíce, z toho 
+dùvodu program poèítá i tyto údaje. Tlaèítkem <em>Sun</em> <img src="sun.png" alt="Sun"> otevøete dialog, ve kterém 
+jsou vypsány údaje o západu a vıchodu Slunce a zaèátku a konci nautického soumraku v danou noc (veškeré 
+èasové údaje jsou v UT). Druhé tlaèítko <em>Moon</em> <img src="moon.png" alt="Moon"> otevírá dialog se zobrazenou 
+fází Mìsíce a také okamiky vıchodu a západu Mìsíce nejblíe zadané noci (opìt v UT).</p>
+
+<h5>Orientaèní mapka</h5>
+
+<p align=justify>Pro vybranı øádek v tabulce lze tlaèítkem <em>Chart</em> <img src="sky.png" alt="Chart"> 
+také zobrazit jednoduchou orientaèní mapku s nejjasnìjšími hvìzdami, obrázky a hranicemi souhvìzdí. Velikost 
+pole je pøiblinì 40 úhlovıch stupòù. Køíkem ve støedu pole je vyznaèena poloha promìnné.</p>
+
+</BODY>
+</HTML>

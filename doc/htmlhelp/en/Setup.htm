@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<link rel="stylesheet" type="text/css" href="ephem.css">
+<Title>Application settings</Title>
+</HEAD>
+<BODY>
+
+<h3>Application settings</h3>
+
+<h5>Observation site coordinates</h5>
+
+<p align=justify>Before using the program, you should set your geographical coordinates. It is used for 
+computation of the azimuth, altitude of variable stars and the solar and lunar data.</p>
+
+<ul>
+
+<li><p><em>Location</em> - name of the observation site. Example: Brno, Czech Republic.</p></li>
+
+<li><p><em>Longitude</em> - longitude in decimal form. Use <b>positive</b> values for locations on the 
+<b>eastern</b> hemisphere and <b>negative</b> values for the <b>western</b> hemisphere. Example: 16.6667.</p></li>
+
+<li><p><em>Latitude</em> - latitude in decimal form. Use <b>positive</b> values for locations on the 
+<b>northern</b> hemisphere and <b>negative</b> values for the <b>southern</b> hemisphere. Example: 49.2167.</p></li>
+
+<li><p><em>Time zone</em> - standard time zone. This values is used to compute the beginning and end of an
+observation night; it starts and ends at local noon. The default value is 'Read from system', which means 
+that the program will read the standard time zone from the operating system. Please note, that displayed 
+times of minima, rise times and set times of celestial objects are presented <b>always in UTC</b>, regardless 
+of the time zone selected.</p></li>
+
+</ul>
+
+<img src="scr_setup.png" alt="Observation site coordinates" class="block">
+
+<h5>Predefined locations</h5>
+
+<p align=justify>If you make ephemerides for more locations, you can save the geographical position for 
+each place into the table of predefined locations and then recall the settings in the configuration dialog.</p>
+
+<ul>
+<li><p>In the configuration dialog, click on the button with ellipsis (...). The new dialog window appears.</p>
+<li><p>In the dialog window, enter designation of the <i>location</i>, its geographical <i>latitude</i> and <i>longitude</i> and standard <i>time zone</i>.</p>
+<li><p>Click on the <i>Add</i> button to save the values to the table.</p>
+<li><p>Use the <i>Replace</i> and <i>Delete</i> buttons to edit content of the table.</p>
+<li><p>Click on the <i>Save</i> button to save changes and close the dialog.</p>
+</ul>
+
+<h5>Twilight</h5>
+
+<p align=justify>The default settings of twilight is the nautical twilight, which ends and starts when
+the solar elevation angle is 12 degrees below the horizon. It is possible to change this value in a
+special configuration dialog. This dialog is accessible from the <em>Setup</em> dialog by the 
+<em>Advanced settings</em> button.</p>
+
+<h5>Current date / Last date</h5>
+
+<p align=justify>The default settings is to set up the current date time in your PC when the application starts.
+It is possible to change the settings, so the program restores the last used date. The option is accessible 
+in the <em>Setup</em> dialog, section <em>Application start</em>, set the option to <em>Resore last selected date</em>.</p>
+
+</BODY>
+</HTML>

@@ -1,0 +1,18 @@
+body {
+  font-family: Verdana,Arial, Helvetica, Sans-Serif;
+  font-size: 75%; 
+  BACKGROUND-COLOR: #CfCfCf; 
+}
+
+td {
+  font-family: Verdana,Arial, Helvetica, Sans-Serif;
+  font-size: 75%; 
+}
+
+img.block {
+ text-align:center;
+ display: block; 
+ margin-left: auto; 
+ margin-right: auto;
+}
+	
