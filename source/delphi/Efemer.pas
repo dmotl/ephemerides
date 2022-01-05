@@ -19,8 +19,9 @@ type TEphemRec = class(TObject)
      TOnProc = procedure(CustomData:TEphemRec) of object;
 
 Procedure Ephemeride(ARec:TKatZaznam; AJD1, AJD2:double; Lon, Lat, Twilight:double;
-  TZBias:double; FTime, FNight:boolean; TimeFrom, TimeTo:double; FAzimuth:boolean;
-  AzFrom, AzTo:double; FAltitude:boolean; AltFrom, AltTo:double; OnProc:TOnProc);
+  TimeZoneX:integer; FTime, FNight:boolean; TimeFrom, TimeTo:double; FAzimuth:boolean;
+  AzFrom, AzTo:double; FAltitude:boolean; AltFrom, AltTo:double;
+  FObjMoon:boolean; ObjMoon:double; OnProc:TOnProc);
 
 implementation
 
@@ -96,8 +97,8 @@ var ok:boolean;
     Data:TEphemRec;
 begin
  if (ARec.M0>0) and (ARec.Per>0.00001) then begin
-   E0:=Round(floor((JDHel(AJD1,ARec.RA,ARec.DEC)-ARec.M0)/ARec.Per));
-   E1:=Round(ceil((JDHel(AJD2,ARec.RA,ARec.DEC)-ARec.M0)/ARec.Per));
+   E0:=floor((JDHel(AJD1,ARec.RA,ARec.DEC)-ARec.M0)/ARec.Per);
+   E1:=ceil((JDHel(AJD2,ARec.RA,ARec.DEC)-ARec.M0)/ARec.Per);
    for E:=E0 to E1 do begin
      JD:=JDGeo(E*ARec.Per+ARec.M0,ARec.RA,ARec.DEC);
      if (JD>AJD1)and(JD<AJD2) then begin
@@ -113,7 +114,7 @@ begin
        if not ok then
          continue;
 
-       Data:=TEphemRec.Create(ARec, JD, E, Lon, Lat, Twilight, TZBias);
+       Data:=TEphemRec.Create(ARec, JD, E, Lon, Lat, Twilight, TimeZoneX);
        { Time (nighttime) }
        if ok and FTime and FNight then begin
          if Data.Sunh > -Twilight then ok:=false;
@@ -124,10 +125,12 @@ begin
        end;
        { Azimuth }
        if ok and FAzimuth then begin
-         F0:=AzFrom;
-         F1:=AzTo;
-         if (F0<=F1)and((Data.ObjA<F0)or(Data.ObjA>=F1)) then ok:=false;
-         if (F1<F0)and((Data.ObjA>=F1)and(Data.ObjA<F0)) then ok:=false;
+         if (AzFrom<=AzTo)and((Data.ObjA<AzFrom)or(Data.ObjA>=AzTo)) then ok:=false;
+         if (AzTo<AzFrom)and((Data.ObjA>=AzTo)and(Data.ObjA<AzFrom)) then ok:=false;
+       end;
+       { Object-Moon distance }
+       if ok and FObjMoon then begin
+         if (Data.MoonD<ObjMoon) then ok:=false;
        end;
        if ok then
          OnProc(Data);

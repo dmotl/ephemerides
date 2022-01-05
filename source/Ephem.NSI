@@ -4,11 +4,11 @@
 ;--------------------------------
 
 !include "MUI.nsh"
-!define VERSION "1.21"
+!define VERSION "1.22"
 !define SRCDIR  ".."
 !define DOCDIR  ".."
 !define OUTDIR  ".."
-!define URL     "https://github.com/dmotl/ephemerides"
+!define URL     "http://www.motl.cz/dmotl/predpovedi/"
 
 ; The name of the installer
 Name "Ephemerides ${VERSION}"
@@ -62,7 +62,7 @@ Section "!Ephemerides (required)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Ephemerides" "DisplayName" "Ephemerides"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Ephemerides" "DisplayIcon" "$INSTDIR\ephem.exe,0"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Ephemerides" "DisplayVersion" "${VERSION}"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Ephemerides" "URLInfoAbout" "https://github.com/dmotl/ephemerides"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Ephemerides" "URLInfoAbout" "http://www.motl.cz/dmotl/predpovedi/"
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Ephemerides" "NoModify" "1"
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Ephemerides" "NoRepair" "1"
 SectionEnd 

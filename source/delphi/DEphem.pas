@@ -14,8 +14,8 @@ type
     DateFrom, DateTo:TDateTime;   // Local time
     JDMin, JDMax:double;          // UTC
     Location:String; Lat, Lon, Twilight:double;
-    FRA, FDec, FMag, FPts, FTime, FNight, FAlt, FAz, FDOW, FCon, FTyp:boolean;
-    TimeFrom, TimeTo, AltFrom, AltTo, AzFrom, AzTo:double;
+    FRA, FDec, FMag, FPts, FTime, FNight, FAlt, FAz, FDOW, FCon, FTyp, FObjMoon:boolean;
+    TimeFrom, TimeTo, AltFrom, AltTo, AzFrom, AzTo, ObjMoon:double;
     RaFrom, RaTo, DecFrom, DecTo, MagFrom, MagTo:double;
     PtsFrom, PtsTo:integer;
     DOW:array[1..7] of boolean;
@@ -217,6 +217,22 @@ type
     Sortbylunardistance1: TMenuItem;
     SortbyObjMoondistance1: TMenuItem;
     Sortbyremarks1: TMenuItem;
+    OMF: TCheckBox;
+    Label41: TLabel;
+    Om1: TEdit;
+    Label42: TLabel;
+    Om1SB: TSpinButton;
+    N2: TMenuItem;
+    Copytoclipboard1: TMenuItem;
+    CopyJD: TMenuItem;
+    CopyName: TMenuItem;
+    ObjMF: TCheckBox;
+    Label43: TLabel;
+    ObjM1: TEdit;
+    ObjM1SB: TSpinButton;
+    Label44: TLabel;
+    CopyUTC: TMenuItem;
+    CopyLocT: TMenuItem;
     procedure CloseBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure RunBtnClick(Sender: TObject);
@@ -298,6 +314,18 @@ type
     procedure CatalogMenuPopup(Sender: TObject);
     procedure Sort1MenuPopup(Sender: TObject);
     procedure Sort2MenuPopup(Sender: TObject);
+    procedure Om1SBDownClick(Sender: TObject);
+    procedure Om1SBUpClick(Sender: TObject);
+    procedure Om1Exit(Sender: TObject);
+    procedure OMFClick(Sender: TObject);
+    procedure CopyJDClick(Sender: TObject);
+    procedure CopyNameClick(Sender: TObject);
+    procedure ObjMFClick(Sender: TObject);
+    procedure ObjM1Exit(Sender: TObject);
+    procedure ObjM1SBDownClick(Sender: TObject);
+    procedure ObjM1SBUpClick(Sender: TObject);
+    procedure CopyUTCClick(Sender: TObject);
+    procedure CopyLocTClick(Sender: TObject);
   private
     Updating, FirstRun, AutoSize, AfterStart, KeepDate:boolean;
     Sort, Sort2, X, StartR, StartC: integer;
@@ -324,7 +352,6 @@ type
     Procedure UpdateFilter(var Filter:TFilter);
     Procedure UpdateStatus;
     Procedure UpdateColumnWidths(AList:TListView);
-    Function  JDToDOW(JD:double):word;
     Procedure Split(AStr:String; AList:TStrings);
     Function  CountUniqueRecords(AList:TListItems):integer;
   public
@@ -339,7 +366,7 @@ var
   MainForm: TMainForm;
 
 const SDayNames:array[1..7] of String = ('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
-      LDayNames:array[1..7] of String = ('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thurstday', 'Friday', 'Saturday');
+      LDayNames:array[1..7] of String = ('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
       SMonNames:array[1..12] of String = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
       LMonNames:array[1..12] of String = ('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
                                           'September', 'October', 'November', 'December');
@@ -404,7 +431,7 @@ begin
  with List.Items.Add do begin
    Caption:=ARec.LongName;
    SubItems.Add(UpperCase(ARec.MinTyp));
-   SubItems.Add(FormatDateTime('yyyy-mm-dd', int(JDToDateTime(ARec.JD))));
+   SubItems.Add(FormatDateTime('yyyy-mm-dd', floor(JDToDateTime(ARec.JD))));
    SubItems.Add(Format('%.1f',[round(frac(ARec.JD+0.5)*24*2)/2]));
    SubItems.Add(AzToStr(ARec.ObjA));
    SubItems.Add(Format('%.0f',[ARec.Objh]));
@@ -424,7 +451,7 @@ end;
 
 procedure TMainForm.RunBtnClick(Sender: TObject);
 var i,j:integer;
-    F,F0,F1,Bias:double;
+    F,F0,F1:double;
     C:String;
     ok, found:boolean;
     O:TKatZaznam;
@@ -439,11 +466,10 @@ begin
  try
    X:=0;
    List.Clear;
-   Bias:=ifthen(TimeZoneX=9999, SystemTimeZone, TimeZoneX)/24.0/60.0;
    FFilter1.DateFrom:=int(Date.Date);
    FFilter1.DateTo:=FFilter1.DateFrom+1;
-   FFilter1.JDMin:=DateTimeToJD(FFilter1.DateFrom)+0.5-Bias;
-   FFilter1.JDMax:=DateTimeToJD(FFilter1.DateTo)+0.5-Bias;
+   FFilter1.JDMin:=FromLocalTime(int(Date.Date)+0.5, TimeZoneX);  // Noon, current day
+   FFilter1.JDMax:=FromLocalTime(int(Date.Date)+1.5, TimeZoneX);  // Noon, next day
    UpdateFilter(FFilter1);
    { Load catalogue files }
    Kat1.Clear;
@@ -503,11 +529,10 @@ begin
      end;
      if ok then begin
        { Make ephemerides }
-       Bias:=ifthen(TimeZoneX=9999, SystemTimeZone, TimeZoneX)/24.0/60.0;
        Ephemeride(O, FFilter1.JDMin, FFilter1.JDMax,
-         Lon, Lat, Twilight, Bias, FFilter1.FTime, FFilter1.FNight, FFilter1.TimeFrom,
+         Lon, Lat, Twilight, TimeZoneX, FFilter1.FTime, FFilter1.FNight, FFilter1.TimeFrom,
          FFilter1.TimeTo, FFilter1.FAz, FFilter1.AzFrom, FFilter1.AzTo, FFilter1.FAlt,
-         FFilter1.AltFrom, FFilter1.AltTo, Proc1);
+         FFilter1.AltFrom, FFilter1.AltTo, FFilter1.FObjMoon, FFilter1.ObjMoon, Proc1);
      end;
    end;
    { Sort items }
@@ -1038,6 +1063,10 @@ begin
    Fri.Checked :=Ini.ReadBool('Friday');
    Sat.Checked :=Ini.ReadBool('Saturday');
    Sun.Checked :=Ini.ReadBool('Sunday');
+   OMF.Checked :=Ini.ReadBool('OMF');
+   OM1.Text    :=Format('%.0f',[min(180,max(0,Ini.ReadDouble('OM1',0)))]);
+   ObjMF.Checked:=OMF.Checked;
+   ObjM1.Text  :=OM1.Text;
    { Directories }
    LastDir    :=Ini.ReadStr('LastDir', ExtractFileDir(Application.ExeName));
    SaveDialog.InitialDir := LastDir;
@@ -1148,6 +1177,8 @@ begin
  Ini.WriteBool('Friday',Fri.Checked);
  Ini.WriteBool('Saturday',Sat.Checked);
  Ini.WriteBool('Sunday',Sun.Checked);
+ Ini.WriteBool('OMF',OMF.Checked);
+ Ini.WriteStr ('OM1',OM1.Text);
  { Directories }
  Ini.WriteStr('LastDir',LastDir);
  Ini.WriteInt('LastFormat', LastFormat);
@@ -1175,24 +1206,23 @@ Procedure TMainForm.Print1;
 var i:integer;
 
  Procedure Description;
- var C:String; JD,Bias,TSet,TRise,TStart,TEnd,Phase:double;
+ var C:String; JD,TSet,TRise,TStart,TEnd,Phase:double;
  begin
    // Popis filtru
    P.LineFeed;
    with FFilter1 do begin
-     Bias:=ifthen(TimeZoneX=9999, SystemTimeZone, TimeZoneX)/24.0/60.0;
-     JD:=DateTimeToJD(int(DateFrom))+1.0-Bias;
+     JD:=FromLocalTime(ceil(DateFrom), TimeZoneX);
      P.Writeln(Format('Search period from %s UT to %s UT', [FormatDateTime('dddd, dd mmmm yyyy h:nn', JDToDateTime(JDMin)),
        FormatDateTime('dddd, dd mmmm yyyy h:nn', JDToDateTime(JDMax))]));
      P.Writeln(Format('Observing site: %s, %.4f %s, %.4f %s', [Location,
        Lon, ifthen(Lon>=0,'E','W'), Lat, ifthen(Lat>=0,'N','S')]));
-     SunTwilight(JD,Lon,Lat,Twilight,Bias,TSet,TRise,TEnd,TStart);
+     SunTwilight(JD,Lon,Lat,Twilight,TimeZoneX,TSet,TRise,TEnd,TStart);
      if (tend>0) and (tstart>0) then begin
        P.Writeln(Format('Twilight ends at %s UT and starts at %s UT (Solar elevation angle below -%.0f deg.)', [
          FormatDateTime('h:nn',JDToDateTime(tend)), FormatDateTime('h:nn',JDToDateTime(tstart)), Twilight]));
      end;
      Phase:=MoonPhase(JD);
-     MoonRiseSet(JD,Lon,Lat,Bias,TRise,TSet);
+     MoonRiseSet(JD,Lon,Lat,TimeZoneX,TRise,TSet);
      C:=Format('Lunar phase: %s, illumination of disk: %s',[FormatLunarPhase(Phase), FormatLunarIllumination(Phase)]);
      if (trise>0) and (trise>=JDMin) and (trise<=JDMax) then
          C:=C+', rises at '+FormatDateTime('h:nn',JDToDateTime(trise))+' UT';
@@ -1221,6 +1251,8 @@ var i:integer;
        P.Writeln(Format('Constellations: %s', [Cons]));
      if FTyp then
        P.Writeln(Format('Variablity types: %s', [Types]));
+     if FObjMoon then
+       P.Writeln(Format('Object-Moon distance from %.0f deg.', [ObjMoon]));
    end;
    // Pocet nalezenych zaznamu
    P.LineFeed;
@@ -1347,17 +1379,13 @@ begin
 end;
 
 procedure TMainForm.SunBtnClick(Sender: TObject);
-var Bias:double;
 begin
- Bias:=ifthen(TimeZoneX=9999, SystemTimeZone, TimeZoneX)/24.0/60.0;
- SunDlg.Execute(DateTimeToJD(int(FFilter1.DateFrom))+1.0-Bias,Lon,Lat,Twilight,Bias);
+ SunDlg.Execute(FromLocalTime(ceil(FFilter1.DateFrom),TimeZoneX),Lon,Lat,Twilight,TimeZoneX);
 end;
 
 procedure TMainForm.MoonBtnClick(Sender: TObject);
-var Bias:double;
 begin
- Bias:=ifthen(TimeZoneX=9999, SystemTimeZone, TimeZoneX)/24.0/60.0;
- MoonDlg.Execute(DateTimeToJD(int(FFilter1.DateFrom))+1.0-Bias,Lon,Lat,Bias);
+ MoonDlg.Execute(FromLocalTime(ceil(FFilter1.DateFrom),TimeZoneX),Lon,Lat,TimeZoneX);
 end;
 
 procedure TMainForm.PagesChange(Sender: TObject);
@@ -1373,7 +1401,7 @@ end;
 Procedure TMainForm.Proc2;
 var DOW:word;
 begin
- DOW:=JDToDOW(ARec.JD);
+ DOW:=LocalDateTimeToDOW(ToLocalTime(ARec.JD,TimeZoneX));
  if (not FFilter2.FDOW or FFilter2.DOW[DOW]) then begin
    with List2.Items.Add do begin
      Caption:=FormatDateTime('yyyy-mm-dd', JDToDateTime(ARec.JD));
@@ -1392,7 +1420,7 @@ begin
 end;
 
 procedure TMainForm.Run2BtnClick(Sender: TObject);
-var It:TKatZaznam; Bias:double;
+var It:TKatZaznam; 
 begin
  List.Items.BeginUpdate;
  Screen.Cursor:=crHourGlass;
@@ -1402,18 +1430,17 @@ begin
    List2.Clear;
    FFilter2.DateFrom:=int(DTStart.Date);
    FFilter2.DateTo:=int(DTEnd.Date);
-   Bias:=ifthen(TimeZoneX=9999, SystemTimeZone, TimeZoneX)/24.0/60.0;
-   FFilter2.JDMin:=DateTimeToJD(FFilter2.DateFrom)+0.5-Bias;
-   FFilter2.JDMax:=DateTimeToJD(FFilter2.DateTo)+0.5-Bias;
+   FFilter2.JDMin:=FromLocalTime(int(DTStart.Date)+0.5,TimeZoneX);   // Noon, first day
+   FFilter2.JDMax:=FromLocalTime(int(DTEnd.Date)+0.5,TimeZoneX);     // Noon, last day
    UpdateFilter(FFilter2);
    if Star2.ItemIndex>=0 then
      if Kat2.Search(Star2.Items[Star2.ItemIndex], It) then begin
        StarName:=Star2.Items[Star2.ItemIndex];
        StarCat :=Kat2.CatName;
        Ephemeride(It, FFilter2.JDMin, FFilter2.JDMax, Lon, Lat, Twilight,
-         Bias, FFilter2.FTime, FFilter2.FNight, FFilter2.TimeFrom, FFilter2.TimeTo,
+         TimeZoneX, FFilter2.FTime, FFilter2.FNight, FFilter2.TimeFrom, FFilter2.TimeTo,
          FFilter2.FAz, FFilter2.AzFrom, FFilter2.AzTo, FFilter2.FAlt,
-         FFilter2.AltFrom, FFilter2.AltTo, Proc2);
+         FFilter2.AltFrom, FFilter2.AltTo, FFilter2.FObjMoon, FFilter2.ObjMoon, Proc2);
      end;
    { Sort items }
    if List2.Items.Count>1 then
@@ -1457,6 +1484,8 @@ var i:integer;
        P.Writeln(Format('Altitude from %.0f to %.0f deg.', [AltFrom, AltTo]));
      if FAz then
        P.Writeln(Format('Azimuth from %.0f to %.0f deg.', [AzFrom, AzTo]));
+     if FObjMoon then
+       P.Writeln(Format('Object-Moon distance from %.0f deg.', [ObjMoon]));
    end;
    // Pocet nalezenych zaznamu
    P.LineFeed;
@@ -1522,7 +1551,7 @@ var i:integer;
    P.TableCellBegin;
    P.Write(Format('%.1f',[round(frac(R.JD+0.5)*24*2)/2]));
    P.TableCellBegin;
-   DOW:=JDToDOW(R.JD);
+   DOW:=LocalDateTimeToDOW(ToLocalTime(R.JD,TimeZoneX));
    P.Write(Format('%s/%s', [ShortDayNames[DOW], ShortDayNames[((DOW+7) mod 7)+1]]));
    P.TableCellBegin;
    P.Write(Format('%.3f',[R.JD]));
@@ -1588,17 +1617,16 @@ end;
 
 procedure TMainForm.List2Compare(Sender: TObject; Item1, Item2: TListItem;
   Data: Integer; var Compare: Integer);
-var Bias, Value1, Value2:double;
+var Value1, Value2:double;
 begin
  case Sort2 of
    1: begin
-       Bias:=ifthen(TimeZoneX=9999, SystemTimeZone, TimeZoneX)/24.0/60.0;
-       Value1:=frac(TEphemRec(Item1.Data).JD+Bias);
-       Value2:=frac(TEphemRec(Item2.Data).JD+Bias);
+       Value1:=frac(ToLocalTime(TEphemRec(Item1.Data).JD, TimeZoneX));
+       Value2:=frac(ToLocalTime(TEphemRec(Item2.Data).JD, TimeZoneX));
       end;
    2: begin
-       Value1:=JDToDOW(TEphemRec(Item1.Data).JD);
-       Value2:=JDToDOW(TEphemRec(Item2.Data).JD);
+       Value1:=LocalDateTimeToDOW(ToLocalTime(TEphemRec(Item1.Data).JD, TimeZoneX));
+       Value2:=LocalDateTimeToDOW(ToLocalTime(TEphemRec(Item2.Data).JD, TimeZoneX));
       end;
    6: begin
        Value1:=TEphemRec(Item1.Data).ObjA;
@@ -1650,7 +1678,7 @@ begin
    else begin
        MenuItem1.Checked:=True;
       end;
- end;   
+ end;
 end;
 
 procedure TMainForm.List2ColumnClick(Sender: TObject; Column: TListColumn);
@@ -1686,22 +1714,16 @@ begin
 end;
 
 procedure TMainForm.Sun2BtnClick(Sender: TObject);
-var F:TEphemRec; Bias:double;
 begin
  if Assigned(List2.Selected) then begin
-   F:=TEphemRec(List2.Selected.Data);
-   Bias:=ifthen(TimeZoneX=9999, SystemTimeZone, TimeZoneX)/24.0/60.0;
-   SunDlg.Execute(F.JD,Lon,Lat,Twilight,Bias);
+   SunDlg.Execute(TEphemRec(List2.Selected.Data).JD,Lon,Lat,Twilight,TimeZoneX);
  end;
 end;
 
 procedure TMainForm.Moon2BtnClick(Sender: TObject);
-var F:TEphemRec; Bias:double;
 begin
  if Assigned(List2.Selected) then begin
-   F:=TEphemRec(List2.Selected.Data);
-   Bias:=ifthen(TimeZoneX=9999, SystemTimeZone, TimeZoneX)/24.0/60.0;
-   MoonDlg.Execute(F.JD,Lon,Lat,Bias);
+   MoonDlg.Execute(TEphemRec(List2.Selected.Data).JD,Lon,Lat,TimeZoneX);
  end;
 end;
 
@@ -1715,14 +1737,13 @@ begin
 end;
 
 procedure TMainForm.Sky2BtnClick(Sender: TObject);
-var It:TKatZaznam; JD,Bias:double;
+var It:TKatZaznam; JD:double;
 begin
  if (Star2.ItemIndex>=0) and Kat2.Search(Star2.Items[Star2.ItemIndex], It) then begin
-   Bias:=ifthen(TimeZoneX=9999, SystemTimeZone, TimeZoneX)/24.0/60.0;
    if Assigned(List2.Selected) then
        JD:=TEphemRec(List2.Selected.Data).JD
    else
-       JD:=DateTimeToJD(int(DTStart.Date))+0.5-Bias;
+       JD:=FromLocalTime(ceil(DTStart.Date),TimeZoneX);
    SkyDlg.Execute(It.LongName,JD,It.RA,It.DEC);
  end;
 end;
@@ -2132,7 +2153,7 @@ begin
 end;
 
 Procedure TMainForm.Export1;
-var i,j,col:integer; C:String; Bias,JD,TSet,TRise,TStart,TEnd,Phase:double;
+var i,j,col:integer; C:String; JD,TSet,TRise,TStart,TEnd,Phase:double;
 begin
  // Nadpis
  E.SectBegin;
@@ -2141,19 +2162,18 @@ begin
  // Popis filtru
  E.ParBegin;
  with FFilter1 do begin
-   Bias:=ifthen(TimeZoneX=9999, SystemTimeZone, TimeZoneX)/24.0/60.0;
-   JD:=DateTimeToJD(int(DateFrom))+1.0-Bias;
+   JD:=FromLocalTime(ceil(DateFrom),TimeZoneX);
    E.Write(Format('Search period from %s UT to %s UT\n', [FormatDateTime('dddd, dd mmmm yyyy h:nn', JDToDateTime(JDMin)),
        FormatDateTime('dddd, dd mmmm yyyy h:nn', JDToDateTime(JDMax))]));
    E.Write(Format('Observing site: %s, %.4f %s, %.4f %s\n', [Location,
      Lon, ifthen(Lon>=0,'E','W'), Lat, ifthen(Lat>=0,'N','S')]));
-   SunTwilight(JD,Lon,Lat,Twilight,Bias,TSet,TRise,TEnd,TStart);
+   SunTwilight(JD,Lon,Lat,Twilight,TimeZoneX,TSet,TRise,TEnd,TStart);
    if (tend>0) and (tstart>0) then begin
      E.Write(Format('Twilight ends at %s UT and starts at %s UT (Solar elevation angle below -%.0f deg.)\n', [
        FormatDateTime('h:nn',JDToDateTime(tend)), FormatDateTime('h:nn',JDToDateTime(tstart)), Twilight]));
    end;
    Phase:=MoonPhase(JD);
-   MoonRiseSet(JD,Lon,Lat,Bias,TRise,TSet);
+   MoonRiseSet(JD,Lon,Lat,TimeZoneX,TRise,TSet);
    C:=Format('Lunar phase: %s, illumination of disk: %s',[FormatLunarPhase(Phase), FormatLunarIllumination(Phase)]);
    if (trise>0) and (trise>=JDMin) and (trise<=JDMax) then
        C:=C+', rises at '+FormatDateTime('h:nn',JDToDateTime(trise))+' UT';
@@ -2178,6 +2198,8 @@ begin
      E.Write(Format('Brightness in minimum from %.1f to %.1f mag.\n', [MagFrom, MagTo]));
    if FPts then
      E.Write(Format('Rating from %d to %d pts.\n', [PtsFrom, PtsTo]));
+   if FObjMoon then
+     E.Write(Format('Moon-object distance from %1f deg.', [ObjMoon]));
  end;
 
  // Pocet nalezenych zaznamu
@@ -2444,6 +2466,16 @@ begin
  end else begin
    Filter.FTyp     := false;
  end;
+
+ { Object-Moon distance }
+ if (Pages.ActivePage=TabSheet1) then begin
+   Filter.FObjMoon := OMF.Checked;
+   Filter.ObjMoon  := StrToFloat(OM1.Text);
+ end else begin
+   Filter.FObjMoon := ObjMF.Checked;
+   Filter.ObjMoon  := StrToFloat(ObjM1.Text);
+ end;
+
 end;
 
 procedure TMainForm.UpdateControls;
@@ -2539,6 +2571,16 @@ begin
  Az2.Enabled:=ok;
  Az2SB.Enabled:=ok;
  Label35.Enabled:=ok;
+
+ ok:=OMF.Checked;
+ Label41.Enabled:=ok;
+ OM1.Enabled:=ok;
+ OM1SB.Enabled:=ok;
+ Label42.Enabled:=ok;
+ Label43.Enabled:=ok;
+ ObjM1.Enabled:=ok;
+ ObjM1SB.Enabled:=ok;
+ Label44.Enabled:=ok;
 
  { Page 2 - Toolbar }
  Cons2.Enabled:=Cons2.Items.Count>0;
@@ -2637,13 +2679,6 @@ begin
  StatusBar1.Panels[1].Text := Str;
  StatStrWidth:=S.cx;
  StatusBar1Resize(NIL);
-end;
-
-Function TMainForm.JDToDOW;
-var Y,M,D,DOW:word;
-begin
- DecodeDateFully(Round(JDToDateTime(JD))-1, Y, M, D, DOW);
- Result:=DOW;
 end;
 
 procedure TMainForm.ResizeClick(Sender: TObject);
@@ -2814,5 +2849,178 @@ begin
  CatalogMenuClear.Enabled:=ok;
 end;
 
+procedure TMainForm.OMFClick(Sender: TObject);
+begin
+ if not Updating then begin
+   Updating:=true;
+   if (Sender<>OMF) then OMF.Checked:=true;
+   ObjMF.Checked:=OMF.Checked;
+   ObjM1.Text   :=OM1.Text;
+   Updating:=false;
+ end;
+ UpdateControls(Sender);
+end;
+
+procedure TMainForm.Om1SBDownClick(Sender: TObject);
+var X:double;
+begin
+ if Assigned(TSpinButton(Sender).FocusControl) then begin
+   X:=StrToFloat(TEdit(TSpinButton(Sender).FocusControl).Text);
+   X:=X-5; if X<0 then X:=0;
+   TEdit(TSpinButton(Sender).FocusControl).Text:=Format('%.0f', [X]);
+ end;
+end;
+
+procedure TMainForm.Om1SBUpClick(Sender: TObject);
+var X:double;
+begin
+ if Assigned(TSpinButton(Sender).FocusControl) then begin
+   X:=StrToFloat(TEdit(TSpinButton(Sender).FocusControl).Text);
+   X:=X+5; if X>180 then X:=180;
+   TEdit(TSpinButton(Sender).FocusControl).Text:=Format('%.0f', [X]);
+ end;
+end;
+
+procedure TMainForm.Om1Exit(Sender: TObject);
+begin
+ TEdit(Sender).Text:=Format('%.0f', [StrToFloat(TEdit(Sender).Text)]);
+end;
+
+procedure TMainForm.ObjMFClick(Sender: TObject);
+begin
+ if not Updating then begin
+   Updating:=true;
+   if (Sender<>ObjMF) then ObjMF.Checked:=true;
+   OMF.Checked:=ObjMF.Checked;
+   OM1.Text   :=ObjM1.Text;
+   Updating:=false;
+ end;
+ UpdateControls(Sender);
+end;
+
+procedure TMainForm.ObjM1SBDownClick(Sender: TObject);
+var X:double;
+begin
+ if Assigned(TSpinButton(Sender).FocusControl) then begin
+   X:=StrToFloat(TEdit(TSpinButton(Sender).FocusControl).Text);
+   X:=X-5; if X<0 then X:=0;
+   TEdit(TSpinButton(Sender).FocusControl).Text:=Format('%.0f', [X]);
+ end;
+end;
+
+procedure TMainForm.ObjM1SBUpClick(Sender: TObject);
+var X:double;
+begin
+ if Assigned(TSpinButton(Sender).FocusControl) then begin
+   X:=StrToFloat(TEdit(TSpinButton(Sender).FocusControl).Text);
+   X:=X+5; if X>180 then X:=180;
+   TEdit(TSpinButton(Sender).FocusControl).Text:=Format('%.0f', [X]);
+ end;
+end;
+
+procedure TMainForm.ObjM1Exit(Sender: TObject);
+begin
+ TEdit(Sender).Text:=Format('%.0f', [StrToFloat(TEdit(Sender).Text)]);
+end;
+
+procedure TMainForm.CopyJDClick(Sender: TObject);
+var F:TEphemRec;
+begin
+ if (Pages.ActivePage=TabSheet1) and Assigned(List.Selected) then begin
+   F:=TEphemRec(List.Selected.Data);
+   Clipboard.Open;
+   try
+     Clipboard.Clear;
+     Clipboard.AsText:=Format('%.4f',[F.JD]);
+   finally
+     Clipboard.Close;
+   end;
+ end;
+ if (Pages.ActivePage=TabSheet2) and Assigned(List2.Selected) then begin
+   F:=TEphemRec(List2.Selected.Data);
+   Clipboard.Open;
+   try
+     Clipboard.Clear;
+     Clipboard.AsText:=Format('%.4f',[F.JD]);
+   finally
+     Clipboard.Close;
+   end;
+ end;
+end;
+
+procedure TMainForm.CopyNameClick(Sender: TObject);
+var F:TEphemRec;
+begin
+ if (Pages.ActivePage=TabSheet1) and Assigned(List.Selected) then begin
+   F:=TEphemRec(List.Selected.Data);
+   Clipboard.Open;
+   try
+     Clipboard.Clear;
+     Clipboard.AsText:=F.LongName;
+   finally
+     Clipboard.Close;
+   end;
+ end;
+ if (Pages.ActivePage=TabSheet2) and Assigned(List2.Selected) then begin
+   F:=TEphemRec(List2.Selected.Data);
+   Clipboard.Open;
+   try
+     Clipboard.Clear;
+     Clipboard.AsText:=F.LongName;
+   finally
+     Clipboard.Close;
+   end;
+ end;
+end;
+
+procedure TMainForm.CopyUTCClick(Sender: TObject);
+var F:TEphemRec;
+begin
+ if (Pages.ActivePage=TabSheet1) and Assigned(List.Selected) then begin
+   F:=TEphemRec(List.Selected.Data);
+   Clipboard.Open;
+   try
+     Clipboard.Clear;
+     Clipboard.AsText:=FormatDateTime('yyyy-mm-dd h:nn',JDToDateTime(F.JD));
+   finally
+     Clipboard.Close;
+   end;
+ end;
+ if (Pages.ActivePage=TabSheet2) and Assigned(List2.Selected) then begin
+   F:=TEphemRec(List2.Selected.Data);
+   Clipboard.Open;
+   try
+     Clipboard.Clear;
+     Clipboard.AsText:=FormatDateTime('yyyy-mm-dd h:nn',JDToDateTime(F.JD));
+   finally
+     Clipboard.Close;
+   end;
+ end;
+end;
+
+procedure TMainForm.CopyLocTClick(Sender: TObject);
+var F:TEphemRec;
+begin
+ if (Pages.ActivePage=TabSheet1) and Assigned(List.Selected) then begin
+   F:=TEphemRec(List.Selected.Data);
+   Clipboard.Open;
+   try
+     Clipboard.Clear;
+     Clipboard.AsText:=FormatDateTime('yyyy-mm-dd h:nn',ToLocalTime(F.JD,TimeZoneX));
+   finally
+     Clipboard.Close;
+   end;
+ end;
+ if (Pages.ActivePage=TabSheet2) and Assigned(List2.Selected) then begin
+   F:=TEphemRec(List2.Selected.Data);
+   Clipboard.Open;
+   try
+     Clipboard.Clear;
+     Clipboard.AsText:=FormatDateTime('yyyy-mm-dd h:nn',ToLocalTime(F.JD,TimeZoneX));
+   finally
+     Clipboard.Close;
+   end;
+ end;
+end;
 end.
 

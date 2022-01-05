@@ -34,19 +34,21 @@ type
   private
     Phase:double;
   public
-    Procedure Execute(JD,Lon,Lat,ABias:double);
+    Procedure Execute(JD,Lon,Lat:double; TimeZoneX:integer);
   end;
 
 var
   MoonDlg: TMoonDlg;
 
 Procedure MoonRaDecPhase(JD:double; var RA,Dec,Phase:double);
-Procedure MoonRiseSet(JD,Lon,Lat,ABias:double; var TRise,TSet:double);
+Procedure MoonRiseSet(JD,Lon,Lat:double; TimeZoneX:integer; var TRise,TSet:double);
 Function MoonPhase(JD:double):double;
 Function FormatLunarPhase(Phase:double):String;
 Function FormatLunarIllumination(Phase:double):String;
 
 implementation
+
+Uses Utils;
 
 {$R *.dfm}
 
@@ -76,10 +78,10 @@ begin
  end;
 end;
 
-Procedure MoonRiseSet(JD,Lon,Lat,ABias:double; var TRise,TSet:double);
+Procedure MoonRiseSet(JD,Lon,Lat:double; TimeZoneX:integer; var TRise,TSet:double);
 var Ra,Dec,Phase,JD1,JD2:double; cond:RiseSetCond;
 begin
- JD:=floor(JD+ABias)+0.5-ABias;
+ JD:=FromLocalTime(floor(ToLocalTime(JD,TimeZoneX))+0.5,TimeZoneX);
  MoonRaDecPhase(JD,RA,Dec,Phase);
  JD1:=RaDeToRise(RA,Dec,jd,lon,lat,0,rtNearest,cond);
  if JD1 > 0 then begin
@@ -146,7 +148,7 @@ var Ra,Dec,trise,tset,jd0,jd1,jd2,jd3:double;
     a,d:integer;
     Pl:TPlanets;
 begin
- JD:=floor(JD+ABias)+0.5-ABias;
+ JD:=FromLocalTime(floor(ToLocalTime(JD,TimeZoneX))+0.5,TimeZoneX);
  MoonRaDecPhase(JD,Ra,Dec,Phase);
  a:=round(Ra*60);
  MoonA.Caption:=Format('%dh %.2dm',[(a div 60),(a mod 60)]);
@@ -171,7 +173,7 @@ begin
    Pl.Free;
  end;
 
- MoonRiseSet(JD,Lon,Lat,ABias,TRise,TSet);
+ MoonRiseSet(JD,Lon,Lat,TimeZoneX,TRise,TSet);
  if trise > 0 then
    MoonRise.Caption:=FormatDateTime('yyyy-mm-dd h:nn',JDToDateTime(trise))
  else

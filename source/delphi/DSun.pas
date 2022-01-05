@@ -20,18 +20,20 @@ type
     Soumrak: TLabel;
     Label5: TLabel;
   public
-    Procedure Execute(JD,ALon,ALat,ATwilight,ABias:double);
+    Procedure Execute(JD,ALon,ALat,ATwilight:double; TimeZoneX:integer);
   end;
 
 var
   SunDlg: TSunDlg;
 
 Procedure SunRADec(JD:double; var RA,Dec:double);
-Procedure SunTwilight(JD,ALon,ALat,ATwilight,ABias:double; var TSet,TRise,TEnd,TStart:double);
+Procedure SunTwilight(JD,ALon,ALat,ATwilight:double; TimeZoneX:integer; var TSet,TRise,TEnd,TStart:double);
 
 implementation
 
 {$R *.dfm}
+
+Uses Utils;
 
 Procedure SunRaDec;
 var Pl:TPlanets;
@@ -46,12 +48,12 @@ begin
  end;
 end;
 
-Procedure SunTwilight(JD,ALon,ALat,ATwilight,ABias:double; var TSet,TRise,TEnd,TStart:double);
+Procedure SunTwilight(JD,ALon,ALat,ATwilight:double; TimeZoneX:integer; var TSet,TRise,TEnd,TStart:double);
 var RA,Dec,JD1:double; cond:RiseSetCond;
 begin
- JD:=floor(JD+ABias)+0.5-ABias;
- SunRADec(JD,RA,Dec);
- JD1:=RaDeToRise(RA,Dec,jd,alon,alat,-0.8,rtNearest,cond);
+ JD:=FromLocalTime(floor(ToLocalTime(JD,TimeZoneX))+0.5,TimeZoneX);
+ SunRADec(JD+1,RA,Dec);
+ JD1:=RaDeToRise(RA,Dec,jd+1,alon,alat,-0.8,rtNearest,cond);
  if JD1>0 then begin
    SunRADec(JD1,RA,Dec);
    trise:=RaDeToRise(RA,Dec,JD1,alon,alat,-0.8,rtNearest,cond);
@@ -60,7 +62,7 @@ begin
    trise:=0;
    tstart:=0;
  end;
- SunRADec(JD,RA,Dec);
+ SunRADec(JD+1,RA,Dec);
  JD1:=RaDeToSet(RA,Dec,jd,alon,alat,-0.8,rtNearest,cond);
  if JD1>0 then begin
    SunRADec(JD1,RA,Dec);
@@ -75,7 +77,7 @@ end;
 Procedure TSunDlg.Execute;
 var trise,tset,tstart,tend:double;
 begin
- SunTwilight(JD,ALon,ALat,ATwilight,ABias,TSet,TRise,TEnd,TStart);
+ SunTwilight(JD,ALon,ALat,ATwilight,TimeZoneX,TSet,TRise,TEnd,TStart);
  if trise>0 then
    SunRise.Caption:=FormatDateTime('yyyy-mm-dd h:nn',JDToDateTime(trise))
  else

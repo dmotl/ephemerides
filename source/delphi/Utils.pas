@@ -71,11 +71,23 @@ Function  StrToTz(Str:String):integer;
           // Prevod retezce na casovou zonu
 
 Function  DOWToStr(DOW:array of boolean):String;
+          // Day of weeks
+Function  LocalDateTimeToDOW(DT:TDateTime):word;
+          // Day of week from a local time
 
 Function  SystemTimeZone:integer;
           // Get time zone info from the system
+          // Returns UTC bias in minutes
+Function  ToLocalTime(JD:double; TimeZoneX:integer):TDateTime;
+          // Convert Julian date in UT to local time
+          // TimeZoneX = UTC bias in minutes, 9999 = use system time zone
+Function  FromLocalTime(DT:TDateTime; TimeZoneX:integer):double;
+          // Convert local time to Julian date in UTC
+          // TimeZoneX = UTC bias in minutes, 9999 = use system time zone
 
 implementation
+
+Uses juldat;
 
 {*******************************
   CONVERSION UTILITIES
@@ -649,6 +661,83 @@ begin
     Result:=-(tzinfo.Bias + tzinfo.StandardBias)
   else
     Result:=0;
+end;
+
+Function ToLocalTime;
+var Bias:double; UniversalTime,LocalTime:SYSTEMTIME;
+begin
+ if (TimeZoneX <= -1440) or (TimeZoneX >= 1440) then begin
+   // Use Win API
+   DateTimeToSystemTime(JDToDateTime(JD), UniversalTime);
+   if SystemTimeToTzSpecificLocalTime(NIL, UniversalTime, LocalTime) then
+     Result:=SystemTimeToDateTime(LocalTime)
+   else
+     Result:=JDToDateTime(JD);
+ end
+ else begin
+   // Fixed bias
+   Bias:=TimeZoneX/24.0/60.0;
+   Result:=JDToDateTime(JD-bias);
+ end;
+end;
+
+Procedure AdjustSystemTime(var t:SYSTEMTIME; bias:Integer);
+begin
+  if bias <> 0 then
+      DateTimeToSystemTime(SystemTimeToDateTime(t)+(bias/1440.0),t);
+end;
+
+Function CompareSystemTimes(const t1:SYSTEMTIME; const t2:SYSTEMTIME):Integer;
+var f1, f2:FILETIME;
+begin
+  SystemTimeToFileTime(t1, f1);
+  SystemTimeToFileTime(t2, f2);
+  Result:=CompareFileTime(f1, f2);
+end;
+
+// Convert UTC to local time without XP-specific Win32 functions
+Function LocalTimeToSystemTime(const LocalTime:SYSTEMTIME; var UniversalTime:SYSTEMTIME):BOOL;
+var TZ_INFO:TIME_ZONE_INFORMATION; aux:SYSTEMTIME;
+begin
+  GetTimeZoneInformation(TZ_INFO);
+  // UTC = local time + bias
+  if (TZ_INFO.StandardDate.wMonth <> 0) and (TZ_INFO.DaylightDate.wMonth <> 0) then begin
+    // Daylight saving observed
+    UniversalTime:=LocalTime;
+    AdjustSystemTime(UniversalTime, TZ_INFO.Bias + TZ_INFO.StandardBias);
+    if (not SystemTimeToTzSpecificLocalTime(@TZ_INFO,UniversalTime,aux)) or (CompareSystemTimes(aux,LocalTime) <> 0) then begin
+      UniversalTime:=LocalTime;
+      AdjustSystemTime(UniversalTime, TZ_INFO.Bias + TZ_INFO.DaylightBias);
+    end;
+  end else begin
+    // No daylight saving
+    UniversalTime := LocalTime;
+    AdjustSystemTime(UniversalTime, TZ_INFO.Bias);
+  end;
+end;
+
+Function FromLocalTime;
+var Bias:double; UniversalTime,LocalTime:SYSTEMTIME;
+begin
+ if (TimeZoneX <= -1440) or (TimeZoneX >= 1440) then begin
+   // Use Win API
+   DateTimeToSystemTime(DT, LocalTime);
+   if LocalTimeToSystemTime(LocalTime, UniversalTime) then
+      Dt:=SystemTimeToDateTime(UniversalTime);
+   Result:=DateTimeToJD(DT);
+ end
+ else begin
+   // Fixed bias
+   Bias:=TimeZoneX/24.0/60.0;
+   Result:=DateTimeToJD(DT)+bias;
+ end;
+end;
+
+Function LocalDateTimeToDOW;
+var Y,M,D,DOW:word;
+begin
+ DecodeDateFully(DT, Y, M, D, DOW);
+ Result:=DOW;
 end;
 
 end.

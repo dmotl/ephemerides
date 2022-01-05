@@ -1,12 +1,12 @@
 object MainForm: TMainForm
-  Left = 40
-  Top = 164
-  Width = 912
-  Height = 646
+  Left = 278
+  Top = -4
+  Width = 1165
+  Height = 864
   Caption = 'Ephemerides of eclipsing binary stars'
   Color = clBtnFace
-  Constraints.MinHeight = 580
-  Constraints.MinWidth = 786
+  Constraints.MinHeight = 492
+  Constraints.MinWidth = 652
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -23,8 +23,8 @@ object MainForm: TMainForm
   object Pages: TPageControl
     Left = 0
     Top = 0
-    Width = 904
-    Height = 600
+    Width = 1157
+    Height = 818
     ActivePage = TabSheet2
     Align = alClient
     TabOrder = 0
@@ -34,16 +34,16 @@ object MainForm: TMainForm
       object Panel2: TPanel
         Left = 192
         Top = 0
-        Width = 704
-        Height = 572
+        Width = 957
+        Height = 790
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 0
         object List: TListView
           Left = 0
           Top = 36
-          Width = 704
-          Height = 536
+          Width = 957
+          Height = 754
           Align = alClient
           Columns = <
             item
@@ -156,7 +156,7 @@ object MainForm: TMainForm
         object ToolBar1: TToolBar
           Left = 0
           Top = 0
-          Width = 704
+          Width = 957
           Height = 36
           AutoSize = True
           ButtonHeight = 36
@@ -336,13 +336,13 @@ object MainForm: TMainForm
         Left = 0
         Top = 0
         Width = 192
-        Height = 572
+        Height = 790
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 1
         DesignSize = (
           192
-          572)
+          790)
         object Label2: TLabel
           Left = 8
           Top = 48
@@ -371,7 +371,7 @@ object MainForm: TMainForm
         end
         object Label3: TLabel
           Left = 99
-          Top = 253
+          Top = 423
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -379,7 +379,7 @@ object MainForm: TMainForm
         end
         object Label6: TLabel
           Left = 24
-          Top = 253
+          Top = 423
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -387,7 +387,7 @@ object MainForm: TMainForm
         end
         object Label7: TLabel
           Left = 162
-          Top = 253
+          Top = 423
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -395,7 +395,7 @@ object MainForm: TMainForm
         end
         object Label4: TLabel
           Left = 99
-          Top = 141
+          Top = 311
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -403,7 +403,7 @@ object MainForm: TMainForm
         end
         object Label5: TLabel
           Left = 24
-          Top = 141
+          Top = 311
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -411,7 +411,7 @@ object MainForm: TMainForm
         end
         object Label8: TLabel
           Left = 162
-          Top = 141
+          Top = 311
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -419,7 +419,7 @@ object MainForm: TMainForm
         end
         object Label9: TLabel
           Left = 99
-          Top = 205
+          Top = 373
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -427,7 +427,7 @@ object MainForm: TMainForm
         end
         object Label10: TLabel
           Left = 24
-          Top = 205
+          Top = 373
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -435,7 +435,7 @@ object MainForm: TMainForm
         end
         object Label11: TLabel
           Left = 162
-          Top = 205
+          Top = 373
           Width = 18
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -443,7 +443,7 @@ object MainForm: TMainForm
         end
         object Label12: TLabel
           Left = 99
-          Top = 349
+          Top = 519
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -451,7 +451,7 @@ object MainForm: TMainForm
         end
         object Label13: TLabel
           Left = 24
-          Top = 349
+          Top = 519
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -459,7 +459,7 @@ object MainForm: TMainForm
         end
         object Label14: TLabel
           Left = 162
-          Top = 349
+          Top = 519
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -467,7 +467,7 @@ object MainForm: TMainForm
         end
         object Label15: TLabel
           Left = 99
-          Top = 397
+          Top = 567
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -475,7 +475,7 @@ object MainForm: TMainForm
         end
         object Label16: TLabel
           Left = 24
-          Top = 397
+          Top = 567
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -483,7 +483,7 @@ object MainForm: TMainForm
         end
         object Label17: TLabel
           Left = 162
-          Top = 397
+          Top = 567
           Width = 18
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -491,7 +491,7 @@ object MainForm: TMainForm
         end
         object Label19: TLabel
           Left = 99
-          Top = 301
+          Top = 471
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -499,7 +499,7 @@ object MainForm: TMainForm
         end
         object Label20: TLabel
           Left = 24
-          Top = 301
+          Top = 471
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -507,7 +507,7 @@ object MainForm: TMainForm
         end
         object Label21: TLabel
           Left = 162
-          Top = 301
+          Top = 471
           Width = 14
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -515,7 +515,7 @@ object MainForm: TMainForm
         end
         object Label33: TLabel
           Left = 24
-          Top = 541
+          Top = 711
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -523,7 +523,7 @@ object MainForm: TMainForm
         end
         object Label34: TLabel
           Left = 99
-          Top = 541
+          Top = 711
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -531,7 +531,7 @@ object MainForm: TMainForm
         end
         object Label35: TLabel
           Left = 162
-          Top = 541
+          Top = 711
           Width = 18
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -539,7 +539,7 @@ object MainForm: TMainForm
         end
         object Label39: TLabel
           Left = 8
-          Top = 105
+          Top = 273
           Width = 35
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -551,11 +551,27 @@ object MainForm: TMainForm
           Font.Style = [fsBold]
           ParentFont = False
         end
+        object Label41: TLabel
+          Left = 24
+          Top = 759
+          Width = 20
+          Height = 13
+          Anchors = [akLeft, akBottom]
+          Caption = 'from'
+        end
+        object Label42: TLabel
+          Left = 99
+          Top = 759
+          Width = 18
+          Height = 13
+          Anchors = [akLeft, akBottom]
+          Caption = 'deg'
+        end
         object Cats: TCheckListBox
           Left = 8
           Top = 64
           Width = 177
-          Height = 41
+          Height = 205
           Hint = 'Check catalogue files, which you want to use'
           Anchors = [akLeft, akTop, akBottom]
           ItemHeight = 13
@@ -578,7 +594,7 @@ object MainForm: TMainForm
         end
         object MagF: TCheckBox
           Left = 8
-          Top = 233
+          Top = 403
           Width = 177
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -588,7 +604,7 @@ object MainForm: TMainForm
         end
         object MinF: TCheckBox
           Left = 8
-          Top = 121
+          Top = 291
           Width = 177
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -600,7 +616,7 @@ object MainForm: TMainForm
         end
         object AltF: TCheckBox
           Left = 8
-          Top = 185
+          Top = 355
           Width = 177
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -612,7 +628,7 @@ object MainForm: TMainForm
         end
         object RAF: TCheckBox
           Left = 8
-          Top = 329
+          Top = 499
           Width = 177
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -622,7 +638,7 @@ object MainForm: TMainForm
         end
         object DecF: TCheckBox
           Left = 8
-          Top = 377
+          Top = 547
           Width = 177
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -632,7 +648,7 @@ object MainForm: TMainForm
         end
         object PTSF: TCheckBox
           Left = 8
-          Top = 281
+          Top = 451
           Width = 177
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -642,7 +658,7 @@ object MainForm: TMainForm
         end
         object Mag1SB: TSpinButton
           Left = 80
-          Top = 249
+          Top = 419
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -667,7 +683,7 @@ object MainForm: TMainForm
         end
         object Mag1: TEdit
           Left = 48
-          Top = 249
+          Top = 419
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -677,7 +693,7 @@ object MainForm: TMainForm
         end
         object Mag2: TEdit
           Left = 112
-          Top = 249
+          Top = 419
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -687,7 +703,7 @@ object MainForm: TMainForm
         end
         object Mag2SB: TSpinButton
           Left = 144
-          Top = 249
+          Top = 419
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -712,7 +728,7 @@ object MainForm: TMainForm
         end
         object Min1: TEdit
           Left = 48
-          Top = 137
+          Top = 307
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -723,7 +739,7 @@ object MainForm: TMainForm
         end
         object Min1SB: TSpinButton
           Left = 80
-          Top = 137
+          Top = 307
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -748,7 +764,7 @@ object MainForm: TMainForm
         end
         object Min2: TEdit
           Left = 112
-          Top = 137
+          Top = 307
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -759,7 +775,7 @@ object MainForm: TMainForm
         end
         object Min2SB: TSpinButton
           Left = 144
-          Top = 137
+          Top = 307
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -784,7 +800,7 @@ object MainForm: TMainForm
         end
         object Alt1: TEdit
           Left = 48
-          Top = 201
+          Top = 371
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -795,7 +811,7 @@ object MainForm: TMainForm
         end
         object Alt1SB: TSpinButton
           Left = 80
-          Top = 201
+          Top = 371
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -820,7 +836,7 @@ object MainForm: TMainForm
         end
         object Alt2: TEdit
           Left = 112
-          Top = 201
+          Top = 371
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -831,7 +847,7 @@ object MainForm: TMainForm
         end
         object Alt2SB: TSpinButton
           Left = 144
-          Top = 201
+          Top = 371
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -856,7 +872,7 @@ object MainForm: TMainForm
         end
         object RA1: TEdit
           Left = 48
-          Top = 345
+          Top = 515
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -866,7 +882,7 @@ object MainForm: TMainForm
         end
         object Ra1SB: TSpinButton
           Left = 80
-          Top = 345
+          Top = 515
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -891,7 +907,7 @@ object MainForm: TMainForm
         end
         object RA2: TEdit
           Left = 112
-          Top = 345
+          Top = 515
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -901,7 +917,7 @@ object MainForm: TMainForm
         end
         object Ra2SB: TSpinButton
           Left = 144
-          Top = 345
+          Top = 515
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -926,7 +942,7 @@ object MainForm: TMainForm
         end
         object Dec1: TEdit
           Left = 48
-          Top = 393
+          Top = 563
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -936,7 +952,7 @@ object MainForm: TMainForm
         end
         object Dec1SB: TSpinButton
           Left = 80
-          Top = 393
+          Top = 563
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -961,7 +977,7 @@ object MainForm: TMainForm
         end
         object Dec2: TEdit
           Left = 112
-          Top = 393
+          Top = 563
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -971,7 +987,7 @@ object MainForm: TMainForm
         end
         object Dec2SB: TSpinButton
           Left = 144
-          Top = 393
+          Top = 563
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -996,7 +1012,7 @@ object MainForm: TMainForm
         end
         object Pts2SB: TSpinButton
           Left = 144
-          Top = 297
+          Top = 467
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1021,7 +1037,7 @@ object MainForm: TMainForm
         end
         object Pts2: TEdit
           Left = 112
-          Top = 297
+          Top = 467
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1031,7 +1047,7 @@ object MainForm: TMainForm
         end
         object Pts1SB: TSpinButton
           Left = 80
-          Top = 297
+          Top = 467
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1056,7 +1072,7 @@ object MainForm: TMainForm
         end
         object Pts1: TEdit
           Left = 48
-          Top = 297
+          Top = 467
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1066,7 +1082,7 @@ object MainForm: TMainForm
         end
         object AZF: TCheckBox
           Left = 8
-          Top = 521
+          Top = 691
           Width = 177
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1078,7 +1094,7 @@ object MainForm: TMainForm
         end
         object Az1: TEdit
           Left = 48
-          Top = 537
+          Top = 707
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1089,7 +1105,7 @@ object MainForm: TMainForm
         end
         object Az1SB: TSpinButton
           Left = 80
-          Top = 537
+          Top = 707
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1114,7 +1130,7 @@ object MainForm: TMainForm
         end
         object Az2: TEdit
           Left = 112
-          Top = 537
+          Top = 707
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1125,7 +1141,7 @@ object MainForm: TMainForm
         end
         object Az2SB: TSpinButton
           Left = 144
-          Top = 537
+          Top = 707
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1150,7 +1166,7 @@ object MainForm: TMainForm
         end
         object FNight: TCheckBox
           Left = 24
-          Top = 163
+          Top = 333
           Width = 153
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1162,7 +1178,7 @@ object MainForm: TMainForm
         end
         object ConF: TCheckBox
           Left = 8
-          Top = 425
+          Top = 595
           Width = 177
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1172,7 +1188,7 @@ object MainForm: TMainForm
         end
         object Con: TEdit
           Left = 24
-          Top = 441
+          Top = 611
           Width = 137
           Height = 21
           Anchors = [akLeft, akRight, akBottom]
@@ -1181,7 +1197,7 @@ object MainForm: TMainForm
         end
         object ConBtn: TButton
           Left = 160
-          Top = 441
+          Top = 611
           Width = 25
           Height = 21
           Anchors = [akRight, akBottom]
@@ -1191,7 +1207,7 @@ object MainForm: TMainForm
         end
         object TypF: TCheckBox
           Left = 8
-          Top = 473
+          Top = 643
           Width = 177
           Height = 17
           Anchors = [akLeft, akBottom]
@@ -1201,7 +1217,7 @@ object MainForm: TMainForm
         end
         object Typ: TEdit
           Left = 24
-          Top = 489
+          Top = 659
           Width = 137
           Height = 21
           Anchors = [akLeft, akRight, akBottom]
@@ -1210,13 +1226,64 @@ object MainForm: TMainForm
         end
         object TypBtn: TButton
           Left = 159
-          Top = 489
+          Top = 659
           Width = 25
           Height = 21
           Anchors = [akRight, akBottom]
           Caption = '...'
           TabOrder = 43
           OnClick = TypBtnClick
+        end
+        object OMF: TCheckBox
+          Left = 8
+          Top = 739
+          Width = 177
+          Height = 17
+          Anchors = [akLeft, akBottom]
+          Caption = 'Object-Moon distance'
+          TabOrder = 44
+          OnClick = OMFClick
+        end
+        object Om1: TEdit
+          Left = 48
+          Top = 755
+          Width = 32
+          Height = 21
+          Anchors = [akLeft, akBottom]
+          TabOrder = 45
+          OnChange = OMFClick
+          OnExit = Om1Exit
+        end
+        object Om1SB: TSpinButton
+          Left = 80
+          Top = 755
+          Width = 15
+          Height = 21
+          Anchors = [akLeft, akBottom]
+          DownGlyph.Data = {
+            0E010000424D0E01000000000000360000002800000009000000060000000100
+            200000000000D800000000000000000000000000000000000000008080000080
+            8000008080000080800000808000008080000080800000808000008080000080
+            8000008080000080800000808000000000000080800000808000008080000080
+            8000008080000080800000808000000000000000000000000000008080000080
+            8000008080000080800000808000000000000000000000000000000000000000
+            0000008080000080800000808000000000000000000000000000000000000000
+            0000000000000000000000808000008080000080800000808000008080000080
+            800000808000008080000080800000808000}
+          FocusControl = Om1
+          TabOrder = 46
+          UpGlyph.Data = {
+            0E010000424D0E01000000000000360000002800000009000000060000000100
+            200000000000D800000000000000000000000000000000000000008080000080
+            8000008080000080800000808000008080000080800000808000008080000080
+            8000000000000000000000000000000000000000000000000000000000000080
+            8000008080000080800000000000000000000000000000000000000000000080
+            8000008080000080800000808000008080000000000000000000000000000080
+            8000008080000080800000808000008080000080800000808000000000000080
+            8000008080000080800000808000008080000080800000808000008080000080
+            800000808000008080000080800000808000}
+          OnDownClick = Om1SBDownClick
+          OnUpClick = Om1SBUpClick
         end
       end
     end
@@ -1226,16 +1293,16 @@ object MainForm: TMainForm
       object Panel3: TPanel
         Left = 192
         Top = 0
-        Width = 704
-        Height = 572
+        Width = 957
+        Height = 790
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 0
         object List2: TListView
           Left = 0
           Top = 36
-          Width = 704
-          Height = 536
+          Width = 957
+          Height = 754
           Align = alClient
           Columns = <
             item
@@ -1323,7 +1390,7 @@ object MainForm: TMainForm
         object ToolBar2: TToolBar
           Left = 0
           Top = 0
-          Width = 704
+          Width = 957
           Height = 36
           AutoSize = True
           ButtonHeight = 36
@@ -1502,16 +1569,16 @@ object MainForm: TMainForm
         Left = 0
         Top = 0
         Width = 192
-        Height = 572
+        Height = 790
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 1
         DesignSize = (
           192
-          572)
+          790)
         object Label26: TLabel
           Left = 8
-          Top = 273
+          Top = 433
           Width = 162
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1564,7 +1631,7 @@ object MainForm: TMainForm
         end
         object Label32: TLabel
           Left = 162
-          Top = 381
+          Top = 541
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1572,7 +1639,7 @@ object MainForm: TMainForm
         end
         object Label23: TLabel
           Left = 24
-          Top = 501
+          Top = 663
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1580,7 +1647,7 @@ object MainForm: TMainForm
         end
         object Label24: TLabel
           Left = 99
-          Top = 501
+          Top = 663
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1588,7 +1655,7 @@ object MainForm: TMainForm
         end
         object Label25: TLabel
           Left = 162
-          Top = 501
+          Top = 663
           Width = 18
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1596,7 +1663,7 @@ object MainForm: TMainForm
         end
         object Label18: TLabel
           Left = 24
-          Top = 381
+          Top = 541
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1604,7 +1671,7 @@ object MainForm: TMainForm
         end
         object Label22: TLabel
           Left = 99
-          Top = 381
+          Top = 541
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1612,7 +1679,7 @@ object MainForm: TMainForm
         end
         object Label36: TLabel
           Left = 24
-          Top = 549
+          Top = 711
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1620,7 +1687,7 @@ object MainForm: TMainForm
         end
         object Label37: TLabel
           Left = 99
-          Top = 549
+          Top = 711
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1628,7 +1695,7 @@ object MainForm: TMainForm
         end
         object Label38: TLabel
           Left = 162
-          Top = 549
+          Top = 711
           Width = 18
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1636,7 +1703,7 @@ object MainForm: TMainForm
         end
         object Label40: TLabel
           Left = 8
-          Top = 341
+          Top = 501
           Width = 35
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1650,7 +1717,7 @@ object MainForm: TMainForm
         end
         object Label30: TLabel
           Left = 8
-          Top = 293
+          Top = 453
           Width = 36
           Height = 13
           Alignment = taRightJustify
@@ -1660,7 +1727,7 @@ object MainForm: TMainForm
         end
         object Label31: TLabel
           Left = 8
-          Top = 317
+          Top = 477
           Width = 36
           Height = 13
           Alignment = taRightJustify
@@ -1668,9 +1735,25 @@ object MainForm: TMainForm
           AutoSize = False
           Caption = 'to'
         end
+        object Label43: TLabel
+          Left = 24
+          Top = 759
+          Width = 20
+          Height = 13
+          Anchors = [akLeft, akBottom]
+          Caption = 'from'
+        end
+        object Label44: TLabel
+          Left = 99
+          Top = 759
+          Width = 18
+          Height = 13
+          Anchors = [akLeft, akBottom]
+          Caption = 'deg'
+        end
         object DTStart: TDateTimePicker
           Left = 48
-          Top = 289
+          Top = 449
           Width = 137
           Height = 21
           Hint = 'Po'#269#225'te'#269'n'#237' datum intervalu pro v'#253'po'#269'et minim'
@@ -1683,7 +1766,7 @@ object MainForm: TMainForm
         end
         object DTEnd: TDateTimePicker
           Left = 48
-          Top = 313
+          Top = 473
           Width = 137
           Height = 21
           Hint = 'Koncov'#233' datum intervalu pro v'#253'po'#269'et minim'
@@ -1724,7 +1807,7 @@ object MainForm: TMainForm
           Left = 8
           Top = 120
           Width = 177
-          Height = 144
+          Height = 308
           Hint = 'Vyberte hv'#283'zdu'
           Anchors = [akLeft, akTop, akBottom]
           ItemHeight = 13
@@ -1735,7 +1818,7 @@ object MainForm: TMainForm
         end
         object TimeF: TCheckBox
           Left = 8
-          Top = 361
+          Top = 521
           Width = 128
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1747,7 +1830,7 @@ object MainForm: TMainForm
         end
         object VysF: TCheckBox
           Left = 8
-          Top = 481
+          Top = 643
           Width = 128
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1759,7 +1842,7 @@ object MainForm: TMainForm
         end
         object Time2SB: TSpinButton
           Left = 144
-          Top = 377
+          Top = 537
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1784,7 +1867,7 @@ object MainForm: TMainForm
         end
         object Time2: TEdit
           Left = 112
-          Top = 377
+          Top = 537
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1796,7 +1879,7 @@ object MainForm: TMainForm
         end
         object Time1SB: TSpinButton
           Left = 80
-          Top = 377
+          Top = 537
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1821,7 +1904,7 @@ object MainForm: TMainForm
         end
         object Time1: TEdit
           Left = 48
-          Top = 377
+          Top = 537
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1833,7 +1916,7 @@ object MainForm: TMainForm
         end
         object Vys1: TEdit
           Left = 48
-          Top = 497
+          Top = 659
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1845,7 +1928,7 @@ object MainForm: TMainForm
         end
         object Vys1SB: TSpinButton
           Left = 80
-          Top = 497
+          Top = 659
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1870,7 +1953,7 @@ object MainForm: TMainForm
         end
         object Vys2: TEdit
           Left = 112
-          Top = 497
+          Top = 659
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1882,7 +1965,7 @@ object MainForm: TMainForm
         end
         object Vys2SB: TSpinButton
           Left = 144
-          Top = 497
+          Top = 659
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1907,7 +1990,7 @@ object MainForm: TMainForm
         end
         object AziF: TCheckBox
           Left = 8
-          Top = 529
+          Top = 691
           Width = 128
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -1919,7 +2002,7 @@ object MainForm: TMainForm
         end
         object Azi1: TEdit
           Left = 48
-          Top = 545
+          Top = 707
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1930,7 +2013,7 @@ object MainForm: TMainForm
         end
         object Azi1SB: TSpinButton
           Left = 80
-          Top = 545
+          Top = 707
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1955,7 +2038,7 @@ object MainForm: TMainForm
         end
         object Azi2: TEdit
           Left = 112
-          Top = 545
+          Top = 707
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1966,7 +2049,7 @@ object MainForm: TMainForm
         end
         object Azi2SB: TSpinButton
           Left = 144
-          Top = 545
+          Top = 707
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1991,7 +2074,7 @@ object MainForm: TMainForm
         end
         object FNight2: TCheckBox
           Left = 24
-          Top = 403
+          Top = 563
           Width = 153
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -2003,7 +2086,7 @@ object MainForm: TMainForm
         end
         object DOWF: TCheckBox
           Left = 8
-          Top = 425
+          Top = 587
           Width = 128
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -2015,7 +2098,7 @@ object MainForm: TMainForm
         end
         object Mon: TCheckBox
           Left = 64
-          Top = 443
+          Top = 603
           Width = 41
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -2024,7 +2107,7 @@ object MainForm: TMainForm
         end
         object Tue: TCheckBox
           Left = 104
-          Top = 443
+          Top = 603
           Width = 41
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -2033,7 +2116,7 @@ object MainForm: TMainForm
         end
         object Wed: TCheckBox
           Left = 144
-          Top = 443
+          Top = 603
           Width = 41
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -2042,7 +2125,7 @@ object MainForm: TMainForm
         end
         object Thu: TCheckBox
           Left = 24
-          Top = 459
+          Top = 619
           Width = 41
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -2051,7 +2134,7 @@ object MainForm: TMainForm
         end
         object Fri: TCheckBox
           Left = 64
-          Top = 459
+          Top = 619
           Width = 41
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -2060,7 +2143,7 @@ object MainForm: TMainForm
         end
         object Sat: TCheckBox
           Left = 104
-          Top = 459
+          Top = 619
           Width = 41
           Height = 13
           Anchors = [akLeft, akBottom]
@@ -2069,20 +2152,71 @@ object MainForm: TMainForm
         end
         object Sun: TCheckBox
           Left = 24
-          Top = 443
+          Top = 603
           Width = 41
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'Su'
           TabOrder = 12
         end
+        object ObjMF: TCheckBox
+          Left = 8
+          Top = 739
+          Width = 177
+          Height = 17
+          Anchors = [akLeft, akBottom]
+          Caption = 'Object-Moon distance'
+          TabOrder = 29
+          OnClick = ObjMFClick
+        end
+        object ObjM1: TEdit
+          Left = 48
+          Top = 755
+          Width = 32
+          Height = 21
+          Anchors = [akLeft, akBottom]
+          TabOrder = 30
+          OnChange = ObjMFClick
+          OnExit = ObjM1Exit
+        end
+        object ObjM1SB: TSpinButton
+          Left = 80
+          Top = 755
+          Width = 15
+          Height = 21
+          Anchors = [akLeft, akBottom]
+          DownGlyph.Data = {
+            0E010000424D0E01000000000000360000002800000009000000060000000100
+            200000000000D800000000000000000000000000000000000000008080000080
+            8000008080000080800000808000008080000080800000808000008080000080
+            8000008080000080800000808000000000000080800000808000008080000080
+            8000008080000080800000808000000000000000000000000000008080000080
+            8000008080000080800000808000000000000000000000000000000000000000
+            0000008080000080800000808000000000000000000000000000000000000000
+            0000000000000000000000808000008080000080800000808000008080000080
+            800000808000008080000080800000808000}
+          FocusControl = ObjM1
+          TabOrder = 31
+          UpGlyph.Data = {
+            0E010000424D0E01000000000000360000002800000009000000060000000100
+            200000000000D800000000000000000000000000000000000000008080000080
+            8000008080000080800000808000008080000080800000808000008080000080
+            8000000000000000000000000000000000000000000000000000000000000080
+            8000008080000080800000000000000000000000000000000000000000000080
+            8000008080000080800000808000008080000000000000000000000000000080
+            8000008080000080800000808000008080000080800000808000000000000080
+            8000008080000080800000808000008080000080800000808000008080000080
+            800000808000008080000080800000808000}
+          OnDownClick = ObjM1SBDownClick
+          OnUpClick = ObjM1SBUpClick
+        end
       end
     end
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 600
-    Width = 904
+    Top = 818
+    Width = 1157
     Height = 19
     Panels = <
       item
@@ -2933,6 +3067,28 @@ object MainForm: TMainForm
     object Resize: TMenuItem
       Caption = 'Adjust column widths'
       OnClick = ResizeClick
+    end
+    object N2: TMenuItem
+      Caption = '-'
+    end
+    object Copytoclipboard1: TMenuItem
+      Caption = 'Copy to clipboard'
+      object CopyName: TMenuItem
+        Caption = 'Variable name'
+        OnClick = CopyNameClick
+      end
+      object CopyJD: TMenuItem
+        Caption = 'Julian date'
+        OnClick = CopyJDClick
+      end
+      object CopyUTC: TMenuItem
+        Caption = 'Universal time'
+        OnClick = CopyUTCClick
+      end
+      object CopyLocT: TMenuItem
+        Caption = 'Local time'
+        OnClick = CopyLocTClick
+      end
     end
   end
   object CatalogMenu: TPopupMenu
