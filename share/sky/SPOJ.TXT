@@ -1,0 +1,745 @@
+UMa:
+Alp Del
+Del Gam
+Gam Bet
+Bet Alp
+Del Eps
+Eps Zet
+Zet Eta
+Gam Psi
+Psi Lam
+Psi Mu
+Psi The
+The Kap
+The Iot
+The Ups
+Ups  23
+ 23 Omi
+Omi  24
+ 24 Alp
+UMi:
+Alp Del
+Del Eps
+Eps Zet
+Zet Bet
+Bet Gam
+Gam Eta
+Eta Zet
+Cas:
+Eps Del
+Del Gam
+Gam Alp
+Alp Bet
+Cep:
+Gam Iot
+Gam Bet
+Iot Bet
+Bet Alp
+Iot Del
+Del Alp
+Del Zet
+Del Eps
+Alp Eta
+Eta The
+Dra:
+B   A
+A   Kap
+Kap Alp
+Alp Iot
+Iot The
+The Eta
+Eta Zet
+Zet Chi
+Chi Tau
+Tau Eps
+Eps Del
+Del Xi
+Xi  Nu
+Nu  Bet
+Bet Gam
+Gam Xi
+Cam:
+A   B
+B   C
+C   Gam
+Gam D
+D   E
+C   Alp
+Alp Bet
+Bet   7
+Lyn:
+Alp  38
+ 38 A
+A    31
+ 31  21
+ 21  15
+ 15   2
+Cnc:
+Iot Gam
+Gam Del
+Del Alp
+Del Bet
+Leo:
+Alp The
+The Bet
+Bet Del
+Del Gam
+Gam Eta
+Eta Alp
+Gam Zet
+Zet Mu
+Mu  Eps
+Vir:
+Alp The
+The Gam
+Gam Eta
+Eta Bet
+Gam Del
+Del Zet
+Zet Tau
+Del Eps
+Boo:
+Eta Alp
+Alp Rho
+Rho Gam
+Gam Bet
+Bet Mu
+Mu  Del
+Del Eps
+Eps Xi
+Xi  Zet
+CrB:
+Iot Eps
+Eps Del
+Del Gam
+Gam Bet
+Bet The
+CVn:
+Alp Bet
+Com:
+Alp Bet
+Bet Gam
+Hya:
+Pi  Gam
+Gam Psi
+Psi Bet
+Bet Xi
+Xi  Chi
+Chi Nu
+Nu  Mu
+Mu  Lam
+Lam Ups
+Ups Alp
+Alp Tau
+Tau The
+The Zet
+Zet Eps
+Eps Del
+Del Sig
+Sig Eta
+Eta Zet
+Alp  27
+ 27  20
+ 20 A
+A   B
+A    12
+LMi:
+ 46 Bet
+Bet  21
+ 21  10
+Pyx:
+Bet Alp
+Alp Gam
+Ant:
+Iot Alp
+Alp Eps
+Sex:
+Bet Gam
+Gam Alp
+Crv:
+Bet Del
+Del Gam
+Gam Eps
+Eps Alp
+Eps Bet
+Crt:
+Eta Zet
+Zet Gam
+Gam Bet
+Gam Del
+Del Alp
+Del Eps
+Eps The
+Cyg:
+Alp Gam
+Gam Del
+Del Iot
+Iot Kap
+Gam Eps
+Eps Zet
+Gam Eta
+Eta Bet
+Lyr:
+Alp Zet
+Zet Del
+Del Gam
+Gam Bet
+Bet Zet
+Aql:
+Gam Alp
+Alp Bet
+Alp Mu
+Mu  Del
+Del Iot
+Iot Eta
+Eta The
+Iot Lam
+Vul:
+ 23  15
+ 15  13
+ 13 Alp
+Alp   1
+Del:
+Gam Alp
+Alp Bet
+Bet Del
+Del Gam
+Bet Eta
+Eta Eps
+Sge:
+Gam Del
+Del Alp
+Del Bet
+Her:
+The Rho
+Rho Pi
+Ups Phi
+Phi Tau
+Tau Eta
+Gam Bet
+Bet Zet
+Eps Del
+Del Alp
+Pi  Eta
+Eta Zet
+Zet Eps
+Eps Pi
+Lib:
+The Eta
+Eta Gam
+Gam Alp
+Alp Bet
+Bet Gam
+Sco:
+A   Kap
+Lam Kap
+Kap Iot
+Iot The
+The Eta
+Eta Zet
+Zet Mu
+Mu  Eps
+Eps Tau
+Tau Alp
+Alp Sig
+Sig Del
+Sig Bet
+Sig Pi
+Sgr:
+Bet Alp
+Alp Zet
+Zet Tau
+Tau Chi
+Chi Ome
+Tau Sig
+Sig Omi
+Omi Pi
+Pi  Rho
+Rho Ups
+Sig Phi
+Phi Lam
+Lam Mu
+Lam Del
+Del Gam
+Del Eps
+Eps Eta
+Cap:
+Del Eps
+Eps Zet
+Zet Eta
+Eta Ome
+Eta Psi
+Eta The
+The Iot
+The Rho
+Rho Bet
+Bet Alp
+Sct:
+Alp Bet
+Bet A
+A   Gam
+Gam Alp
+Oph:
+Alp Iot
+Alp Kap
+Alp Bet
+Bet Gam
+Gam  67
+Gam Nu
+Bet Sig
+Sig Eta
+Sig Lam
+Lam Del
+Lam Eps
+Eps Del
+Eps Ups
+Ups Zet
+Zet Phi
+Zet Eta
+Eta The
+Ser:
+The Eta
+Eta C
+C   Xi
+Xi  A
+B   Mu
+Mu  Eps
+Eps Alp
+Alp Del
+Del Bet
+Bet Kap
+Kap Iot
+Kap Gam
+Kap Rho
+Peg:  {PODZIMNI}
+A   Bet
+Bet Alp
+Alp Gam
+Gam A  
+Alp Xi
+Xi  Zet
+Zet Eps
+Eps The
+The Zet
+Bet Eta
+Bet Mu
+Mu  Lam
+Lam Iot
+Iot Kap
+And:
+Gam Bet
+Bet Mu
+Mu  Nu
+Bet Alp
+Aqr:
+Del Lam
+Lam The
+The Gam
+Gam Zet
+Zet Eta
+Zet Pi
+Gam Alp
+Alp Bet
+Bet Eps
+Psc:
+Tau Ups
+Ups Phi
+Phi Chi
+Chi Eta
+Eta Omi
+Omi Alp
+Alp Xi
+Xi  Nu
+Nu  Mu
+Mu  Eps
+Eps Del
+Del Ome
+Ome Iot
+Iot Lam
+Iot The
+The   7
+  7 Bet
+Bet Gam
+Gam Kap
+Kap Lam
+Lam  27
+ 27  33
+Ari:
+ 41 Alp
+Alp Bet
+Bet Gam
+Cet:
+Lam Mu
+Mu  Xi
+Xi  Nu
+Nu  Gam
+Gam Alp
+Gam Del
+Del Omi
+Omi Zet
+Zet Tau
+Tau Ups
+Zet The
+The Eta
+Eta Iot
+Eta Bet
+PsA:
+Alp Eps
+Eps Iot
+Iot Mu
+Mu  Bet
+Bet Gam
+Gam Del
+Del Alp
+Scl:
+Alp Del
+Del Gam
+Gam Bet
+Tri:
+Gam Bet
+Bet Alp
+Alp Gam
+Lac:
+Bet Alp
+Alp   9
+Alp   4
+  4   5
+  5   2
+  2   6
+  6 A
+A     1
+Equ:
+Alp Eps
+Eps Gam
+Gam Del
+Del Bet
+Bet Alp
+Ori:      {ZIMNI}
+Zet Alp
+Alp Lam
+Lam Gam
+Gam Del
+Del Eps
+Eps Zet
+Del Bet
+Bet Kap
+Kap Zet
+CMa:
+Gam Iot
+Iot Alp
+Alp Bet
+Alp Omi
+Omi Del
+Del Eta
+Del Eps
+Eps Zet
+Tau:
+Bet Eps
+Zet 104
+104 Alp
+Alp Eps
+Eps Del
+Del Gam
+Alp The
+The Gam
+Gam Lam
+Eps Ome
+Ome  37
+ 37  22
+Aur:
+The Bet
+Bet Alp
+Alp Eps
+Eps Eta
+Eps Iot
+Gem:
+Alp Rho
+Rho Tau
+Tau Eps
+Eps Mu
+Mu  Nu
+Nu  Gam
+Gam Zet
+Zet Del
+Del Kap
+Kap Bet
+Bet Sig
+Sig Alp
+CMi:
+Alp Bet
+Mon:
+Zet Alp
+Alp Del
+Del Bet
+Bet Gam
+Del  18
+ 18 Eps
+Per:
+Zet Eps
+Eps Del
+Del Alp
+Alp Gam
+Alp Kap
+Kap Bet
+Bet Ome
+Ome Rho
+Rho Pi
+Pi  Bet
+Eri:
+Bet Mu
+Mu  Nu
+Nu  Omi
+Omi Gam
+Gam Pi
+Pi  Del
+Del Eps
+Eps Zet
+Zet Eta
+Eta   1
+  1   2
+  2  11
+ 11  16
+ 16  19
+ 19  27
+ 27  33
+ 33  36
+ 36  50
+ 50  52
+ 52  43
+ 43  41
+ 41 A
+A   B
+B   C
+C   D
+D   The
+The Iot
+Iot E
+E   Kap
+Kap Phi
+Phi Chi
+Chi F
+F   Alp
+Lep:
+Del Alp
+Gam Alp
+Alp Bet
+Bet Eps
+Eps Mu
+Mu  Lam
+Mu  Kap
+Mu  Alp
+For:
+Alp Bet
+Bet Nu
+Col:
+Del Gam
+Gam Bet
+Bet Alp
+Alp Eps
+Bet Eta
+Cae:
+Gam Bet
+Bet Alp
+Alp Del
+Car:  {JIZNI}
+Alp A
+A   B
+B   Chi
+Chi Eps
+Eps C
+C   Iot
+Iot Ups
+Ups Bet
+Bet Ome
+Ome The
+The P
+P   Q
+Q   Iot
+Pup:
+Rho Xi
+Xi  Zet
+Zet Pi
+Pi  Sig
+Sig Zet
+Sig L
+L   Tau
+Tau Nu
+Nu  L
+Vel:
+A   Mu
+Mu  Phi
+Phi Kap
+Kap Del
+Del Gam
+Gam Lam
+Lam Kap
+Lam Psi
+Psi B
+Cen:
+Alp Bet
+Bet Eps
+Eps Zet
+Zet Eta
+Eta A
+A   The
+The Iot
+Iot Gam
+Gam Eps
+Gam Del
+Del Pi
+Pi  Lam
+Cru:
+Alp Gam
+Bet Del
+Lup:
+Alp Zet
+Zet Kap
+Kap Eps
+Eps Gam
+Gam Eta
+Eta Chi
+Chi Psi
+Psi Phi
+Phi Del
+Del Bet
+Bet Alp
+Mus:
+Lam Mu
+Mu  Eps
+Eps Alp
+Alp Bet
+Bet Del
+Del Gam
+Gam Alp
+Cir:
+Alp Bet
+Alp Gam
+TrA:
+Alp Bet
+Bet Eps
+Eps Gam
+Gam Alp
+Nor:
+Del Eps
+Eps Gam
+Gam Eta
+Eta Del
+Ara:
+The Alp
+Alp Bet
+Bet Gam
+Gam Del
+Bet Zet
+Zet Eps
+Zet Eta
+CrA:
+Eps Gam
+Gam Alp
+Alp Bet
+Bet Del
+Del Zet
+Zet Eta
+Eta The
+The A
+A   Lam
+Pic:
+Alp Gam
+Gam Bet
+Dor:
+Del Bet
+Bet Alp
+Alp Gam
+Aps:
+Del Bet
+Bet Gam
+Gam Alp
+Phe:
+Eps Kap
+Kap Bet
+Bet Nu
+Nu  Gam
+Gam Del
+Del Zet
+Zet Bet
+Gru:
+Gam Lam
+Lam Mu
+Mu  Del
+Del Alp
+Del Bet
+Bet Eps
+Eps Zet
+Ret:
+Alp Eps
+Eps Del
+Del Gam
+Gam Bet
+Bet Alp
+Hor:
+Alp Iot
+Iot Eta
+Eta Zet
+Zet Mu
+Mu  Bet
+Tuc:
+Alp Del
+Del Eps
+Eps Zet
+Zet Bet
+Bet Gam
+Gam Alp
+Pav:
+Gam Bet
+Bet Del
+Del Lam
+Lam Xi
+Xi  Eta
+Eta Zet
+Zet Eps
+Eps Bet
+Bet Alp
+Cha:
+Bet Del
+Del The
+The Alp
+Alp Gam
+Gam Bet
+Vol:
+Alp Bet
+Bet Eps
+Eps Zet
+Zet Gam
+Gam Del
+Del Bet
+Men:
+Alp Gam
+Gam Eta
+Eta Bet
+Hyi:
+Gam Bet
+Bet Alp
+Alp Gam
+Ind:
+Del The
+The Alp
+The Bet
+Mic:
+Eps Gam
+Gam Alp
+Alp Iot
+Iot The
+The Eps
+Oct:
+The Bet
+Bet Del
+Del Nu
+Nu  Eps
+Eps Bet
+Tel:
+Xi  Iot
+Iot Alp
+Alp Eps
+Alp Zet
+Zet Lam
+Lam Xi
+end:

@@ -1,0 +1,5 @@
+/* Define to the version of this package. */
+#define APPLICATION_NAME "@EPHEMERIDES_PROJECT_NAME@"
+
+/* Version number of package */
+#define VERSION_STRING "@EPHEMERIDES_PROJECT_VERSION@"

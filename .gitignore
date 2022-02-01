@@ -1,3 +1,7 @@
+.vs/
+out/
+bin/
+
 *.chm
 *.dcu
 *.dsk
