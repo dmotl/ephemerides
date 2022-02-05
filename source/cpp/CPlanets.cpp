@@ -1,11 +1,39 @@
+/*!
+*  \file      CPlanets.cpp
+*  \author    David Motl
+*  \date      2022-01-31
+*
+*  \copyright
+*
+*  Redistribution and use in source and binary forms, with or without modification, are permitted
+*  provided that the following conditions are met:
+*
+*  (1) Redistributions of source code must retain the above copyright notice, this list of conditions
+*      and the following disclaimer.
+*
+*  (2) Redistributions in binary form must reproduce the above copyright notice, this list
+*      of conditions and the following disclaimer in the documentation and/or other materials provided
+*      with the distribution.
+*
+*  (3) Neither the name of the copyright holder nor the names of its contributors may be used
+*      to endorse or promote products derived from this software without specific prior written
+*      permission.
+*/
 #include "CPlanets.h"
 
 #define _USE_MATH_DEFINES
 
 #include <math.h>
 
+//
+// Fractional part of x
+//
 inline double frac(double x) { double y;  return modf(x, &y); }
 
+
+//
+// Normalize angle to range of 0 .. 2pi
+//
 static double normalizeAngle(double rad)
 {
     double i;
@@ -23,6 +51,10 @@ static double normalizeAngle(double rad)
     return rad;
 }
 
+
+//
+// Crop angle to range of -pi .. pi
+//
 static double cropAngle(double rad)
 {
     if (rad > M_PI_2)
@@ -33,6 +65,10 @@ static double cropAngle(double rad)
         return rad;
 }
 
+
+//
+// Constructor
+//
 CPlanets::CPlanets(double jd): m_jd(0), m_VT2000(0), m_eps(0), m_t(0), m_vt(0),
 	m_m1(0), m_u1(0), m_VL1(0),
 	m_m2(0), m_u2(0), m_VL2(0),
@@ -49,12 +85,20 @@ CPlanets::CPlanets(double jd): m_jd(0), m_VT2000(0), m_eps(0), m_t(0), m_vt(0),
 		setJD(jd);
 }
 
+
+//
+// Reinitialize the model
+//
 void CPlanets::setJD(double jd_utc)
 {
     m_jd = jd_utc;
     Init();
 }
 
+
+//
+// Compute model
+//
 void CPlanets::Init()
 {
     m_t = m_jd - 2451545;
@@ -118,6 +162,10 @@ void CPlanets::Init()
     m_lambdas = normalizeAngle(m_lambdas / 3600 / 180 * M_PI);
 }
 
+
+//
+// Ecliptical coordinates to equatorial coordinates
+//
 void CPlanets::Done(double lr, double br, double* ra, double* de) const
 {
     if (fabs(lr - M_PI / 2) < 0.000001) { 
@@ -140,6 +188,10 @@ void CPlanets::Done(double lr, double br, double* ra, double* de) const
     }
 }
 
+
+//
+// Coordinate transformation for Moon
+//
 void CPlanets::DoneGeoc(double la, double be, double* ra, double* de) const
 {
     la = normalizeAngle(la / 3600 / 180 * M_PI);
@@ -147,6 +199,10 @@ void CPlanets::DoneGeoc(double la, double be, double* ra, double* de) const
     Done(la, be, ra, de);
 }
 
+
+//
+// Coordinate transformation for the Sun and the planets
+//
 void CPlanets::DoneHelioc(double l, double b, double r, double* ra, double* de, double *rad, double *phase) const
 {
     l = normalizeAngle(l / 3600 / 180 * M_PI);
@@ -162,6 +218,7 @@ void CPlanets::DoneHelioc(double l, double b, double r, double* ra, double* de, 
         *phase = (sin(m_lambdas - la) <= 0 ? M_PI - fi : M_PI + fi);
     }
 }
+
 
 void CPlanets::_Moon(double& la, double& be, double& r) const
 {
@@ -736,6 +793,8 @@ void CPlanets::_Pluto(double& l, double& b, double& r) const
         - 0.04996 * cos(4 * m_m9);
 }
 
+#if 0
+
 void CPlanets::JupiterSatellites(double jd_utc, tJupiterSatellites& jsat)
 {
     double d = jd_utc - 2415020;
@@ -761,6 +820,8 @@ void CPlanets::JupiterSatellites(double jd_utc, tJupiterSatellites& jsat)
     jsat[3][1] = cos(g4);
 }
 
+#endif
+
 void CPlanets::Moon(double* ra, double* dec, double* rad, double* phase) const
 {
     double l, b, r;
@@ -769,7 +830,7 @@ void CPlanets::Moon(double* ra, double* dec, double* rad, double* phase) const
     if (rad)
         *rad = r / 23454.8; /* AU */;
     if (phase)
-        *phase = normalizeAngle(((m_jd - 1721088.5) / 29.53059) * 2 * M_PI);
+        *phase = normalizeAngle(((m_jd - 1721088.5) / 29.53059) * 2 * M_PI + (M_PI / 2));
 }
 
 void CPlanets::Sun(double* ra, double* dec, double* rad) const

@@ -28,7 +28,7 @@
 class CMainWindow;
 
 /*!
-* The "Nightly ephemeris" tab
+* \brief The "Nightly ephemeris" tab
 * 
 * The CNightlyEphemerisTab class implements one of the main sections of the 
 * application. The widgets is used to show ephemeris of variable stars

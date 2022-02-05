@@ -29,11 +29,26 @@
 
 class CSharedData;
 
+/*!
+* \brief The "Lunar ephemeris" tool
+*
+* The CMoonDockWidget class implements a dock widget that shows position
+* phase of the Moon and the Lunar ephemeris - date of new moon, first 
+* quaret, full moon and last quarter. A simple show drawing shows an
+* illumated part of the satellite. 
+*
+* The time and geographic coordinates are specified in the shared data.
+*/
 class CMoonDockWidget : public QDockWidget, private Ui::CMoonDockWidget
 {
 	Q_OBJECT
 
 public:
+	/*!
+	* \brief Constructor
+	* \param data shared data container
+	* \param parent parent widget
+	*/
 	CMoonDockWidget(CSharedData* data, QWidget* parent);
 
 protected slots:

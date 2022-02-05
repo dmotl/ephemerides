@@ -48,6 +48,15 @@ set(ui_sources
  "CAboutDialog.ui"
  "CSharedData.cpp"
  "CSharedData.h"
+ "CJulianDateConverterDockWidget.cpp"
+ "CJulianDateConverterDockWidget.h"
+ "CJulianDateConverterDockWidget.ui"
+ "CHeliocentricCorrectionDockWidget.cpp"
+ "CHeliocentricCorrectionDockWidget.h"
+ "CHeliocentricCorrectionDockWidget.ui"
+ "CAirMassDockWidget.cpp"
+ "CAirMassDockWidget.h"
+ "CAirMassDockWidget.ui"
 )
 
 set(libTargetName "ephem_lib")

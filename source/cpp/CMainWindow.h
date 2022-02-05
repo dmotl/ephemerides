@@ -30,6 +30,9 @@ class CSunDockWidget;
 class CMoonDockWidget;
 class CPropertiesDockWidget;
 class CChartDockWidget;
+class CJulianDateConverterDockWidget;
+class CHeliocentricCorrectionDockWidget;
+class CAirMassDockWidget;
 
 /*!
 * \brief Main application window
@@ -40,7 +43,6 @@ class CChartDockWidget;
 * 
 * The auxilliaty tools are usually dock widgets.
 */
-
 class CMainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -87,8 +89,17 @@ private:
     // The "Properties" tool
     CPropertiesDockWidget* m_propertiesDockWidget;
 
-    // The "SKy chart" tool
+    // The "Sky chart" tool
     CChartDockWidget* m_chartDockWidget;
+
+    // The "Julian date" tool
+    CJulianDateConverterDockWidget* m_julianDateDockWidget;
+
+    // The "Heliocentric correction" tool
+    CHeliocentricCorrectionDockWidget* m_heliocentricCorrectionDockWidget;
+
+    // The "Air mass" tool
+    CAirMassDockWidget* m_airMassDockWidget;
 
     // Create sections (tabs)
     void createTabs();

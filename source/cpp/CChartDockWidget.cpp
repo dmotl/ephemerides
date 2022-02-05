@@ -24,7 +24,7 @@
 //
 // Constructor
 //
-CChartDockWidget::CChartDockWidget(CMainWindow* mainWnd, QWidget* parent)
+CChartDockWidget::CChartDockWidget(CSharedData* data, QWidget* parent) : QDockWidget(parent), m_sharedData(data)
 {
 	m_chartView = new QWidget(this);
 	setWidget(m_chartView);

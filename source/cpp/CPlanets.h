@@ -1,29 +1,176 @@
+/*!
+*  \file      CPlanets.h
+*  \author    David Motl
+*  \date      2022-01-31
+*
+*  \copyright
+*
+*  Redistribution and use in source and binary forms, with or without modification, are permitted
+*  provided that the following conditions are met:
+*
+*  (1) Redistributions of source code must retain the above copyright notice, this list of conditions
+*      and the following disclaimer.
+*
+*  (2) Redistributions in binary form must reproduce the above copyright notice, this list
+*      of conditions and the following disclaimer in the documentation and/or other materials provided
+*      with the distribution.
+*
+*  (3) Neither the name of the copyright holder nor the names of its contributors may be used
+*      to endorse or promote products derived from this software without specific prior written
+*      permission.
+*/
 #pragma once
 
+/*!
+* Model of positions of the planets, the Sun and the Moon
+*
+* The CPlanets class implements a mathematical model for computing
+* position of the planets, the Sun and the Moon. 
+* 
+* Source:
+* Pokorny Z.: Astronomicke algoritmy pro kalkulatory, Prague 1988
+* 
+*/
 class CPlanets
 {
 public:
-	typedef double tJupiterSatellites[4][2];
-
+	/*
+	* \brief Constructor
+	* 
+	* \param jd_utc time as Julian date in UTC
+	*/
 	explicit CPlanets(double jd_utc = 0);
 
+	/*
+	* Reinitialize the object for different time
+	* 
+	* \param jd_utc time as Julian date in UTC
+	*/
 	void setJD(double jd_utc);
 
+	/* Moon
+	*  
+	* The function computes the equatorial coordinates of the Moon, Earth-Moon
+	* distance and lunar phase. 
+	* 
+	* The phase is expressed in radians:
+	* - 0 for new moon
+	* - pi/2 for first quarter
+	* - pi for full moon
+	* - 3pi/2 for last quarter
+	* 
+	* \param ra right ascention of equatorial coordinates, in radians
+	* \param dec declination of equatorial coordinates, in radians
+	* \param rad Earth-Moon distance in AU
+	* \param phase phase in radians - see description
+	*/
 	void Moon(double *ra, double *dec, double *rad = nullptr, double *phase = nullptr) const;
-	void Sun(double* ra, double* dec, double* rad = nullptr) const;
-	void Mercury(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
-	void Venus(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
-	void Mars(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
-	void Jupiter(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
-	void Saturn(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
-	void Uranus(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
-	void Neptune(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
-	void Pluto(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
 
-	void JupiterSatellites(tJupiterSatellites& jsat) const {
-		return JupiterSatellites(m_jd, jsat);
-	}
-	static void JupiterSatellites(double jd_utc, tJupiterSatellites& jsat);
+	/* Sun
+	* 
+	* The function computes the equatorial coordinates of the Sun and the Sun-Earth distance.
+	* 
+	* \param ra right ascention of equatorial coordinates, in radians
+	* \param dec declination of equatorial coordinates, in radians
+	* \param rad Earth-Moon distance in AU
+	*/
+	void Sun(double* ra, double* dec, double* rad = nullptr) const;
+
+	/* Mercury
+	*
+	* The function computes the equatorial coordinates of Mercury, its distance
+	* to the Earth and its phase.
+	*
+	* \param ra right ascention of equatorial coordinates, in radians
+	* \param dec declination of equatorial coordinates, in radians
+	* \param rad distance in AU
+	* \param phase phase in radians
+	*/
+	void Mercury(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
+
+	/* Venus
+	*
+	* The function computes the equatorial coordinates of Venus, its distance
+	* to the Earth and its phase.
+	*
+	* \param ra right ascention of equatorial coordinates, in radians
+	* \param dec declination of equatorial coordinates, in radians
+	* \param rad distance in AU
+	* \param phase phase in radians
+	*/
+	void Venus(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
+
+	/* Mars
+	*
+	* The function computes the equatorial coordinates of Mars, its distance
+	* to the Earth and its phase.
+	*
+	* \param ra right ascention of equatorial coordinates, in radians
+	* \param dec declination of equatorial coordinates, in radians
+	* \param rad distance in AU
+	* \param phase phase in radians
+	*/
+	void Mars(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
+
+	/* Jupiter
+	*
+	* The function computes the equatorial coordinates of Jupiter, its distance
+	* to the Earth and its phase.
+	*
+	* \param ra right ascention of equatorial coordinates, in radians
+	* \param dec declination of equatorial coordinates, in radians
+	* \param rad distance in AU
+	* \param phase phase in radians
+	*/
+	void Jupiter(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
+
+	/* Saturn
+	*
+	* The function computes the equatorial coordinates of Saturn, its distance
+	* to the Earth and its phase.
+	*
+	* \param ra right ascention of equatorial coordinates, in radians
+	* \param dec declination of equatorial coordinates, in radians
+	* \param rad distance in AU
+	* \param phase phase in radians
+	*/
+	void Saturn(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
+
+	/* Uranus
+	*
+	* The function computes the equatorial coordinates of Uranus, its distance
+	* to the Earth and its phase.
+	*
+	* \param ra right ascention of equatorial coordinates, in radians
+	* \param dec declination of equatorial coordinates, in radians
+	* \param rad distance in AU
+	* \param phase phase in radians
+	*/
+	void Uranus(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
+
+	/* Neptune
+	*
+	* The function computes the equatorial coordinates of Neptune, its distance
+	* to the Earth and its phase.
+	*
+	* \param ra right ascention of equatorial coordinates, in radians
+	* \param dec declination of equatorial coordinates, in radians
+	* \param rad distance in AU
+	* \param phase phase in radians
+	*/
+	void Neptune(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
+
+	/* Pluto
+	*
+	* The function computes the equatorial coordinates of Pluto, its distance
+	* to the Earth and its phase.
+	*
+	* \param ra right ascention of equatorial coordinates, in radians
+	* \param dec declination of equatorial coordinates, in radians
+	* \param rad distance in AU
+	* \param phase phase in radians
+	*/
+	void Pluto(double* ra, double* dec, double* rad = nullptr, double* phase = nullptr) const;
 
 private:
 	// Julian date (UTC)

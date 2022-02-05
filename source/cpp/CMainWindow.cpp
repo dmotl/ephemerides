@@ -30,6 +30,9 @@
 #include "CMoonDockWidget.h"
 #include "CPropertiesDockWidget.h"
 #include "CChartDockWidget.h"
+#include "CJulianDateConverterDockWidget.h"
+#include "CHeliocentricCorrectionDockWidget.h"
+#include "CAirMassDockWidget.h"
 
 #include "CSetupDialog.h"
 #include "CAboutDialog.h"
@@ -41,6 +44,7 @@ CMainWindow::CMainWindow() : m_dayTabWidget(NULL), m_dayTabIndex(-1), m_starTabW
 {
     m_tabWidget = new QTabWidget(this);
     setCentralWidget(m_tabWidget);
+    setWindowTitle(qApp->applicationName());
 
     m_sharedData = new CSharedData(this);
 
@@ -83,16 +87,25 @@ void CMainWindow::writeSettings()
 void CMainWindow::createDockWindows()
 {
     m_sunDockWidget = new CSunDockWidget(m_sharedData, this);
-    addDockWidget(Qt::RightDockWidgetArea, m_sunDockWidget);
+    addDockWidget(Qt::LeftDockWidgetArea, m_sunDockWidget);
 
     m_moonDockWidget = new CMoonDockWidget(m_sharedData, this);
-    addDockWidget(Qt::RightDockWidgetArea, m_moonDockWidget);
+    addDockWidget(Qt::LeftDockWidgetArea, m_moonDockWidget);
 
-    m_propertiesDockWidget = new CPropertiesDockWidget(this, this);
+    m_chartDockWidget = new CChartDockWidget(m_sharedData, this);
+    addDockWidget(Qt::LeftDockWidgetArea, m_chartDockWidget);
+
+    m_propertiesDockWidget = new CPropertiesDockWidget(m_sharedData, this);
     addDockWidget(Qt::RightDockWidgetArea, m_propertiesDockWidget);
 
-    m_chartDockWidget = new CChartDockWidget(this, this);
-    addDockWidget(Qt::RightDockWidgetArea, m_chartDockWidget);
+    m_julianDateDockWidget = new CJulianDateConverterDockWidget(m_sharedData, this);
+    addDockWidget(Qt::RightDockWidgetArea, m_julianDateDockWidget);
+
+    m_heliocentricCorrectionDockWidget = new CHeliocentricCorrectionDockWidget(m_sharedData, this);
+    addDockWidget(Qt::RightDockWidgetArea, m_heliocentricCorrectionDockWidget);
+
+    m_airMassDockWidget = new CAirMassDockWidget(m_sharedData, this);
+    addDockWidget(Qt::RightDockWidgetArea, m_airMassDockWidget);
 }
 
 

@@ -1,3 +1,24 @@
+/*!
+*  \file      CSunDockWidget.cpp
+*  \author    David Motl
+*  \date      2022-01-31
+*
+*  \copyright
+*
+*  Redistribution and use in source and binary forms, with or without modification, are permitted
+*  provided that the following conditions are met:
+*
+*  (1) Redistributions of source code must retain the above copyright notice, this list of conditions
+*      and the following disclaimer.
+*
+*  (2) Redistributions in binary form must reproduce the above copyright notice, this list
+*      of conditions and the following disclaimer in the documentation and/or other materials provided
+*      with the distribution.
+*
+*  (3) Neither the name of the copyright holder nor the names of its contributors may be used
+*      to endorse or promote products derived from this software without specific prior written
+*      permission.
+*/
 #include "CSunDockWidget.h"
 
 #include "CSharedData.h"
@@ -5,6 +26,10 @@
 #include "CPlanets.h"
 #include "Utils.h"
 
+
+//
+// Constructor
+//
 CSunDockWidget::CSunDockWidget(CSharedData* data, QWidget* parent) : QDockWidget(parent), m_sharedData(data),
 m_pixmap(QStringLiteral(":/Resources/Sun256.png"))
 {
@@ -27,6 +52,10 @@ m_pixmap(QStringLiteral(":/Resources/Sun256.png"))
 	connect(m_sharedData, &CSharedData::geoLocationChanged, this, &CSunDockWidget::onGeoLocationChanged);
 }
 
+
+//
+// Resize image of the Sun
+//
 void CSunDockWidget::resizeEvent(QResizeEvent* ev)
 {
 	if (m_labelSize != label->size()) {
@@ -38,25 +67,37 @@ void CSunDockWidget::resizeEvent(QResizeEvent* ev)
 	QDockWidget::resizeEvent(ev);
 }
 
+
+//
+// Time (shared data) changed
+//
 void CSunDockWidget::onDateTimeChanged()
 {
-	QDate d = m_sharedData->getSelectedLocalDateTime().date();
-	if (m_date != d) {
-		m_date = d;
+	QDateTime dateTime = m_sharedData->getSelectedLocalDateTime();
+	if (m_dateTime != dateTime) {
+		m_dateTime = dateTime;
 		updateDateTime();
 		updateValues();
 	}
 }
 
-void CSunDockWidget::on_dateEdit_dateChanged(const QDate& date)
+
+//
+// Time changed
+//
+void CSunDockWidget::on_dateTimeEdit_dateTimeChanged(const QDateTime& dateTime)
 {
-	if (m_date != date) {
-		m_date = date;
+	if (m_dateTime != dateTime) {
+		m_dateTime = dateTime;
 		updateDateTime();
 		updateValues();
 	}
 }
 
+
+//
+// Longitude modified
+//
 void CSunDockWidget::on_lonEdit_textChanged(const QString& text)
 {
 	CLongitude lon(text.toStdWString());
@@ -66,15 +107,19 @@ void CSunDockWidget::on_lonEdit_textChanged(const QString& text)
 	}
 }
 
+
+//
+// Update displayed longitude value
+//
 void CSunDockWidget::on_lonEdit_editingFinished()
 {
 	updateGeoLocation();
 }
-void CSunDockWidget::on_latEdit_editingFinished()
-{
-	updateGeoLocation();
-}
 
+
+//
+// Latitude modified
+//
 void CSunDockWidget::on_latEdit_textChanged(const QString& text)
 {
 	CLatitude lat(text.toStdWString());
@@ -84,6 +129,20 @@ void CSunDockWidget::on_latEdit_textChanged(const QString& text)
 	}
 }
 
+
+//
+// Update displayed latitude value
+//
+void CSunDockWidget::on_latEdit_editingFinished()
+{
+	updateGeoLocation();
+}
+
+
+
+//
+// Geographic location (shared data) changed
+//
 void CSunDockWidget::onGeoLocationChanged()
 {
 	CGeoLocation gl = m_sharedData->geoLocation();
@@ -94,15 +153,23 @@ void CSunDockWidget::onGeoLocationChanged()
 	}
 }
 
+
+//
+// Update displayed time
+//
 void CSunDockWidget::updateDateTime()
 {
-	if (m_date.isValid()) {
-		dateEdit->blockSignals(true);
-		dateEdit->setDate(m_date);
-		dateEdit->blockSignals(false);
+	if (m_dateTime.isValid()) {
+		dateTimeEdit->blockSignals(true);
+		dateTimeEdit->setDateTime(m_dateTime);
+		dateTimeEdit->blockSignals(false);
 	}
 }
 
+
+//
+// Update displayed location
+//
 void CSunDockWidget::updateGeoLocation()
 {
 	lonEdit->blockSignals(true);
@@ -120,6 +187,10 @@ void CSunDockWidget::updateGeoLocation()
 	latEdit->blockSignals(false);
 }
 
+
+//
+// Compute sunrise and sunset
+//
 bool CSunDockWidget::computeSunRiseSet(double jd, QDateTime& rise, QDateTime& set) const
 {
 	static const double eps = HMS_TO_JD(0, 1, 0);
@@ -162,6 +233,10 @@ bool CSunDockWidget::computeSunRiseSet(double jd, QDateTime& rise, QDateTime& se
 	}
 }
 
+
+//
+// Compute twilight start and end
+//
 bool CSunDockWidget::computeTwilight(double jd, QDateTime& start, QDateTime& end) const
 {
 	static const double eps = HMS_TO_JD(0, 1, 0);
@@ -204,11 +279,15 @@ bool CSunDockWidget::computeTwilight(double jd, QDateTime& start, QDateTime& end
 	}
 }
 
+
+//
+// Update displayed values
+//
 void CSunDockWidget::updateValues()
 {
-	QDateTime mutc = QDateTime(m_date, QTime(0, 0));
+	QDateTime utc = m_dateTime.toUTC();
 
-	if (!m_date.isValid() || !m_geoloc.isValid()) {
+	if (!m_dateTime.isValid() || !m_geoloc.isValid()) {
 		QString invalidInputStr = tr("Invalid input");
 		sunrise->setText(invalidInputStr);
 		sunset->setText(invalidInputStr);
@@ -216,7 +295,7 @@ void CSunDockWidget::updateValues()
 		twilightStart->setText(invalidInputStr);
 	}
 	else {
-		double jd0 = mutc.addDays(1).toUTC().date().toJulianDay() + 0.5;
+		double jd0 = utc.date().toJulianDay() + static_cast<double>(utc.time().msecsSinceStartOfDay()) / 86400000 - 0.5;
 
 		QDateTime rise, set;
 		if (computeSunRiseSet(jd0, rise, set)) {
@@ -238,13 +317,13 @@ void CSunDockWidget::updateValues()
 		}
 	}
 
-	if (!m_date.isValid() || !m_geoloc.isValid()) {
+	if (!m_dateTime.isValid() || !m_geoloc.isValid()) {
 		QString invalidInputStr = tr("Invalid input");
 		rasc->setText(invalidInputStr);
 		decl->setText(invalidInputStr);
 	}
 	else {
-		double jd0 = mutc.addDays(1).toUTC().date().toJulianDay() + 0.5;
+		double jd0 = utc.date().toJulianDay() + static_cast<double>(utc.time().msecsSinceStartOfDay()) / 86400000 - 0.5;
 
 		double ra, dec;
 		CPlanets(jd0).Sun(&ra, &dec);
@@ -258,26 +337,42 @@ void CSunDockWidget::updateValues()
 
 }
 
+
+//
+// Reset time and location to value stored in the shared data
+//
 void CSunDockWidget::on_resetButton_clicked()
 {
 	reset();
 }
 
+
+//
+// Reset time and location to value stored in the shared data
+//
 void CSunDockWidget::reset()
 {
-	m_date = m_sharedData->getSelectedLocalDateTime().date();
+	m_dateTime = m_sharedData->getSelectedLocalDateTime();
 	updateDateTime();
 	m_geoloc = m_sharedData->geoLocation();
 	updateGeoLocation();
 	updateValues();
 }
 
+
+//
+// Set mode to "Local time"
+//
 void CSunDockWidget::on_localTimeButton_toggled(bool checked)
 {
 	if (checked)
 		updateValues();
 }
 
+
+//
+// Set mode to "UTC"
+//
 void CSunDockWidget::on_universalTimeButton_toggled(bool checked)
 {
 	if (checked)

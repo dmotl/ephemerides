@@ -1,5 +1,5 @@
 /*!
-*  \file      CPropertiesDockWidget.h
+*  \file      CAirMassDockWidget.h
 *  \author    David Motl
 *  \date      2022-01-31
 *
@@ -23,33 +23,48 @@
 
 #include <QtWidgets>
 
+#include "ui_CAirMassDockWidget.h"
+
+#include "CJulianDate.h"
+#include "CDateTime.h"
+
 class CSharedData;
 
 /*!
-* \brief The "Properties" tool
+* \brief The "Air mass" tool
 *
-* The CPropertiesDockWidget class implements a dock widget that shows 
-* details for a selected row it the table of ephemeris.
-* 
-* The ephemeris is specified in the shared data.
+* The CAirMassDockWidget class implements a dock widget that converts
+* common date and time to Julian date and vice versa.
+*
+* The time is specified in the shared data and can be modified 
+* in the tool.
 */
-class CPropertiesDockWidget : public QDockWidget
+class CAirMassDockWidget : public QDockWidget, private Ui::CAirMassDockWidget
 {
 	Q_OBJECT
 
 public:
 	/*!
 	* \brief Constructor
-	* 
 	* \param data shared data container
 	* \param parent parent widget
 	*/
-	CPropertiesDockWidget(CSharedData* data, QWidget* parent);
+	CAirMassDockWidget(CSharedData* data, QWidget* parent);
+
+protected slots:
+	void onDateTimeChanged();
+
+	void on_dateTimeEdit_dateTimeChanged(const QDateTime& dateTime);
+
+	void on_resetButton_clicked();
 
 private:
-	// Shared data
 	CSharedData* m_sharedData;
+	CJulianDate m_jd;
+	CDateTime m_dateTimeUtc;
+	QDateTime m_dateTimeLocal;
 
-	// Tree view
-	QWidget* m_treeView;
+	void reset();
+	void updateDateTime();
+	void updateValues();
 };

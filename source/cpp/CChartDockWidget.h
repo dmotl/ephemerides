@@ -23,7 +23,7 @@
 
 #include <QtWidgets>
 
-class CMainWindow;
+class CSharedData;
 
 /*! 
 * \brief The "Sky chart" tool
@@ -43,12 +43,15 @@ class CChartDockWidget : public QDockWidget
 public:
 	/*!
 	* \brief Constructor
-	* \param mainWnd main window
+	* \param data shared data container
 	* \param parent parent widget
 	*/
-	CChartDockWidget(CMainWindow* mainWnd, QWidget* parent);
+	CChartDockWidget(CSharedData* data, QWidget* parent);
 
 private:
+	// Shared data
+	CSharedData* m_sharedData;
+
 	// Chart widget
 	QWidget* m_chartView;
 };
