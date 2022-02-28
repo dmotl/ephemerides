@@ -1,5 +1,5 @@
 /*!
-*  \file      CGeoLocation.h
+*  \file      CGeoCoordinates.h
 *  \author    David Motl
 *  \date      2022-01-31
 *
@@ -25,14 +25,14 @@
 #include "CLongitude.h"
 
 /*!
-* \brief Geographic location
+* \brief Geographic coordinates
 * 
-* The CGeoLocation class holds geographic coordinates - longitude and latitude. The object
-* is used to specify a geographic location of an observer.
+* The CGeoCoordinates class holds geographic coordinates of a point of the Earth - longitude and 
+* latitude. The object is used to specify a geographic location of an observer.
 * 
 * \sa class CLongitude, class CLatitude
 */
-class CGeoLocation
+class CGeoCoordinates
 {
 public:
 	/*! 
@@ -41,7 +41,7 @@ public:
 	* The constructor creates an object that represents an invalid or 
 	* unkown geographic coordinates.
 	*/
-	CGeoLocation() {}
+	CGeoCoordinates() {}
 
 	/*! 
 	* \brief Constructor
@@ -50,10 +50,10 @@ public:
 	* \param lon geographic longitude
 	* \param lat geographic latitude
 	*/
-	CGeoLocation(const CLongitude& lon, const CLatitude& lat) : m_longitude(lon), m_latitude(lat) {}
+	CGeoCoordinates(const CLongitude& lon, const CLatitude& lat) : m_longitude(lon), m_latitude(lat) {}
 
 	/*! \brief True if the coordinates are valid */
-	bool isValid(void) const { return m_latitude.isValid() && m_latitude.isValid(); }
+	bool isValid(void) const { return m_longitude.isValid() && m_latitude.isValid(); }
 
 	/*! 
 	* \brief Set longitude
@@ -80,10 +80,10 @@ public:
 	CLatitude& latitude(void) { return m_latitude; }
 
 	/*! \brief comparison operator */
-	inline bool operator==(const CGeoLocation& other) const { return m_latitude == other.m_latitude && m_longitude == other.m_longitude; }
+	inline bool operator==(const CGeoCoordinates& other) const { return m_latitude == other.m_latitude && m_longitude == other.m_longitude; }
 
 	/*! \brief comparison operator */
-	inline bool operator!=(const CGeoLocation& other) const { return !this->operator==(other); }
+	inline bool operator!=(const CGeoCoordinates& other) const { return !this->operator==(other); }
 
 private:
 	CLongitude m_longitude;

@@ -23,7 +23,7 @@
 
 #include <QtWidgets>
 
-#include "CGeoLocation.h"
+#include "CGeoCoordinates.h"
 
 #include "ui_CMoonDockWidget.h"
 
@@ -69,7 +69,7 @@ protected slots:
 private:
 	CSharedData* m_sharedData;
 	QDateTime m_dateTime;
-	CGeoLocation m_geoloc;
+	CGeoCoordinates m_geoloc;
 
 	QSize m_labelSize;
 
@@ -78,7 +78,7 @@ private:
 	void updateGeoLocation();
 	void updateValues();
 
-	bool computeMoonRiseSet(double jd, QDateTime& rise, QDateTime& set) const;
-	bool computeMoonEphemerides(double jd, QDateTime& new_moon, QDateTime& first_quarter,
+	bool computeMoonRiseSet(QDateTime& rise, QDateTime& set) const;
+	bool computeMoonEphemerides(QDateTime& new_moon, QDateTime& first_quarter,
 		QDateTime& full_moon, QDateTime& last_quarter);
 };

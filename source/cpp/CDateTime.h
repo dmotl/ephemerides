@@ -72,7 +72,7 @@ public:
 	* and false otherwise. The default construed instances are used as function return value
 	* to represent a failure.
 	*/
-	bool isValid() const { return m_month != 0; }
+	bool isValid() const { return m_year >= 1583 && m_year <= 3500 && m_month != 0; }
 
 	/*! 
 	* \brief Convert to Julian date 

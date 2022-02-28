@@ -11,7 +11,17 @@ set(lib_sources
  "CLatitude.h"
  "CLongitude.cpp"
  "CLongitude.h"
- "CGeoLocation.h"
+ "CGeoCoordinates.h"
+ "CRightAscension.cpp"
+ "CRightAscension.h"
+ "CDeclination.cpp"
+ "CDeclination.h"
+ "CEquCoordinates.h"
+ "CAzimuth.cpp"
+ "CAzimuth.h"
+ "CElevation.cpp"
+ "CElevation.h"
+ "CAzAltCoordinates.h"
  "Utils.cpp"
  "Utils.h"
 )
@@ -57,6 +67,12 @@ set(ui_sources
  "CAirMassDockWidget.cpp"
  "CAirMassDockWidget.h"
  "CAirMassDockWidget.ui"
+ "CSunWidget.cpp"
+ "CSunWidget.h"
+ "CMoonWidget.cpp"
+ "CMoonWidget.h"
+ "UtilsQt.cpp"
+ "UtilsQt.h"
 )
 
 set(libTargetName "ephem_lib")

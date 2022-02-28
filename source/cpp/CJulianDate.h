@@ -22,6 +22,9 @@
 #pragma once
 
 #include "CDateTime.h"
+#include "CEquCoordinates.h"
+#include "CGeoCoordinates.h"
+#include "CAzAltCoordinates.h"
 
 /*! 
 * \brief Timestamp as Julian date
@@ -66,7 +69,7 @@ public:
 	* \brief Constructor
 	* \param jd Julian date
 	*/
-	explicit CJulianDate(const double jd = 0) : m_jd(jd) {}
+	CJulianDate(const double jd = 0) : m_jd(jd) {}
 
 	/*! 
 	* \brief Constructor from date and time 
@@ -75,7 +78,7 @@ public:
 	* 
 	* \param dateTime date and time
 	*/
-	explicit CJulianDate(const CDateTime& dateTime);
+	CJulianDate(const CDateTime& dateTime);
 
 	/*! 
 	* \brief Constructor from date and time
@@ -102,6 +105,9 @@ public:
 	/*! \brief Julian date */
 	double jd_utc(void) const { return m_jd; }
 
+	/*! Typecast to double */
+	operator double() const { return jd_utc(); }
+
 	/*! \breif Convert to date & time */
 	CDateTime toDateTime(void) const;
 
@@ -125,11 +131,10 @@ public:
 	* 
 	* JD heliocentric = JD geocentric + Heliocentric correction
 	* 
-	* \param RA equatorial coordinates of an object, right ascension in radians
-	* \param DE equatorial coordinates of an object, declination in radians
+	* \param equ equatorial coordinates of an object
 	* \return heliocentric correction in fractions of day
 	*/
-	double HeliocentricCorrection(double RA, double DE) const;
+	double HeliocentricCorrection(const CEquCoordinates& equ) const;
 
 	/*! 
 	* \brief Greenwich Mean Sidereal Time 
@@ -142,13 +147,11 @@ public:
 	* \brief Azimuth and elevation of a object
 	* 
 	* The function computes azimuth and elevation of an object
-	* \param RA equatorial coordinates of an object, right ascension in radians
-	* \param DE equatorial coordinates of an object, declination in radians
-	* \param LON geographic coordinates of an observer, longitude in radians, positive EAST
-	* \param LAT geographic coordinates of an observer, latitude in radians, positive NORTH
-	* \param[out] AZ azimuth in radians, zero is NORTH, grows positive towards EAST
+	* \param equ equatorial coordinates of an object
+	* \param geo geographic coordinates of an observer
+	* \return horizontal coordinates of an object
 	*/
-	void RaDeToAzAlt(double RA, double DE, double LON, double LAT, double* AZ, double* EL) const;
+	CAzAltCoordinates RaDeToAzAlt(const CEquCoordinates& equ, const CGeoCoordinates& geo) const;
 
 	/*! 
 	* \brief Lunar phases ephemeris
@@ -181,14 +184,12 @@ public:
 	* 
 	* The function computes time of Meridian transit of an object
 	* 
-	* \param RA equatorial coordinates of an object, right ascension in radians
-	* \param DE equatorial coordinates of an object, declination in radians
-	* \param LON geographic coordinates of an observer, longitude in radians, positive EAST
-	* \param LAT geographic coordinates of an observer, latitude in radians, positive NORTH
+	* \param equ equatorial coordinates of an object
+	* \param geo geographic coordinates of an observer
 	* \param type search direction
 	* \return time of the phase as Julian date UTC
 	*/
-	double RaDeToTransit(double RA, double DE, double LON, double LAT, tRiseSetType type) const;
+	double RaDeToTransit(const CEquCoordinates& equ, const CGeoCoordinates& geo, tRiseSetType type) const;
 
 	/*! 
 	* \brief Rise time 
@@ -196,15 +197,13 @@ public:
 	* The function computes rise time of an object. When the EL parameter is nonzero, the function 
 	* computes time when the object raises above the specified elevation angle.
 	*
-	* \param RA equatorial coordinates of an object, right ascension in radians
-	* \param DE equatorial coordinates of an object, declination in radians
-	* \param LON geographic coordinates of an observer, longitude in radians, positive EAST
-	* \param LAT geographic coordinates of an observer, latitude in radians, positive NORTH
+	* \param equ equatorial coordinates of an object
+	* \param geo geographic coordinates of an observer
 	* \param EL elevation angle in radians (positive above horizon)
 	* \param type search direction
 	* \return rise time as Julian date UTC
 	*/
-	tRiseSetResult RaDeToRise(double RA, double DE, double LON, double LAT, double* jd, double EL = 0, tRiseSetType type = rtAfter) const;
+	tRiseSetResult RaDeToRise(const CEquCoordinates& equ, const CGeoCoordinates& geo, double* jd, double EL = 0, tRiseSetType type = rtAfter) const;
 
 	/*! 
 	* \brief Rise time
@@ -212,28 +211,24 @@ public:
 	* The function computes set time of an object. When the EL parameter is nonzero, the function
 	* computes time when the object sets below the specified elevation angle.
 	*
-	* \param RA equatorial coordinates of an object, right ascension in radians
-	* \param DE equatorial coordinates of an object, declination in radians
-	* \param LON geographic coordinates of an observer, longitude in radians, positive EAST
-	* \param LAT geographic coordinates of an observer, latitude in radians, positive NORTH
+	* \param equ equatorial coordinates of an object
+	* \param geo geographic coordinates of an observer
 	* \param EL elevation angle in radians (positive above horizon)
 	* \param type search direction
 	* \return set time as Julian date UTC
 	*/
-	tRiseSetResult RaDeToSet(double RA, double DE, double LON, double LAT, double* jd, double EL = 0, tRiseSetType type = rtBefore) const;
+	tRiseSetResult RaDeToSet(const CEquCoordinates& equ, const CGeoCoordinates& geo, double* jd, double EL = 0, tRiseSetType type = rtBefore) const;
 
 	/*! 
 	* \brief Air-mass coefficient
 	* 
 	* The function computes an air-mass coefficient for an object
 	* 
-	* \param RA equatorial coordinates of an object, right ascension in radians
-	* \param DE equatorial coordinates of an object, declination in radians
-	* \param LON geographic coordinates of an observer, longitude in radians, positive EAST
-	* \param LAT geographic coordinates of an observer, latitude in radians, positive NORTH
+	* \param equ equatorial coordinates of an object
+	* \param geo geographic coordinates of an observer
 	* \return air-mass coefficient or a negative value if the object is too close the horizon or below horizon
 	*/ 
-	double AirMass(double RA, double DE, double LON, double LAT) const;
+	double AirMass(const CEquCoordinates& equ, const CGeoCoordinates& geo) const;
 
 	/*! 
 	* \brief Convert Julian date to year, month and day 

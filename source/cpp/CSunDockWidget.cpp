@@ -30,18 +30,11 @@
 //
 // Constructor
 //
-CSunDockWidget::CSunDockWidget(CSharedData* data, QWidget* parent) : QDockWidget(parent), m_sharedData(data),
-m_pixmap(QStringLiteral(":/Resources/Sun256.png"))
+CSunDockWidget::CSunDockWidget(CSharedData* data, QWidget* parent) : QDockWidget(parent), m_sharedData(data)
 {
 	setupUi(this);
 	setWindowTitle(tr("Sun"));
 
-	m_labelSize = label->size();
-	QPixmap p = m_pixmap.scaled(m_labelSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-	label->setPixmap(p);
-	label->setMinimumSize(1, 1);
-	label->setScaledContents(false);
-	
 	localTimeButton->blockSignals(true);
 	localTimeButton->setChecked(true);
 	localTimeButton->blockSignals(false);
@@ -50,21 +43,6 @@ m_pixmap(QStringLiteral(":/Resources/Sun256.png"))
 
 	connect(m_sharedData, &CSharedData::dateTimeChanged, this, &CSunDockWidget::onDateTimeChanged);
 	connect(m_sharedData, &CSharedData::geoLocationChanged, this, &CSunDockWidget::onGeoLocationChanged);
-}
-
-
-//
-// Resize image of the Sun
-//
-void CSunDockWidget::resizeEvent(QResizeEvent* ev)
-{
-	if (m_labelSize != label->size()) {
-		m_labelSize = label->size();
-		QPixmap p = m_pixmap.scaled(m_labelSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-		label->setPixmap(p);
-	}
-
-	QDockWidget::resizeEvent(ev);
 }
 
 
@@ -145,7 +123,7 @@ void CSunDockWidget::on_latEdit_editingFinished()
 //
 void CSunDockWidget::onGeoLocationChanged()
 {
-	CGeoLocation gl = m_sharedData->geoLocation();
+	CGeoCoordinates gl = m_sharedData->geoLocation();
 	if (gl != m_geoloc) {
 		m_geoloc = gl;
 		updateGeoLocation();
@@ -191,18 +169,21 @@ void CSunDockWidget::updateGeoLocation()
 //
 // Compute sunrise and sunset
 //
-bool CSunDockWidget::computeSunRiseSet(double jd, QDateTime& rise, QDateTime& set) const
+bool CSunDockWidget::computeSunRiseSet(QDateTime& rise, QDateTime& set) const
 {
 	static const double eps = HMS_TO_JD(0, 1, 0);
 
-	CJulianDate jd0(jd);
+	QDateTime localTime = m_dateTime;
+	if (localTime.time().hour() >= 12)
+		localTime = localTime.addDays(1);
+	CJulianDate jd0(localTime.date().toJulianDay() - 0.5);
 
 	CJulianDate::tRiseSetResult res_1 = CJulianDate::rcOK;
 	double jd_rise = jd0.jd_utc();
 	for (int i = 0; i < 10; i++) {
 		double last_jd = jd_rise, ra, de;
 		CPlanets(jd_rise).Sun(&ra, &de);
-		res_1 = jd0.RaDeToRise(ra, de, m_geoloc.longitude().radians(), m_geoloc.latitude().radians(), &jd_rise);
+		res_1 = jd0.RaDeToRise(CEquCoordinates(ra, de), m_geoloc, &jd_rise);
 		if (res_1 != CJulianDate::rcOK || fabs(jd_rise - last_jd) < eps)
 			break;
 	}
@@ -212,7 +193,7 @@ bool CSunDockWidget::computeSunRiseSet(double jd, QDateTime& rise, QDateTime& se
 	for (int i = 0; i < 10; i++) {
 		double last_jd = jd_set, ra, de;
 		CPlanets(jd_set).Sun(&ra, &de);
-		res_2 = jd0.RaDeToSet(ra, de, m_geoloc.longitude().radians(), m_geoloc.latitude().radians(), &jd_set);
+		res_2 = jd0.RaDeToSet(CEquCoordinates(ra, de), m_geoloc, &jd_set);
 		if (res_2 != CJulianDate::rcOK || fabs(jd_set - last_jd) < eps)
 			break;
 	}
@@ -237,18 +218,22 @@ bool CSunDockWidget::computeSunRiseSet(double jd, QDateTime& rise, QDateTime& se
 //
 // Compute twilight start and end
 //
-bool CSunDockWidget::computeTwilight(double jd, QDateTime& start, QDateTime& end) const
+bool CSunDockWidget::computeTwilight(QDateTime& start, QDateTime& end) const
 {
 	static const double eps = HMS_TO_JD(0, 1, 0);
 	double twel = -DEG_TO_RAD(m_sharedData->twilightElevation());
-	CJulianDate jd0(jd);
+
+	QDateTime localTime = m_dateTime;
+	if (localTime.time().hour() >= 12)
+		localTime = localTime.addDays(1);
+	CJulianDate jd0(localTime.date().toJulianDay() - 0.5);
 
 	CJulianDate::tRiseSetResult res_1 = CJulianDate::rcOK;
 	double jd_end = jd0.jd_utc();
 	for (int i = 0; i < 10; i++) {
 		double last_jd = jd_end, ra, de;
 		CPlanets(jd_end).Sun(&ra, &de);
-		res_1 = jd0.RaDeToRise(ra, de, m_geoloc.longitude().radians(), m_geoloc.latitude().radians(), &jd_end, twel);
+		res_1 = jd0.RaDeToRise(CEquCoordinates(ra, de), m_geoloc, &jd_end, twel);
 		if (res_1 != CJulianDate::rcOK || fabs(jd_end - last_jd) < eps)
 			break;
 	}
@@ -257,7 +242,7 @@ bool CSunDockWidget::computeTwilight(double jd, QDateTime& start, QDateTime& end
 	for (int i = 0; i < 10; i++) {
 		double last_jd = jd_start;
 		CPlanets(jd_start).Sun(&ra, &de);
-		res_2 = jd0.RaDeToSet(ra, de, m_geoloc.longitude().radians(), m_geoloc.latitude().radians(), &jd_start, twel);
+		res_2 = jd0.RaDeToSet(CEquCoordinates(ra, de), m_geoloc, &jd_start, twel);
 		if (res_2 != CJulianDate::rcOK || fabs(jd_start - last_jd) < eps)
 			break;
 	}
@@ -285,8 +270,6 @@ bool CSunDockWidget::computeTwilight(double jd, QDateTime& start, QDateTime& end
 //
 void CSunDockWidget::updateValues()
 {
-	QDateTime utc = m_dateTime.toUTC();
-
 	if (!m_dateTime.isValid() || !m_geoloc.isValid()) {
 		QString invalidInputStr = tr("Invalid input");
 		sunrise->setText(invalidInputStr);
@@ -295,10 +278,8 @@ void CSunDockWidget::updateValues()
 		twilightStart->setText(invalidInputStr);
 	}
 	else {
-		double jd0 = utc.date().toJulianDay() + static_cast<double>(utc.time().msecsSinceStartOfDay()) / 86400000 - 0.5;
-
 		QDateTime rise, set;
-		if (computeSunRiseSet(jd0, rise, set)) {
+		if (computeSunRiseSet(rise, set)) {
 			sunrise->setText(rise.toString(QStringLiteral("yyyy-MM-dd hh:mm")));
 			sunset->setText(set.toString(QStringLiteral("yyyy-MM-dd hh:mm")));
 		}
@@ -307,7 +288,7 @@ void CSunDockWidget::updateValues()
 			sunset->setText(QStringLiteral("***"));
 		}
 		QDateTime start, end;
-		if (computeTwilight(jd0, start, end)) {
+		if (computeTwilight(start, end)) {
 			twilightStart->setText(start.toString(QStringLiteral("yyyy-MM-dd hh:mm")));
 			twilightEnd->setText(end.toString(QStringLiteral("yyyy-MM-dd hh:mm")));
 		}
@@ -323,6 +304,7 @@ void CSunDockWidget::updateValues()
 		decl->setText(invalidInputStr);
 	}
 	else {
+		QDateTime utc = m_dateTime.toUTC();
 		double jd0 = utc.date().toJulianDay() + static_cast<double>(utc.time().msecsSinceStartOfDay()) / 86400000 - 0.5;
 
 		double ra, dec;

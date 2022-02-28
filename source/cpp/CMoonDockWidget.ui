@@ -169,7 +169,7 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QWidget" name="moonWidget" native="true"/>
+     <widget class="CMoonWidget" name="moonWidget" native="true"/>
     </item>
     <item row="0" column="0" colspan="2">
      <widget class="QFrame" name="frame_3">
@@ -541,6 +541,14 @@
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CMoonWidget</class>
+   <extends>QWidget</extends>
+   <header>CMoonWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

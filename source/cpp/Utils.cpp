@@ -1,5 +1,5 @@
 /*!
-*  \file      utils.cpp
+*  \file      Utils.cpp
 *  \author    David Motl
 *  \date      2022-01-31
 *

@@ -54,19 +54,29 @@ public:
 protected slots:
 	void onDateTimeChanged();
 
-	void on_dateTimeEdit_dateTimeChanged(const QDateTime& dateTime);
+	void on_utcEditIn_dateTimeChanged(const QDateTime& dateTime);
+	void on_localEditIn_dateTimeChanged(const QDateTime& dateTime);
+	void on_jdEditIn_textChanged(const QString& text);
 
-	void on_resetButton_clicked();
-	void on_localTimeButton_toggled(bool checked);
-	void on_universalTimeButton_toggled(bool checked);
+	void on_jdEditIn_editingFinished();
+
+	void on_resetButton_clicked() { reset(); }
+
+	void on_toJDButton_toggled(bool checked);
+	void on_fromJDButton_toggled(bool checked);
 
 private:
 	CSharedData* m_sharedData;
-	CJulianDate m_jd;
-	CDateTime m_dateTimeUtc;
 	QDateTime m_dateTimeLocal;
 
 	void reset();
-	void updateDateTime();
-	void updateValues();
+	void updateUTC(bool in);
+	void updateLocal(bool in);
+	void updateJD(bool in);
+
+	static double localToJD(const QDateTime& local);
+	static QDateTime jdToLocal(double jd_utc);
+
+	static QDateTime localToUTC(const QDateTime& local);
+	static QDateTime utcToLocal(const QDateTime& utc);
 };

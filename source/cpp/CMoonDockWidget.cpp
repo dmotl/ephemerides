@@ -121,7 +121,7 @@ void CMoonDockWidget::on_latEdit_editingFinished()
 //
 void CMoonDockWidget::onGeoLocationChanged()
 {
-	CGeoLocation gl = m_sharedData->geoLocation();
+	CGeoCoordinates gl = m_sharedData->geoLocation();
 	if (gl != m_geoloc) {
 		m_geoloc = gl;
 		updateGeoLocation();
@@ -167,18 +167,21 @@ void CMoonDockWidget::updateGeoLocation()
 //
 // Compute Moon rise and set
 //
-bool CMoonDockWidget::computeMoonRiseSet(double jd, QDateTime& rise, QDateTime& set) const
+bool CMoonDockWidget::computeMoonRiseSet(QDateTime& rise, QDateTime& set) const
 {
 	static const double eps = HMS_TO_JD(0, 1, 0);
 
-	CJulianDate jd0(jd);
+	QDateTime localTime = m_dateTime;
+	if (localTime.time().hour() >= 12)
+		localTime = localTime.addDays(1);
+	CJulianDate jd0(localTime.date().toJulianDay() - 0.5);
 
 	CJulianDate::tRiseSetResult res_1 = CJulianDate::rcOK;
 	double jd_rise = jd0.jd_utc();
 	for (int i = 0; i < 10; i++) {
 		double last_jd = jd_rise, ra, de;
 		CPlanets(jd_rise).Moon(&ra, &de);
-		res_1 = CJulianDate(jd_rise).RaDeToRise(ra, de, m_geoloc.longitude().radians(), m_geoloc.latitude().radians(), &jd_rise, 0, CJulianDate::rtNearest);
+		res_1 = CJulianDate(jd_rise).RaDeToRise(CEquCoordinates(ra, de), m_geoloc, &jd_rise, 0, CJulianDate::rtNearest);
 		if (res_1 != CJulianDate::rcOK || fabs(jd_rise - last_jd) < eps)
 			break;
 	}
@@ -188,7 +191,7 @@ bool CMoonDockWidget::computeMoonRiseSet(double jd, QDateTime& rise, QDateTime& 
 	for (int i = 0; i < 10; i++) {
 		double last_jd = jd_set, ra, de;
 		CPlanets(jd_set).Moon(&ra, &de);
-		res_2 = CJulianDate(jd_set).RaDeToSet(ra, de, m_geoloc.longitude().radians(), m_geoloc.latitude().radians(), &jd_set, 0, CJulianDate::rtNearest);
+		res_2 = CJulianDate(jd_set).RaDeToSet(CEquCoordinates(ra, de), m_geoloc, &jd_set, 0, CJulianDate::rtNearest);
 		if (res_2 != CJulianDate::rcOK || fabs(jd_set - last_jd) < eps)
 			break;
 	}
@@ -213,10 +216,68 @@ bool CMoonDockWidget::computeMoonRiseSet(double jd, QDateTime& rise, QDateTime& 
 //
 // Compute times for Lunar phases
 //
-bool CMoonDockWidget::computeMoonEphemerides(double jd, QDateTime& new_moon, QDateTime& first_quarter,
+bool CMoonDockWidget::computeMoonEphemerides(QDateTime& new_moon, QDateTime& first_quarter,
 	QDateTime& full_moon, QDateTime& last_quarter)
 {
-	return false;
+	QDateTime localTime = m_dateTime;
+	if (localTime.time().hour() >= 12)
+		localTime = localTime.addDays(1);
+	CJulianDate jd0(localTime.date().toJulianDay() - 0.5);
+
+	double jd_phase[4] = { 0, 0, 0, 0 }, diff_min = 99;
+	int i_min = -1;
+	for (int i = 0; i < 4; i++) {
+		double jd1 = jd0, jd_current = CJulianDate(jd1).MoonPhase(i == 0, i == 1, i == 2, i == 3), jd_prev;
+		jd_phase[i] = jd_current;
+		do {
+			double diff_curr = fabs(jd_current - jd0);
+			if (diff_curr < diff_min) {
+				i_min = i;
+				diff_min = diff_curr;
+				jd_phase[i] = jd_current;
+			}
+			jd_prev = jd_current;
+			jd1 = jd1 + (jd_current < jd0 ? 28 : -28);
+			jd_current = CJulianDate(jd1).MoonPhase(i == 0, i == 1, i == 2, i == 3);
+		} while ((jd_current < jd0 && jd_prev < jd0) || (jd_current > jd0 && jd_prev > jd0));
+	}
+	if (i_min < 0)
+		return false;
+
+	for (int i = 0; i < 4; i++) {
+		if (i != i_min) {
+			double jd1 = jd0, jd_current = CJulianDate(jd1).MoonPhase(i == 0, i == 1, i == 2, i == 3), jd_prev;
+			do {
+				jd_prev = jd_current;
+				jd1 = jd1 + (jd_current < jd0 ? 28 : -28);
+				jd_current = CJulianDate(jd1).MoonPhase(i == 0, i == 1, i == 2, i == 3);
+				if (jd_current >= jd0)
+					jd_phase[i] = jd_current;
+			} while ((jd_current < jd0 && jd_prev < jd0) || (jd_current > jd0 && jd_prev > jd0));
+		}
+	}
+
+	CDateTime dt_set = CJulianDate(jd_phase[0]).toDateTime();
+	new_moon = QDateTime(QDate(dt_set.year(), dt_set.month(), dt_set.day()), QTime(dt_set.hour(), dt_set.minute(), dt_set.second()), Qt::UTC);
+	if (localTimeButton->isChecked())
+		new_moon = new_moon.toLocalTime();
+
+	dt_set = CJulianDate(jd_phase[1]).toDateTime();
+	first_quarter = QDateTime(QDate(dt_set.year(), dt_set.month(), dt_set.day()), QTime(dt_set.hour(), dt_set.minute(), dt_set.second()), Qt::UTC);
+	if (localTimeButton->isChecked())
+		first_quarter = first_quarter.toLocalTime();
+
+	dt_set = CJulianDate(jd_phase[2]).toDateTime();
+	full_moon = QDateTime(QDate(dt_set.year(), dt_set.month(), dt_set.day()), QTime(dt_set.hour(), dt_set.minute(), dt_set.second()), Qt::UTC);
+	if (localTimeButton->isChecked())
+		full_moon = full_moon.toLocalTime();
+
+	dt_set = CJulianDate(jd_phase[3]).toDateTime();
+	last_quarter = QDateTime(QDate(dt_set.year(), dt_set.month(), dt_set.day()), QTime(dt_set.hour(), dt_set.minute(), dt_set.second()), Qt::UTC);
+	if (localTimeButton->isChecked())
+		last_quarter = last_quarter.toLocalTime();
+
+	return true;
 }
 
 
@@ -225,17 +286,13 @@ bool CMoonDockWidget::computeMoonEphemerides(double jd, QDateTime& new_moon, QDa
 //
 void CMoonDockWidget::updateValues()
 {
-	QDateTime utc = m_dateTime.toUTC();
-
-	if (!utc.isValid() || !m_geoloc.isValid()) {
+	if (!m_dateTime.isValid() || !m_geoloc.isValid()) {
 		rises->setText(tr("Invalid input"));
 		sets->setText(tr("Invalid input"));
 	}
 	else {
-		double jd0 = utc.date().toJulianDay() + static_cast<double>(utc.time().msecsSinceStartOfDay()) / 86400000 - 0.5;
-
 		QDateTime rise, set;
-		if (computeMoonRiseSet(jd0, rise, set)) {
+		if (computeMoonRiseSet(rise, set)) {
 			rises->setText(rise.toString(QStringLiteral("yyyy-MM-dd hh:mm")));
 			sets->setText(set.toString(QStringLiteral("yyyy-MM-dd hh:mm")));
 		}
@@ -245,13 +302,36 @@ void CMoonDockWidget::updateValues()
 		}
 	}
 
-	if (!utc.isValid()) {
+	if (!m_dateTime.isValid()) {
+		newMoonDate->setText(tr("Invalid input"));
+		firstQDate->setText(tr("Invalid input"));
+		fullMoonDate->setText(tr("Invalid input"));
+		lastQDate->setText(tr("Invalid input"));
+	}
+	else {
+		QDateTime dtNewMoon, dtFirstQuarter, dtFullMoon, dtThirdQuarter;
+		if (computeMoonEphemerides(dtNewMoon, dtFirstQuarter, dtFullMoon, dtThirdQuarter)) {
+			newMoonDate->setText(dtNewMoon.toString(QStringLiteral("yyyy-MM-dd hh:mm")));
+			firstQDate->setText(dtFirstQuarter.toString(QStringLiteral("yyyy-MM-dd hh:mm")));
+			fullMoonDate->setText(dtFullMoon.toString(QStringLiteral("yyyy-MM-dd hh:mm")));
+			lastQDate->setText(dtThirdQuarter.toString(QStringLiteral("yyyy-MM-dd hh:mm")));
+		}
+		else {
+			newMoonDate->setText(QStringLiteral("***"));
+			firstQDate->setText(QStringLiteral("***"));
+			fullMoonDate->setText(QStringLiteral("***"));
+			lastQDate->setText(QStringLiteral("***"));
+		}
+	}
+
+	if (!m_dateTime.isValid()) {
 		rasc->setText(tr("Invalid input"));
 		decl->setText(tr("Invalid input"));
 		phase->setText(tr("Invalid input"));
 		illum->setText(tr("Invalid input"));
 	}
 	else {
+		QDateTime utc = m_dateTime.toUTC();
 		double jd0 = utc.date().toJulianDay() + static_cast<double>(utc.time().msecsSinceStartOfDay()) / 86400000 - 0.5;
 		double ra, dec;
 		CPlanets(jd0).Moon(&ra, &dec);
@@ -264,7 +344,10 @@ void CMoonDockWidget::updateValues()
 
 		static double period = 29.53059;
 
-		double phase_age = fmod(jd0 - 1721088.5, period);
+		double phase_age = fmod(jd0 - 1721088.5 + 0.25 * period, period);
+
+		moonWidget->setPhase(phase_age / period * 2 * M_PI);
+
 		int Phase = phase_age / period * 360;
 		int phase_days = qRound(phase_age);
 		QString Result = QString(tr("%1 day(s)", "", phase_days)).arg(phase_days);

@@ -24,6 +24,7 @@
 #define _USE_MATH_DEFINES
 
 #include <math.h>
+#include <assert.h>
 
 //
 // Normalize angle to the range 0..2pi
@@ -198,6 +199,8 @@ void CJulianDate::RaDeToLaBe(double ra, double de, double& la, double& be) const
 //
 void CJulianDate::Sun(double& rs, double& las) const
 {
+	assert(!isNull());
+
 	// Vypocet ekl.delky slunce a vzdalenosti zeme - slunce 
 	double t = m_jd - 2451545;
 	double vt = 1 + (t / 36525);
@@ -277,28 +280,36 @@ void CJulianDate::toDateTime(int* year, int* month, int* day, int* hour, int* mi
 //
 // Constructor
 //
-CJulianDate::CJulianDate(int year, int month, int day, int hour, int minute, int second, int millisecond)
+CJulianDate::CJulianDate(int year, int month, int day, int hour, int minute, int second, int millisecond) : m_jd(0)
 {
-	m_jd = ToJD(year, month, day) + 0.5 + 
-		(double)hour / 24 + ((double)minute / 1440.0) + ((double)second / 86400.0) + ((double)millisecond / 86400000.0);
+	if (year >= 1583 && year <= 3500 && month >= 1 && day >= 1) {
+		m_jd = ToJD(year, month, day) + 0.5 +
+			(double)hour / 24 + ((double)minute / 1440.0) + ((double)second / 86400.0) + ((double)millisecond / 86400000.0);
+	}
 }
 
 
 //
 // Constructor
 //
-CJulianDate::CJulianDate(const CDateTime& dt)
+CJulianDate::CJulianDate(const CDateTime& dt) : m_jd(0)
 {
-	m_jd = ToJD(dt.year(), dt.month(), dt.day()) + 0.5 + 
-		(double)dt.hour() / 24 + ((double)dt.minute() / 1440.0) + ((double)dt.second() / 86400.0) + ((double)dt.millisecond() / 86400000.0);
+	if (dt.isValid()) {
+		m_jd = ToJD(dt.year(), dt.month(), dt.day()) + 0.5 +
+			(double)dt.hour() / 24 + ((double)dt.minute() / 1440.0) + ((double)dt.second() / 86400.0) + ((double)dt.millisecond() / 86400000.0);
+	}
 }
 
 
 //
 // Heliocentric correction
 //
-double CJulianDate::HeliocentricCorrection(double RA, double DE) const
+double CJulianDate::HeliocentricCorrection(const CEquCoordinates& equ) const
 {
+	assert(equ.isValid() && !isNull());
+
+	double RA = equ.rightAscension().radians(), DE = equ.declination().radians();
+
 	double jd = m_jd;
 	if (jd < 2000000)
 		jd += 2400000;
@@ -313,20 +324,24 @@ double CJulianDate::HeliocentricCorrection(double RA, double DE) const
 //
 // Air mass coefficient
 //
-double CJulianDate::AirMass(double RA, double DEC, double LON, double LAT) const
+double CJulianDate::AirMass(const CEquCoordinates& equ, const CGeoCoordinates& geo) const
 {
-	// Hour angle
-	double HA = siderealtime() * (2 * M_PI) + (LON - RA);
-	// sec of zenital distance
-	double lat = LAT / 180.0 * M_PI;
-	double dec = DEC / 180.0 * M_PI;
-	double ha = HA / 12.0 * M_PI;
-	double z = sin(lat) * sin(dec) + cos(lat) * cos(dec) * cos(ha);
-	// Is the star above the horizon?
-	if (z >= 0.05) {
-		double secz = 1.0 / z;
-		// Air mass coefficient
-		return secz - 0.0018167 * (secz - 1) - 0.002875 * (secz - 1) * (secz - 1) - 0.0008083 * (secz - 1) * (secz - 1) * (secz - 1);
+	if (equ.isValid() && geo.isValid() && !isNull()) {
+		double RA = equ.rightAscension().radians(), DE = equ.declination().radians();
+		double LON = geo.longitude().radians(), LAT = geo.latitude().radians();
+
+		// Hour angle
+		double ha = siderealtime() * (2 * M_PI) + (LON - RA);
+
+		// arcsin of zenital distance
+		double z = sin(DE) * sin(LAT) + cos(DE) * cos(ha) * cos(LAT);
+
+		// Is the star above the horizon?
+		if (z >= 0.05) {
+			double secz = 1.0 / z;
+			// Air mass coefficient
+			return secz - 0.0018167 * (secz - 1) - 0.002875 * (secz - 1) * (secz - 1) - 0.0008083 * (secz - 1) * (secz - 1) * (secz - 1);
+		}
 	}
 	return -1;
 }
@@ -353,32 +368,47 @@ double CJulianDate::siderealtime(void) const
 //
 // Equatorial coordinates to azimuth and elevation
 //
-void CJulianDate::RaDeToAzAlt(double RA, double DE, double LON, double LAT, double* az, double* alt) const
+CAzAltCoordinates CJulianDate::RaDeToAzAlt(const CEquCoordinates& equ, const CGeoCoordinates& geo) const
 {
-	// Hour angle [rad]
-	double ha = siderealtime() * (2 * M_PI) + (LON - RA);
-	if (alt)
-		*alt = asin(sin(DE) * sin(LAT) + cos(DE) * cos(ha) * cos(LAT));
-	if (az) {
-		*az = 3 * M_PI / 2 - atan2(cos(DE) * cos(ha) * sin(LAT) - sin(DE) * cos(LAT), cos(DE) * sin(ha));
-		if (*az > 2 * M_PI)
-			*az -= 2 * M_PI;
+	if (equ.isValid() && geo.isValid() && !isNull()) {
+
+		double RA = equ.rightAscension().radians(), DE = equ.declination().radians();
+		double LON = geo.longitude().radians(), LAT = geo.latitude().radians();
+
+		// Hour angle [rad]
+		double ha = siderealtime() * (2 * M_PI) + (LON - RA);
+
+		// Azimuth [rad]
+		double az = 3 * M_PI / 2 - atan2(cos(DE) * cos(ha) * sin(LAT) - sin(DE) * cos(LAT), cos(DE) * sin(ha));
+
+		// Elevation [rad]
+		double alt = asin(sin(DE) * sin(LAT) + cos(DE) * cos(ha) * cos(LAT));
+
+		return CAzAltCoordinates(az, alt);
 	}
+	return CAzAltCoordinates();
 }
 
 
 //
 // Meridian transit time of an object
 //
-double CJulianDate::RaDeToTransit(double RA, double DE, double LON, double LAT, tRiseSetType type) const
+double CJulianDate::RaDeToTransit(const CEquCoordinates& equ, const CGeoCoordinates& geo, tRiseSetType type) const
 {
-	// Hour angle [rad]
-	double ha = siderealtime() * (2 * M_PI) + (LON - RA);
-	double TTrans = -ha / (2 * M_PI);
-	TTrans = TTrans - floor(TTrans);
-	if ((type == rtNearest && TTrans > 0.5) || (type == rtBefore && TTrans > 0.0))
-		TTrans -= 1.0;
-	return m_jd + TTrans / 1.0027379093;
+	if (equ.isValid() && geo.isValid() && !isNull()) {
+
+		double RA = equ.rightAscension().radians(), DE = equ.declination().radians();
+		double LON = geo.longitude().radians(), LAT = geo.latitude().radians();
+
+		// Hour angle [rad]
+		double ha = siderealtime() * (2 * M_PI) + (LON - RA);
+		double TTrans = -ha / (2 * M_PI);
+		TTrans = TTrans - floor(TTrans);
+		if ((type == rtNearest && TTrans > 0.5) || (type == rtBefore && TTrans > 0.0))
+			TTrans -= 1.0;
+		return m_jd + TTrans / 1.0027379093;
+	}
+	return 0;
 }
 
 
@@ -389,8 +419,8 @@ double CJulianDate::MoonPhase(double a0, double a1, double a2, double a3)
 {
 	int day, month, year;
 
-	FromJD(m_jd - 28, year, month, day);
-	double k = floor(12.3685 * (year + month / 12 - 1900)) + a1 * 0.25 + a2 * 0.5 + a3 * 0.75;
+	FromJD(m_jd, year, month, day);
+	double k = floor(12.3685 * (year + (double)month / 12 - 1900)) + a1 * 0.25 + a2 * 0.5 + a3 * 0.75;
 	double T1 = k / 1236.85;
 	double jdf = 2415020.75933 + 29.53058868 * k + 0.0001178 * T1 * T1 - 0.000000155 * T1 * T1 * T1 + 0.00033 * sin(2.90702 + 2.319019 * T1 - 0.000160099 * T1 * T1);
 	double ms0 = (359.2242 + 29.10535608 * k - 0.0000333 * T1 * T1 - 0.00000347 * T1 * T1 * T1) / 180 * M_PI;
@@ -438,9 +468,14 @@ double CJulianDate::MoonPhase(double a0, double a1, double a2, double a3)
 //
 // Rise of an object
 //
-CJulianDate::tRiseSetResult CJulianDate::RaDeToRise(double RA, double DE, double LON, double LAT, double* jd, double EL, tRiseSetType type) const
+CJulianDate::tRiseSetResult CJulianDate::RaDeToRise(const CEquCoordinates& equ, const CGeoCoordinates& geo, double* jd, double EL, tRiseSetType type) const
 {
 	static const double eps = 5e-6;  // cca 1"
+
+	assert(equ.isValid() && geo.isValid() && !isNull());
+
+	double RA = equ.rightAscension().radians(), DE = equ.declination().radians();
+	double LON = geo.longitude().radians(), LAT = geo.latitude().radians();
 
 	if (LAT == M_PI_2 - eps) {
 		// Terrestrial north pole: Stars with dec>=0 are above horizon, dec<0 below horizon
@@ -501,9 +536,14 @@ CJulianDate::tRiseSetResult CJulianDate::RaDeToRise(double RA, double DE, double
 //
 // Set of an object
 //
-CJulianDate::tRiseSetResult CJulianDate::RaDeToSet(double RA, double DE, double LON, double LAT, double* jd, double EL, tRiseSetType type) const
+CJulianDate::tRiseSetResult CJulianDate::RaDeToSet(const CEquCoordinates& equ, const CGeoCoordinates& geo, double* jd, double EL, tRiseSetType type) const
 {
 	static const double eps = 5e-6;  // cca 1"
+
+	assert(equ.isValid() && geo.isValid() && !isNull());
+
+	double RA = equ.rightAscension().radians(), DE = equ.declination().radians();
+	double LON = geo.longitude().radians(), LAT = geo.latitude().radians();
 
 	if (LAT == M_PI - eps) {
 		// Terrestrial north pole: Stars with dec>=0 are above horizon, dec<0 below horizon

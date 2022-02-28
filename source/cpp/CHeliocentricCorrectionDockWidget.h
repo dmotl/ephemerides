@@ -26,7 +26,6 @@
 #include "ui_CHeliocentricCorrectionDockWidget.h"
 
 #include "CJulianDate.h"
-#include "CDateTime.h"
 
 class CSharedData;
 
@@ -53,18 +52,37 @@ public:
 
 protected slots:
 	void onDateTimeChanged();
+	void onEquLocationChanged();
 
-	void on_dateTimeEdit_dateTimeChanged(const QDateTime& dateTime);
+	void on_dateEdit_dateTimeChanged(const QDateTime& dateTime);
+	void on_jdEdit_textChanged(const QString& text);
+	void on_raEdit_textChanged(const QString& text);
+	void on_decEdit_textChanged(const QString& text);
+
+	void on_jdEdit_editingFinished();
+	void on_raEdit_editingFinished();
+	void on_decEdit_editingFinished();
 
 	void on_resetButton_clicked();
 
+	void on_utcButton_toggled(bool checked);
+	void on_localButton_toggled(bool checked);
+	void on_jdButton_toggled(bool checked);
+
 private:
 	CSharedData* m_sharedData;
-	CJulianDate m_jd;
-	CDateTime m_dateTimeUtc;
 	QDateTime m_dateTimeLocal;
+	CEquCoordinates m_equloc;
 
 	void reset();
+
 	void updateDateTime();
+	void updateObjectCoordinates();
 	void updateValues();
+
+	static double localToJD(const QDateTime& local);
+	static QDateTime jdToLocal(double jd_utc);
+
+	static QDateTime localToUTC(const QDateTime& local);
+	static QDateTime utcToLocal(const QDateTime& utc);
 };

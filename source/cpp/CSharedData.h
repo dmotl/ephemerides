@@ -23,7 +23,9 @@
 
 #include <QtCore>
 
-#include "CGeoLocation.h"
+#include "CGeoCoordinates.h"
+#include "CEquCoordinates.h"
+#include "Utils.h"
 
 /*
 * \brief Shared data
@@ -49,10 +51,12 @@ public:
 	*
 	*/ 
 	explicit CSharedData(QObject* parent = NULL) : QObject(parent), m_twilight(12)
-	{ 
-		m_localDateTime = QDateTime::currentDateTime(); 
+	{
+		m_localDateTime = QDateTime::currentDateTime();
 		m_geoloc.longitude().setDegrees(16.6103878);
 		m_geoloc.latitude().setDegrees(49.1944631);
+		m_equloc.rightAscension().setRadians(RA_TO_RAD(18, 45, 48.6));
+		m_equloc.declination().setRadians(-DEC_TO_RAD(23, 1, 16.4));
 	}
 
 	/*
@@ -90,19 +94,30 @@ public:
 	* The function gets the stored time stamp. The date time is stored
 	* in user's local time zone.
 	*/
-	const CGeoLocation& geoLocation() const { return m_geoloc; }
+	const CGeoCoordinates& geoLocation() const { return m_geoloc; }
 
 	/*
 	* \brief Selected geographic coordinates
 	*
 	* The function updates the stored observer's geographic coordinates and emits the geoLocationChanged()
-	* signal. See the CGeoLocation class for description of coordinates.
+	* signal. See the CGeoCoordinates class for description of coordinates.
 	*
 	* \sa geoLocation()
 	*
 	* \timestamp geographic coordinates
 	*/
-	void setGeoLocation(const CGeoLocation& geoloc);
+	void setGeoLocation(const CGeoCoordinates& geoloc);
+
+	/*
+	* \brief Equatorial celestial coordinates
+	*
+	*/
+	const CEquCoordinates& equLocation() const { return m_equloc; }
+
+	/*
+	* \brief Selected equatorial celestial coordinates
+	*/
+	void setEquLocation(const CEquCoordinates& equloc);
 
 	/*
 	* \brief Twilight start/end elevation 
@@ -132,15 +147,21 @@ signals:
 	/* \brief The signal is emited when the stored local date and time changes */
 	void dateTimeChanged();
 
-	/* \brief The signal is emited when the geographical coordinates changes */
+	/* \brief The signal is emited when the observer's geographical coordinates changes */
 	void geoLocationChanged();
+
+	/* \brief The signal is emited when the object's equatorial coordinates changes */
+	void equLocationChanged();
 
 private:
 	// Date and time
 	QDateTime m_localDateTime;
 
-	// Geographic coordinates
-	CGeoLocation m_geoloc;
+	// Geographic coordinates of an observer
+	CGeoCoordinates m_geoloc;
+
+	// Equatorial coordinates on an object
+	CEquCoordinates m_equloc;
 
 	// Twilight start/end elevation
 	double m_twilight;

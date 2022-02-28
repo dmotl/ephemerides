@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>329</width>
-    <height>340</height>
+    <width>297</width>
+    <height>318</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -50,7 +50,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Twilight ends*</string>
+          <string>Twilight ends</string>
          </property>
         </widget>
        </item>
@@ -78,7 +78,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Twilight starts*</string>
+          <string>Twilight starts</string>
          </property>
         </widget>
        </item>
@@ -95,13 +95,6 @@
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="noteLabel">
-         <property name="text">
-          <string>*) Solar elevation angle lower than 12°</string>
          </property>
         </widget>
        </item>
@@ -352,19 +345,6 @@
       </layout>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string notr="true"/>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0" colspan="2">
      <widget class="QFrame" name="frame">
       <property name="frameShape">
@@ -441,9 +421,20 @@
       </layout>
      </widget>
     </item>
+    <item row="2" column="0">
+     <widget class="CSunWidget" name="sun" native="true"/>
+    </item>
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CSunWidget</class>
+   <extends>QWidget</extends>
+   <header>csunwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

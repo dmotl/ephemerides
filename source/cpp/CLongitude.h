@@ -25,12 +25,12 @@
 #include <string>
 
 /*
-* \brief CLatitude
+* \brief Longitude
 *
-* The CLatitude class holds a geograpic longitude as a double-precision
+* The CLongitude class holds a geograpic longitude as a double-precision
 * floating point number. The value is stored internally in radians.
 *
-* Positive latitudes are east of the prime meridian and negative ones
+* Positive longitudes are east of the prime meridian and negative ones
 * are west.
 */
 class CLongitude
@@ -50,7 +50,7 @@ public:
 	* to the range of (0 and 2*pi>.
 	* \param radians longitude in radians.
 	*/
-	explicit CLongitude(double radians) { m_radians = normalizeAngle(radians); }
+	CLongitude(double radians) { m_radians = normalizeAngle(radians); }
 
 	/*!
 	* \brief Constructor
@@ -105,7 +105,7 @@ public:
 	static double normalizeAngle(double rad);
 
 	/*!
-	* \brief Latitude from angle in degrees
+	* \brief Longitude from angle in degrees
 	*
 	* The method creates a new CLongitude object from an angle specified
 	* in degrees. Positive values are east of prime meridian and negative

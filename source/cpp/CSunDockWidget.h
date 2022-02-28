@@ -23,7 +23,7 @@
 
 #include <QtWidgets>
 
-#include "CGeoLocation.h"
+#include "CGeoCoordinates.h"
 
 #include "ui_CSunDockWidget.h"
 
@@ -50,10 +50,6 @@ public:
 	*/
 	CSunDockWidget(CSharedData* data, QWidget* parent);
 
-protected:
-	// Resize image of sun
-	void resizeEvent(QResizeEvent*) override;
-
 protected slots:
 	void onDateTimeChanged();
 	void onGeoLocationChanged();
@@ -77,13 +73,7 @@ private:
 	QDateTime m_dateTime;
 
 	// Geographic coordinates
-	CGeoLocation m_geoloc;
-
-	// Unscaled image of the Sun
-	QPixmap m_pixmap;
-
-	// Size of the image widget
-	QSize m_labelSize;
+	CGeoCoordinates m_geoloc;
 
 	// Reset time and position to values in shared data
 	void reset();
@@ -98,8 +88,8 @@ private:
 	void updateValues();
 
 	// Compute times of sunrise and sunset
-	bool computeSunRiseSet(double jd0, QDateTime& rise, QDateTime& set) const;
+	bool computeSunRiseSet(QDateTime& rise, QDateTime& set) const;
 	
 	// Compute times of twilight start and end
-	bool computeTwilight(double jd0, QDateTime& start, QDateTime& end) const;
+	bool computeTwilight(QDateTime& start, QDateTime& end) const;
 };

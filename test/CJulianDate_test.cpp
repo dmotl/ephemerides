@@ -79,7 +79,7 @@ TEST(CJulianDate, SunRise)
 	static const double JD_SUNRISE = JD0 + HMS_TO_JD(6, 55, 00);
 
 	double jd_rise;
-	EXPECT_EQ(CJulianDate(JD0).RaDeToRise(RA, DEC, LON, LAT, &jd_rise, 0, CJulianDate::tRiseSetType::rtAfter), CJulianDate::tRiseSetResult::rcOK);
+	EXPECT_EQ(CJulianDate(JD0).RaDeToRise(CEquCoordinates(RA, DEC), CGeoCoordinates(LON, LAT), &jd_rise, 0, CJulianDate::tRiseSetType::rtAfter), CJulianDate::tRiseSetResult::rcOK);
 	EXPECT_NEAR(jd_rise, JD_SUNRISE, HMS_TO_JD(0, 0, 30));
 }
 
@@ -91,7 +91,7 @@ TEST(CJulianDate, SunSet)
 	static const double JD_SUNSET = JD0 + HMS_TO_JD(14, 59, 0) - 1;
 
 	double jd_set;
-	EXPECT_EQ(CJulianDate(JD0).RaDeToSet(RA, DEC, LON, LAT, &jd_set, 0, CJulianDate::tRiseSetType::rtBefore), CJulianDate::tRiseSetResult::rcOK);
+	EXPECT_EQ(CJulianDate(JD0).RaDeToSet(CEquCoordinates(RA, DEC), CGeoCoordinates(LON, LAT), &jd_set, 0, CJulianDate::tRiseSetType::rtBefore), CJulianDate::tRiseSetResult::rcOK);
 	EXPECT_NEAR(jd_set, JD_SUNSET, HMS_TO_JD(0, 0, 30));
 }
 
@@ -102,7 +102,7 @@ TEST(CJulianDate, SunTransit)
 	// JD for January 1, 2022 10:57 am
 	static const double JD_TRANSIT = JD0 + HMS_TO_JD(10, 57, 0);
 
-	double jd_trans = CJulianDate(JD0).RaDeToTransit(RA, DEC, LON, LAT, CJulianDate::tRiseSetType::rtAfter);
+	double jd_trans = CJulianDate(JD0).RaDeToTransit(CEquCoordinates(RA, DEC), CGeoCoordinates(LON, LAT), CJulianDate::tRiseSetType::rtAfter);
 	EXPECT_NEAR(jd_trans, JD_TRANSIT, HMS_TO_JD(0, 0, 10));
 }
 
@@ -114,7 +114,7 @@ TEST(CJulianDate, TwilightEnd)
 	static const double JD_TWILIGHT = JD0 + HMS_TO_JD(5, 31, 0);
 
 	double tw_end;
-	EXPECT_EQ(CJulianDate(JD0).RaDeToRise(RA, DEC, LON, LAT, &tw_end, EL, CJulianDate::tRiseSetType::rtAfter), CJulianDate::tRiseSetResult::rcOK);
+	EXPECT_EQ(CJulianDate(JD0).RaDeToRise(CEquCoordinates(RA, DEC), CGeoCoordinates(LON, LAT), &tw_end, EL, CJulianDate::tRiseSetType::rtAfter), CJulianDate::tRiseSetResult::rcOK);
 	EXPECT_NEAR(tw_end, JD_TWILIGHT, HMS_TO_JD(0, 0, 30));
 }
 
@@ -126,7 +126,7 @@ TEST(CJulianDate, TwilightStart)
 	static const double JD_TWILIGHT = JD0 + HMS_TO_JD(16, 23, 0) - 1;
 
 	double tw_start;
-	EXPECT_EQ(CJulianDate(JD0).RaDeToSet(RA, DEC, LON, LAT, &tw_start, ALT, CJulianDate::tRiseSetType::rtBefore), CJulianDate::tRiseSetResult::rcOK);
+	EXPECT_EQ(CJulianDate(JD0).RaDeToSet(CEquCoordinates(RA, DEC), CGeoCoordinates(LON, LAT), &tw_start, ALT, CJulianDate::tRiseSetType::rtBefore), CJulianDate::tRiseSetResult::rcOK);
 	EXPECT_NEAR(tw_start, JD_TWILIGHT, HMS_TO_JD(0, 0, 30));
 }
 
@@ -146,7 +146,7 @@ TEST(CJulianDate, HeliocentricCorrection1)
 	// Heliocentric correction is -8.178 minutes
 	static const double HELCOR = -HMS_TO_JD(0, 8.178, 0);
 
-	EXPECT_NEAR(CJulianDate(JD0).HeliocentricCorrection(RA, DEC), HELCOR, HMS_TO_JD(0, 0, 1));
+	EXPECT_NEAR(CJulianDate(JD0).HeliocentricCorrection(CEquCoordinates(RA, DEC)), HELCOR, HMS_TO_JD(0, 0, 1));
 }
 
 TEST(CJulianDate, HeliocentricCorrection2)
@@ -157,7 +157,7 @@ TEST(CJulianDate, HeliocentricCorrection2)
 	// Heliocentric correction is 6.287 minutes
 	static const double HELCOR = HMS_TO_JD(0, 6.287, 0);
 
-	EXPECT_NEAR(CJulianDate(JD0).HeliocentricCorrection(RA, DEC), HELCOR, HMS_TO_JD(0, 0, 1));
+	EXPECT_NEAR(CJulianDate(JD0).HeliocentricCorrection(CEquCoordinates(RA, DEC)), HELCOR, HMS_TO_JD(0, 0, 1));
 }
 
 TEST(CJulianDate, RaDeToAltAz)
@@ -168,9 +168,9 @@ TEST(CJulianDate, RaDeToAltAz)
 	static const double AZ = DMS_TO_RAD(31, 07, 12), ALT = -DMS_TO_RAD(61, 01, 48);
 
 	double az, alt;
-	CJulianDate(JD0).RaDeToAzAlt(RA, DEC, LON, LAT, &az, &alt);
-	EXPECT_NEAR(az, AZ, HMS_TO_JD(1, 0, 0));
-	EXPECT_NEAR(alt, ALT, HMS_TO_JD(1, 0, 0));
+	CAzAltCoordinates z = CJulianDate(JD0).RaDeToAzAlt(CEquCoordinates(RA, DEC), CGeoCoordinates(LON, LAT));
+	EXPECT_NEAR(z.azimuth().radians(), AZ, DEG_TO_RAD(1));
+	EXPECT_NEAR(z.elevation().radians(), ALT, DEG_TO_RAD(1));
 }
 
 TEST(CJulianDate, AirMass)
@@ -182,6 +182,6 @@ TEST(CJulianDate, AirMass)
 	// Airmass (expected value)
 	static const double AIRMASS = 1.0;
 
-	double x = CJulianDate(JD1).AirMass(RA, DEC, LON, LAT);
+	double x = CJulianDate(JD1).AirMass(CEquCoordinates(RA, DEC), CGeoCoordinates(LON, LAT));
 	EXPECT_NEAR(x, AIRMASS, 0.001);
 }

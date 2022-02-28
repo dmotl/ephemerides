@@ -1,5 +1,5 @@
 /*!
-*  \file      utils.h
+*  \file      Utils.h
 *  \author    David Motl
 *  \date      2022-01-31
 *
@@ -39,6 +39,11 @@
 */
 #define RAD_TO_DEG(rad) ((rad) / M_PI * 180)
 
+
+#define DMS_TO_RAD(d, m, s) ((abs(d) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 180 * M_PI)
+#define RA_TO_RAD(h, m, s) (((h) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 12 * M_PI)
+#define DEC_TO_RAD(d, m, s) DMS_TO_RAD(d, m, s)
+
 /*
 * \brief Time to fractions of day
 *
@@ -67,4 +72,5 @@ namespace Utils
 	* \return angular distance in radians
 	*/
 	double AngularDistance(double Ra1, double De1, double Ra2, double De2);
+
 };

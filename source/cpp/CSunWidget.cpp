@@ -1,5 +1,5 @@
 /*!
-*  \file      CSharedData.cpp
+*  \file      CSunWidget.cpp
 *  \author    David Motl
 *  \date      2022-01-31
 *
@@ -19,28 +19,16 @@
 *      to endorse or promote products derived from this software without specific prior written
 *      permission.
 */
-#include "CSharedData.h"
+#include "CSunWidget.h"
 
-//
-// Set time stamp
-//
-void CSharedData::setLocalDateTime(const QDateTime& timestamp)
+void CSunWidget::paintEvent(QPaintEvent* event)
 {
-	if (timestamp != m_localDateTime && timestamp.isValid())
-	{
-		m_localDateTime = timestamp;
-		emit dateTimeChanged();
-	}
-}
-
-//
-// Set observer's location
-//
-void CSharedData::setGeoLocation(const CGeoCoordinates& geoloc)
-{
-	if (geoloc != m_geoloc) 
-	{
-		m_geoloc = geoloc;
-		emit geoLocationChanged();
-	}
+    int size = qMin(width(), height()) - 2;
+    if (size > 2) {
+        QPainter painter(this);
+        painter.setRenderHint(QPainter::Antialiasing, true);
+        painter.setPen(QPen(QColor(qRgb(255, 96, 0)), 1));
+        painter.setBrush(QBrush(QColor(qRgb(255, 192, 0))));
+        painter.drawEllipse((width() - size) / 2, (height() - size) / 2, size, size);
+    }
 }
