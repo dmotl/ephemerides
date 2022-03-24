@@ -7,7 +7,7 @@
 //
 CMainTabWidget::CMainTabWidget(CMainWindow* mainWnd, QWidget* parent) : QWidget(parent), m_mainWnd(mainWnd)
 {
-
+	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
 

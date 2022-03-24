@@ -30,6 +30,8 @@ set(lib_sources
  "SkyChart/CNGC2000.h"
  "SkyChart/CBSC1991.cpp"
  "SkyChart/CBSC1991.h"
+ "SkyChart/CBound.cpp"
+ "SkyChart/CBound.h"
 )
 
 set(ui_sources
@@ -79,8 +81,13 @@ set(ui_sources
  "CMoonWidget.h"
  "CMainTabWidget.cpp"
  "CMainTabWidget.h"
+ "CSkyChartTab.cpp"
+ "CSkyChartTab.h"
  "UtilsQt.cpp"
  "UtilsQt.h"
+
+ "SkyChart/CSkyChartView.cpp"
+ "SkyChart/CSkyChartView.h"
 )
 
 set(libTargetName "ephem_lib")

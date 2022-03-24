@@ -71,6 +71,12 @@ private:
     // Tab index for the "Star ephemeris" section
     int m_starTabIndex;
 
+    // The "Sky chart" section
+    CMainTabWidget* m_skyChartTabWidget;
+
+    // Tab index for the "Sky chart" section
+    int m_skyChartTabIndex;
+
     // Data shared with tools and windows
     CSharedData* m_sharedData;
 

@@ -36,16 +36,34 @@
 
 #include "CSetupDialog.h"
 #include "CAboutDialog.h"
+#include "CSkyChartTab.h"
+
+#define SHOW_NIGHTLY_EPHEMERIS_TAB 0
+#define SHOW_STAR_EPHEMERIS_TAB 0
+#define SHOW_SKY_CHART_TAB 1
+
+#define SHOW_SUN_DOCK_WIDGET 0
+#define SHOW_MOON_DOCK_WIDGET 0
+#define SHOW_SKY_CHART_DOCK_WIDGET 0
+#define SHOW_PROPERTIES_DOCK_WIDGET 0
+#define SHOW_JULIAN_DATE_DOCK_WIDGET 0
+#define SHOW_HELIOCENTRIC_CORRECTION_DOWN_WIDGET 0
+#define SHOW_AIR_MASS_DOCK_WIDGET 0
 
 //
 // Constructor
 //
-CMainWindow::CMainWindow() : m_dayTabWidget(NULL), m_dayTabIndex(-1), m_starTabWidget(NULL), m_starTabIndex(-1)
+CMainWindow::CMainWindow() : QMainWindow(NULL, Qt::Window), m_dayTabWidget(NULL), m_dayTabIndex(-1), m_starTabWidget(NULL), m_starTabIndex(-1),
+m_skyChartTabWidget(NULL), m_skyChartTabIndex(-1), m_sunDockWidget(NULL), m_moonDockWidget(NULL), m_chartDockWidget(NULL),
+m_propertiesDockWidget(NULL), m_julianDateDockWidget(NULL), m_heliocentricCorrectionDockWidget(NULL), m_airMassDockWidget(NULL)
 {
     m_tabWidget = new QTabWidget(this);
+    m_tabWidget->setDocumentMode(true);
+
     setCentralWidget(m_tabWidget);
     setWindowTitle(qApp->applicationName());
-
+    setWindowState(windowState() | Qt::WindowMaximized);
+    
     m_sharedData = new CSharedData(this);
 
     createTabs();
@@ -86,26 +104,40 @@ void CMainWindow::writeSettings()
 //
 void CMainWindow::createDockWindows()
 {
+#if SHOW_SUN_DOCK_WIDGET
     m_sunDockWidget = new CSunDockWidget(m_sharedData, this);
     addDockWidget(Qt::LeftDockWidgetArea, m_sunDockWidget);
+#endif
 
+#if SHOW_MOON_DOCK_WIDGET
     m_moonDockWidget = new CMoonDockWidget(m_sharedData, this);
     addDockWidget(Qt::LeftDockWidgetArea, m_moonDockWidget);
+#endif
 
+#if SHOW_SKY_CHART_DOCK_WIDGET
     m_chartDockWidget = new CChartDockWidget(m_sharedData, this);
     addDockWidget(Qt::LeftDockWidgetArea, m_chartDockWidget);
+#endif
 
+#if SHOW_PROPERTIES_DOCK_WIDGET
     m_propertiesDockWidget = new CPropertiesDockWidget(m_sharedData, this);
     addDockWidget(Qt::RightDockWidgetArea, m_propertiesDockWidget);
+#endif
 
+#if SHOW_JULIAN_DATE_DOCK_WIDGET
     m_julianDateDockWidget = new CJulianDateConverterDockWidget(m_sharedData, this);
     addDockWidget(Qt::RightDockWidgetArea, m_julianDateDockWidget);
+#endif
 
+#if SHOW_HELIOCENTRIC_CORRECTION_DOWN_WIDGET
     m_heliocentricCorrectionDockWidget = new CHeliocentricCorrectionDockWidget(m_sharedData, this);
     addDockWidget(Qt::RightDockWidgetArea, m_heliocentricCorrectionDockWidget);
+#endif
 
+#if SHOW_AIR_MASS_DOCK_WIDGET
     m_airMassDockWidget = new CAirMassDockWidget(m_sharedData, this);
     addDockWidget(Qt::RightDockWidgetArea, m_airMassDockWidget);
+#endif
 }
 
 
@@ -114,11 +146,22 @@ void CMainWindow::createDockWindows()
 //
 void CMainWindow::createTabs()
 {
-    m_dayTabWidget = new CNightlyEphemerisTab(this, m_tabWidget);
-    m_dayTabIndex = m_tabWidget->addTab(m_dayTabWidget, m_dayTabWidget->text());
+#if SHOW_NIGHTLY_EPHEMERIS_TAB
+    m_dayTabWidget = new CNightlyEphemerisTab(this, this);
+    m_dayTabIndex = m_tabWidget->addTab(m_dayTabWidget->text());
+    m_stackedWidget->addWidget(m_dayTabWidget);
+#endif
 
-    m_starTabWidget = new CStarEphemerisTab(this, m_tabWidget);
-    m_starTabIndex = m_tabWidget->addTab(m_starTabWidget, m_starTabWidget->text());
+#if SHOW_STAR_EPHEMERIS_TAB
+    m_starTabWidget = new CStarEphemerisTab(this, this);
+    m_starTabIndex = m_tabWidget->addTab(m_starTabWidget->text());
+    m_stackedWidget->addWidget(m_starTabWidget);
+#endif
+
+#if SHOW_SKY_CHART_TAB 
+    m_skyChartTabWidget = new CSkyChartTab(this, this);
+    m_starTabIndex = m_tabWidget->addTab(m_skyChartTabWidget, m_skyChartTabWidget->text());
+#endif
 }
 
 

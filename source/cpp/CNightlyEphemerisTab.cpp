@@ -31,6 +31,8 @@ m_initialized(false)
 {
 	setupUi(this);
 	setText(tr("Nightly ephemeris"));
+	layout()->setContentsMargins(0, 0, 0, 0);
+	toolBox->layout()->setContentsMargins(9, 9, 9, 9);
 
 	m_toolsActionMapper = new QSignalMapper(this);
 	connect(m_toolsActionMapper, &QSignalMapper::mappedInt, this, &CNightlyEphemerisTab::onToolsAction);

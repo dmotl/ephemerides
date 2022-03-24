@@ -7,6 +7,8 @@ CStarEphemerisTab::CStarEphemerisTab(CMainWindow* mainWnd, QWidget* parent) : CM
 {
 	setupUi(this);
 	setText(tr("Star ephemeris"));
+	layout()->setContentsMargins(0, 0, 0, 0);
+	toolBox->layout()->setContentsMargins(9, 9, 9, 9);
 
 	m_toolsActionMapper = new QSignalMapper(this);
 	connect(m_toolsActionMapper, &QSignalMapper::mappedInt, this, &CStarEphemerisTab::onToolsAction);
