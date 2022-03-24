@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>947</width>
-    <height>755</height>
+    <width>989</width>
+    <height>785</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,12 @@
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <widget class="QFrame" name="toolBox">
+     <property name="maximumSize">
+      <size>
+       <width>222</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -67,14 +73,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QListWidget" name="catalogsList">
-        <property name="maximumSize">
-         <size>
-          <width>220</width>
-          <height>16777215</height>
-         </size>
-        </property>
-       </widget>
+       <widget class="QListWidget" name="catalogsList"/>
       </item>
       <item>
        <widget class="QLabel" name="filtersLabel">
@@ -730,7 +729,14 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QTableView" name="tableView"/>
+       <widget class="QTableView" name="tableView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

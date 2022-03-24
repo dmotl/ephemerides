@@ -24,6 +24,12 @@ set(lib_sources
  "CAzAltCoordinates.h"
  "Utils.cpp"
  "Utils.h"
+
+ "SkyChart/CSkyObject.h"
+ "SkyChart/CNGC2000.cpp"
+ "SkyChart/CNGC2000.h"
+ "SkyChart/CBSC1991.cpp"
+ "SkyChart/CBSC1991.h"
 )
 
 set(ui_sources
@@ -71,6 +77,8 @@ set(ui_sources
  "CSunWidget.h"
  "CMoonWidget.cpp"
  "CMoonWidget.h"
+ "CMainTabWidget.cpp"
+ "CMainTabWidget.h"
  "UtilsQt.cpp"
  "UtilsQt.h"
 )
@@ -78,7 +86,7 @@ set(ui_sources
 set(libTargetName "ephem_lib")
 add_library(${libTargetName} ${lib_sources})
 target_compile_options(${libTargetName} PRIVATE /W3 /WX)
-target_include_directories(${libTargetName} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${libTargetName} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} "SkyChart")
 
 set(uiTargetName "ephemerides")
 add_executable(${uiTargetName} WIN32 ${ui_sources})

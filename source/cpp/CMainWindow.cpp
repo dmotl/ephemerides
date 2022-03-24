@@ -115,10 +115,10 @@ void CMainWindow::createDockWindows()
 void CMainWindow::createTabs()
 {
     m_dayTabWidget = new CNightlyEphemerisTab(this, m_tabWidget);
-    m_dayTabIndex = m_tabWidget->addTab(m_dayTabWidget, m_dayTabWidget->caption());
+    m_dayTabIndex = m_tabWidget->addTab(m_dayTabWidget, m_dayTabWidget->text());
 
     m_starTabWidget = new CStarEphemerisTab(this, m_tabWidget);
-    m_starTabIndex = m_tabWidget->addTab(m_starTabWidget, m_starTabWidget->caption());
+    m_starTabIndex = m_tabWidget->addTab(m_starTabWidget, m_starTabWidget->text());
 }
 
 

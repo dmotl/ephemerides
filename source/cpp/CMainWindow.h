@@ -24,15 +24,7 @@
 #include <QtWidgets>
 
 class CSharedData;
-class CStarEphemerisTab;
-class CNightlyEphemerisTab;
-class CSunDockWidget;
-class CMoonDockWidget;
-class CPropertiesDockWidget;
-class CChartDockWidget;
-class CJulianDateConverterDockWidget;
-class CHeliocentricCorrectionDockWidget;
-class CAirMassDockWidget;
+class CMainTabWidget;
 
 /*!
 * \brief Main application window
@@ -62,17 +54,19 @@ protected:
     void writeSettings();
 
 private:
+    friend class CMainTabWidget;
+
     // Main tab container
     QTabWidget* m_tabWidget;
 
     // The "Nightly epehemeris" section
-    CNightlyEphemerisTab* m_dayTabWidget;
+    CMainTabWidget* m_dayTabWidget;
 
     // Tab index for the "Nightly epehemeris" section
     int m_dayTabIndex;
 
     // The "Star ephemeris" section
-    CStarEphemerisTab* m_starTabWidget;
+    CMainTabWidget* m_starTabWidget;
 
     // Tab index for the "Star ephemeris" section
     int m_starTabIndex;
@@ -81,25 +75,25 @@ private:
     CSharedData* m_sharedData;
 
     // The "Sun ephemeris" tool
-    CSunDockWidget* m_sunDockWidget;
+    QDockWidget* m_sunDockWidget;
 
     // The "Lunar ephemeris" tool
-    CMoonDockWidget* m_moonDockWidget;
+    QDockWidget* m_moonDockWidget;
 
     // The "Properties" tool
-    CPropertiesDockWidget* m_propertiesDockWidget;
+    QDockWidget* m_propertiesDockWidget;
 
     // The "Sky chart" tool
-    CChartDockWidget* m_chartDockWidget;
+    QDockWidget* m_chartDockWidget;
 
     // The "Julian date" tool
-    CJulianDateConverterDockWidget* m_julianDateDockWidget;
+    QDockWidget* m_julianDateDockWidget;
 
     // The "Heliocentric correction" tool
-    CHeliocentricCorrectionDockWidget* m_heliocentricCorrectionDockWidget;
+    QDockWidget* m_heliocentricCorrectionDockWidget;
 
     // The "Air mass" tool
-    CAirMassDockWidget* m_airMassDockWidget;
+    QDockWidget* m_airMassDockWidget;
 
     // Create sections (tabs)
     void createTabs();

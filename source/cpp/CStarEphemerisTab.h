@@ -23,6 +23,8 @@
 
 #include <QtWidgets>
 
+#include "CMainTabWidget.h"
+
 #include "ui_CStarEphemerisTab.h"
 
 class CMainWindow;
@@ -34,7 +36,7 @@ class CMainWindow;
 * application. The widgets is used to show ephemeris of a selected
 * variable star for a range between two dates.
 */
-class CStarEphemerisTab : public QWidget, private Ui::CStarEphemerisTab
+class CStarEphemerisTab : public CMainTabWidget, private Ui::CStarEphemerisTab
 {
 	Q_OBJECT
 
@@ -46,16 +48,25 @@ public:
 	*/
 	CStarEphemerisTab(CMainWindow* mainWnd, QWidget* parent);
 
-	/*! \brief Tab caption */
-	static QString caption(void) { return tr("Star ephemeris"); }
+	void onTabEnter(CMainTabWidget* previousTab) override;
 
 private:
 	QToolBar* m_toolBar;
 
+	QToolButton* m_toolsBtn;
+
+	QMenu* m_toolsMenu;
+
 	QAction* m_updateAction, * m_sortAction, * m_deleteAction, * m_findAction;
 	QAction* m_printAction, * m_exportAction, * m_copyAction;
-	QAction* m_sunAction, * m_moonAction, * m_chartAction;
+	QAction* m_toolsAction, * m_sunAction, * m_moonAction, * m_chartAction;
+	QAction* m_jdConvAction, * m_helCorrAction, * m_airMassAction;
 	QAction* m_setupAction, * m_helpAction;
 
+	QSignalMapper* m_toolsActionMapper;
+
 	void createToolBar();
+
+private slots:
+	void onToolsAction(int dockWidgetId);
 };

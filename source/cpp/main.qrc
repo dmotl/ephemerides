@@ -1,16 +1,13 @@
 <RCC>
   <qresource prefix="/">
-    <file>Resources/Earth.bmp</file>
-    <file>Resources/Earth256.bmp</file>
-    <file>Resources/Find.bmp</file>
-    <file>Resources/Info.bmp</file>
-    <file>Resources/Moon.BMP</file>
-    <file>Resources/Moon256.bmp</file>
-    <file>Resources/Retry.bmp</file>
-    <file>Resources/Setup.BMP</file>
-    <file>Resources/Sky.BMP</file>
-    <file>Resources/SORT.BMP</file>
-    <file>Resources/Star.bmp</file>
-    <file>Resources/Sun256.png</file>
+    <file>Resources/Mercury.svg</file>
+    <file>Resources/Venus.svg</file>
+    <file>Resources/Mars.svg</file>
+    <file>Resources/Jupiter.svg</file>
+    <file>Resources/Saturn.svg</file>
+    <file>Resources/Uranus.svg</file>
+    <file>Resources/Neptune.svg</file>
+    <file>Resources/Sun.svg</file>
+    <file>Resources/Moon.svg</file>
   </qresource>
 </RCC>

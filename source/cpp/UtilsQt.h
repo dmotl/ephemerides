@@ -91,3 +91,33 @@ namespace UtilsQt
 	*/
 	QString compassPointName(CAzimuth::tCompassPoint pt);
 }
+
+#define CREATE_DOCK_WIDGET_TOOL(action_var, widget_id, caption) { \
+	action_var = new QAction(this); \
+	action_var->setText(caption); \
+	action_var->setCheckable(true); \
+	action_var->setData(widget_id); \
+	connect(action_var, SIGNAL(triggered(bool)), m_toolsActionMapper, SLOT(map())); \
+}
+
+#define INIT_DOCK_WIDGET_ACTION(action_var) { \
+    tDockWidgetId widget_id = static_cast<tDockWidgetId>(action_var->data().toInt()); \
+	QDockWidget *dw = dockWidget(widget_id); \
+	action_var->setEnabled(dw != NULL); \
+	action_var->setChecked(dw && dw->isVisible()); \
+}
+
+#define DOCK_WIDGET_ACTION_TRIGGERED(widget_id) { \
+	QDockWidget *dw = dockWidget(static_cast<tDockWidgetId>(widget_id)); \
+	if (dw) { \
+		if (dw->isVisible()) { \
+			if (dw->isFloating()) { \
+				dw->activateWindow(); \
+				dw->raise(); \
+			} \
+		} \
+		else { \
+			dw->showNormal(); \
+		} \
+	} \
+}

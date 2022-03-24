@@ -53,7 +53,7 @@ TEST(CJulianDate, InvalidJD2) {
 }
 
 TEST(CJulianDate, InvalidJD3) {
-	EXPECT_TRUE(CJulianDate().toDateTime().isValid());
+	EXPECT_FALSE(CJulianDate().toDateTime().isValid());
 }
 
 TEST(CJulianDate, ToDateTime) {
