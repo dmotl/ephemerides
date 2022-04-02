@@ -65,4 +65,11 @@ private:
 
 private slots:
 	void onToolsAction(int dockWidgetId);
+
+	void on_view_viewChanged(void);
+
+	void on_qSSpinBox_valueChanged(double value);
+	void on_qXSpinBox_valueChanged(double value);
+	void on_qYSpinBox_valueChanged(double value);
+	void on_qZSpinBox_valueChanged(double value);
 };

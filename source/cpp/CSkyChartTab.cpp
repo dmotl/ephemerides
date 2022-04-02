@@ -14,6 +14,8 @@ m_toolBar(NULL), m_toolsBtn(NULL), m_toolsMenu(NULL), m_toolsActionMapper(NULL)
 	connect(m_toolsActionMapper, &QSignalMapper::mappedInt, this, &CSkyChartTab::onToolsAction);
 
 	createToolBar();
+
+	on_view_viewChanged();
 }
 
 
@@ -45,4 +47,54 @@ void CSkyChartTab::createToolBar()
 void CSkyChartTab::onToolsAction(int dockWidgetId)
 {
 
+}
+
+
+void CSkyChartTab::on_view_viewChanged(void)
+{
+	QQuaternion q = view->viewQuat();
+
+	qSSpinBox->blockSignals(true);
+	qSSpinBox->setValue(q.scalar());
+	qSSpinBox->blockSignals(false);
+
+	qXSpinBox->blockSignals(true);
+	qXSpinBox->setValue(q.x());
+	qXSpinBox->blockSignals(false);
+
+	qYSpinBox->blockSignals(true);
+	qYSpinBox->setValue(q.y());
+	qYSpinBox->blockSignals(false);
+
+	qZSpinBox->blockSignals(true);
+	qZSpinBox->setValue(q.z());
+	qZSpinBox->blockSignals(false);
+}
+
+void CSkyChartTab::on_qSSpinBox_valueChanged(double value)
+{
+	QQuaternion q = view->viewQuat();
+	q.setScalar(value);
+	view->setViewQuat(q);
+}
+
+void CSkyChartTab::on_qXSpinBox_valueChanged(double value)
+{
+	QQuaternion q = view->viewQuat();
+	q.setX(value);
+	view->setViewQuat(q);
+}
+
+void CSkyChartTab::on_qYSpinBox_valueChanged(double value)
+{
+	QQuaternion q = view->viewQuat();
+	q.setY(value);
+	view->setViewQuat(q);
+}
+
+void CSkyChartTab::on_qZSpinBox_valueChanged(double value)
+{
+	QQuaternion q = view->viewQuat();
+	q.setZ(value);
+	view->setViewQuat(q);
 }
