@@ -4,17 +4,20 @@ cmake_policy(VERSION 3.19)
 option(ephem_build_tests "Build the tests." ON)
 
 project(ephemerides
-LANGUAGES CXX 
+LANGUAGES C CXX 
 VERSION 2.0.0 
 HOMEPAGE_URL https://github.com/dmotl/ephemerides
 DESCRIPTION "Ephemerides for variable stars"
 )
 
+set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+if(MSVC)
+    set(gtest_force_shared_crt on)
+endif(MSVC)
 
 include(GNUInstallDirs)
 
@@ -28,6 +31,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
+# Needed python
+find_package(Python)
 
 # GUI
 # ------------

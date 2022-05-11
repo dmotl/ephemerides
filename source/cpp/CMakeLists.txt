@@ -24,14 +24,6 @@ set(lib_sources
  "CAzAltCoordinates.h"
  "Utils.cpp"
  "Utils.h"
-
- "SkyChart/CSkyObject.h"
- "SkyChart/CNGC2000.cpp"
- "SkyChart/CNGC2000.h"
- "SkyChart/CBSC1991.cpp"
- "SkyChart/CBSC1991.h"
- "SkyChart/CBound.cpp"
- "SkyChart/CBound.h"
 )
 
 set(ui_sources
@@ -85,19 +77,21 @@ set(ui_sources
  "CSkyChartTab.h"
  "UtilsQt.cpp"
  "UtilsQt.h"
-
- "SkyChart/CSkyChartView.cpp"
- "SkyChart/CSkyChartView.h"
 )
 
-set(libTargetName "ephem_lib")
-add_library(${libTargetName} ${lib_sources})
-target_compile_options(${libTargetName} PRIVATE /W3 /WX)
-target_include_directories(${libTargetName} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} "SkyChart")
+add_library(ephem_core OBJECT ${lib_sources})
+
+add_library(ephemcorelib STATIC $<TARGET_OBJECTS:ephem_core>)
+target_include_directories(ephemcorelib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(uiTargetName "ephemerides")
 add_executable(${uiTargetName} WIN32 ${ui_sources})
 target_compile_options(${uiTargetName} PRIVATE /W3 /WX)
 #target_precompile_headers(${uiTargetName} PRIVATE PrecompiledHeader.h)
-target_link_libraries(${uiTargetName} PRIVATE Qt6::Core Qt6::Xml Qt6::Gui Qt6::Widgets ${libTargetName})
+target_link_libraries(${uiTargetName} PRIVATE Qt6::Core Qt6::Xml Qt6::Gui Qt6::Widgets ephemcorelib skychart)
 target_compile_definitions(${uiTargetName} PRIVATE QT_NO_CAST_FROM_ASCII QT_NO_CAST_TO_ASCII)
+
+add_subdirectory(SkyChart)
+add_subdirectory(vsop87)
+add_subdirectory(elp82)
+
