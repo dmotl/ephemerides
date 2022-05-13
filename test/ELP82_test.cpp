@@ -1,7 +1,7 @@
 /*!
-*  \file      elp82.h
+*  \file      VSOP87_test.cpp
 *  \author    David Motl
-*  \date      2022-05-11
+*  \date      2022-01-31
 *
 *  \copyright
 *
@@ -19,34 +19,31 @@
 *      to endorse or promote products derived from this software without specific prior written
 *      permission.
 */
-#ifndef _EPHEMERIS_ELP82_H_INCLUDED
-#define _EPHEMERIS_ELP82_H_INCLUDED
+#include "gtest/gtest.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-	typedef struct tELP82_Rect {
-		double X[6];
-	} tELP82_Rect;
+#define _USE_MATH_DEFINES
 
-	/*
-	* \brief Ephemeride Lunaire Parisienne
-	*
-	* \details The function finds a position of a Earth's moon
-	* at specified time.
-	* Rectangular coordinates in AU.
-	* Heliocentric position.
-	* Dynamic equinox and ecliptic J2000
-	*
-	* \param ibody ignored, for compatibility with VSOP87
-	* \param T julian date (time scale: dynamical time TDB)
-	* \param[out] xyz rectangular heliocentric coordinates
-	*/
+#include <math.h>
 
-	int elp82b(int ibody, double tjd, tELP82_Rect* xyz);
+#include "elp82.h"
+#include "elp82_chk.h"
 
-#ifdef __cplusplus
+// astronomical unit (m)
+#define AU 149597870691.0
+
+#define KM_TO_AU(km) ((km) * 1000.0 / AU)
+
+TEST(ELP82, ELP82_Moon)
+{
+	static const tELP82TestXYZ* tab = elp82_MOON_A; 
+	int size = sizeof(elp82_MOON_A) / sizeof(tELP82TestXYZ);
+	static const double error = 3.5e-7; // AU
+
+	for (int i = 0; i < size; i++) {
+		tELP82_Rect out; 
+		EXPECT_EQ(elp82b(0, tab[i].jd, &out), 0); 
+		EXPECT_NEAR(out.X[0], KM_TO_AU(tab[i].X), error);
+		EXPECT_NEAR(out.X[1], KM_TO_AU(tab[i].Y), error);
+		EXPECT_NEAR(out.X[2], KM_TO_AU(tab[i].Z), error);
+	}
 }
-#endif
-
-#endif
