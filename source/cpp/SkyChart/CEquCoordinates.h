@@ -21,6 +21,7 @@
 */
 #pragma once
 
+#include "SkyChartUtils.h"
 #include "CDeclination.h"
 #include "CRightAscension.h"
 
@@ -53,8 +54,15 @@ public:
 	*/
 	CEquCoordinates(const CRightAscension& ra, const CDeclination& d) : m_rightAscension(ra), m_declination(d) {}
 
+	/*!
+	* \brief Constructor
+	*
+	* The constructor creates an object from a equatorial rectangular coordinates
+	*/
+	CEquCoordinates(const Utils::CVector3d& rect);
+
 	/*! \brief True if the coordinates are valid */
-	bool isValid(void) const { return m_declination.isValid() && m_declination.isValid(); }
+	bool isValid(void) const { return m_rightAscension.isValid() && m_declination.isValid(); }
 
 	/*!
 	* \brief Set right ascension

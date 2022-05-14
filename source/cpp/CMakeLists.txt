@@ -1,31 +1,5 @@
 cmake_minimum_required (VERSION 3.19)
 
-set(lib_sources
- "CPlanets.cpp"
- "CPlanets.h"
- "CJulianDate.cpp"
- "CJulianDate.h"
- "CDateTime.cpp"
- "CDateTime.h"
- "CLatitude.cpp"
- "CLatitude.h"
- "CLongitude.cpp"
- "CLongitude.h"
- "CGeoCoordinates.h"
- "CRightAscension.cpp"
- "CRightAscension.h"
- "CDeclination.cpp"
- "CDeclination.h"
- "CEquCoordinates.h"
- "CAzimuth.cpp"
- "CAzimuth.h"
- "CElevation.cpp"
- "CElevation.h"
- "CAzAltCoordinates.h"
- "Utils.cpp"
- "Utils.h"
-)
-
 set(ui_sources
  "main.cpp"
  "main.qrc"
@@ -79,16 +53,11 @@ set(ui_sources
  "UtilsQt.h"
 )
 
-add_library(ephem_core OBJECT ${lib_sources})
-
-add_library(ephemcorelib STATIC $<TARGET_OBJECTS:ephem_core>)
-target_include_directories(ephemcorelib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
 set(uiTargetName "ephemerides")
 add_executable(${uiTargetName} WIN32 ${ui_sources})
 target_compile_options(${uiTargetName} PRIVATE /W3 /WX)
 #target_precompile_headers(${uiTargetName} PRIVATE PrecompiledHeader.h)
-target_link_libraries(${uiTargetName} PRIVATE Qt6::Core Qt6::Xml Qt6::Gui Qt6::Widgets ephemcorelib skychart)
+target_link_libraries(${uiTargetName} PRIVATE Qt6::Core Qt6::Xml Qt6::Gui Qt6::Widgets skychart)
 target_compile_definitions(${uiTargetName} PRIVATE QT_NO_CAST_FROM_ASCII QT_NO_CAST_TO_ASCII)
 
 add_subdirectory(SkyChart)

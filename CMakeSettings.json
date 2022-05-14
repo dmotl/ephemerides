@@ -1,26 +1,54 @@
 ﻿{
+  "environments": [
+    {
+      "environment": "x64",
+      "BuildDir": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\x64\\build"
+    }
+  ],
   "configurations": [
     {
       "name": "x64-Debug",
       "generator": "Ninja",
       "configurationType": "Debug",
-      "inheritEnvironments": [ "msvc_x64_x64" ],
-      "buildRoot": "${projectDir}\\out\\build\\${name}",
-      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "inheritEnvironments": [ "msvc_x64_x64", "x64" ],
+      "buildRoot": "${env.BuildDir}\\${name}",
+      "installRoot": "${projectDir}\\x64\\install\\${name}",
       "cmakeCommandArgs": "",
-      "buildCommandArgs": "",
+      "buildCommandArgs": "-k 0",
       "ctestCommandArgs": ""
+      "variables": [
+        {
+          "name": "CMAKE_C_FLAGS_DEBUG",
+          "value": "/MDd /ZI /Od /RTC1",
+          "type": "STRING"
+        },
+        {
+          "name": "CMAKE_CXX_FLAGS_DEBUG",
+          "value": "/MDd /ZI /Od /RTC1 /wd4311",
+          "type": "STRING"
+        },
+        {
+          "name": "CMAKE_EXE_LINKER_FLAGS_DEBUG",
+          "value": "/debug /INCREMENTAL /LTCG:OFF",
+          "type": "STRING"
+        },
+        {
+          "name": "CMAKE_SHARED_LINKER_FLAGS_DEBUG",
+          "value": "/debug /INCREMENTAL /LTCG:OFF",
+          "type": "STRING"
+        }
+      ]
     },
     {
       "name": "x64-Release",
       "generator": "Ninja",
       "configurationType": "RelWithDebInfo",
-      "buildRoot": "${projectDir}\\out\\build\\${name}",
-      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "inheritEnvironments": [ "msvc_x64_x64", "x64" ],
+      "buildRoot": "${env.BuildDir}\\${name}",
+      "installRoot": "${projectDir}\\x64\\install\\${name}",
       "cmakeCommandArgs": "",
-      "buildCommandArgs": "",
+      "buildCommandArgs": "-k 0",
       "ctestCommandArgs": "",
-      "inheritEnvironments": [ "msvc_x64_x64" ],
       "variables": []
     }
   ]

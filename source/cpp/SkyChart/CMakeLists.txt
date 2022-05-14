@@ -8,8 +8,32 @@ set(lib_sources
  "CBSC1991.h"
  "CBound.cpp"
  "CBound.h"
+ "CJulianDate.cpp"
+ "CJulianDate.h"
+ "CDateTime.cpp"
+ "CDateTime.h"
+ "CLatitude.cpp"
+ "CLatitude.h"
+ "CLongitude.cpp"
+ "CLongitude.h"
+ "CGeoCoordinates.h"
+ "CDeclination.cpp"
+ "CDeclination.h"
+ "CEquCoordinates.h"
+ "CEquCoordinates.cpp"
+ "CAzimuth.cpp"
+ "CAzimuth.h"
+ "CElevation.cpp"
+ "CElevation.h"
+ "CAzAltCoordinates.h"
+ "CPlanets.h" 
+ "CPlanets.cpp"
+ "CRightAscension.cpp"
+ "CRightAscension.h"
  "SkyChartUtils.h"
  "SkyChartUtils.cpp"
+ "Utils.cpp"
+ "Utils.h"
 )
 
 set(ui_sources
@@ -21,7 +45,7 @@ set(ui_sources
 
 add_library(skychartcorelib STATIC ${lib_sources})
 target_include_directories(skychartcorelib PUBLIC .)
-target_link_libraries(skychartcorelib PUBLIC ephemcorelib vsop87)
+target_link_libraries(skychartcorelib PUBLIC vsop87 elp82)
 
 add_library(skychart STATIC ${ui_sources})
 target_include_directories(skychart PUBLIC .)

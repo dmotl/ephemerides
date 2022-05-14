@@ -26,20 +26,21 @@
 #include <math.h>
 
 #include "CPlanets.h"
+#include <CEquCoordinates.h>
 
 #define RA_TO_RAD(h, m, s) (((h) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 12 * M_PI)
-#define DEC_TO_RAD(d, m, s) ((abs(d) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 180 * M_PI)
+#define DEC_TO_RAD(d, m, s) (((d) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 180 * M_PI)
 
 #define KM_TO_AU(km) (static_cast<double>(km) / 149597870.700)
 
 // January 1, 2022, 0:00 UTC
-static const double JD0 = 2459580.5;
+static const double JD0 = 2459580.5 + 69 / 86400.0;
 
 // Sun ephemerides for JD0 (RA, Dec, distance, 
 static const double Sun[3] = { RA_TO_RAD(18, 45, 48.6), -DEC_TO_RAD(23, 1, 16.4), 0.98 };
 
-// Moon ephemerides for JD0
-static const double Moon[4] = { RA_TO_RAD(16, 58, 18.5), -DEC_TO_RAD(24, 24, 56.7), KM_TO_AU(363634.41), 0.05 };
+// Moon ephemerides for JD0 (J2000)
+static const double Moon[4] = { RA_TO_RAD(16, 56, 25.31), -DEC_TO_RAD(24, 20, 17.6), KM_TO_AU(364211.388), 0.05 };
 
 // Mercury ephemerides for JD0
 static const double Mercury[4] = { RA_TO_RAD(20, 02, 42.6), -DEC_TO_RAD(22, 18, 30.4), 1.14, 0.78 };
@@ -82,136 +83,96 @@ static double CompareAngles(double alpha, double beta)
 	return diff;
 }
 
-static void PrintRaDiff(double rad)
+static void PrintAngularDist(std::string prefix, double rad1, double rad2)
 {
+	//std::cout << prefix << "computed: " << radToString(rad1) << std::endl;
+	//std::cout << prefix << "expected: " << radToString(rad2) << std::endl;
+
+	double rad = CompareAngles(rad1, rad2);
 	if (rad > M_PI)
 		rad = 2 * M_PI - rad;
-	int i = (fabs(rad) / M_PI * 12 * 3600 + 0.5);
-	int h = i / 3600, m = (i / 60) % 60, s = (i % 60);
-	std::cout << h << ":" << m << ":" << s << std::endl;
-}
-
-static void PrintDecDiff(double rad)
-{
-	int i = (rad / M_PI * 180 * 3600 + 0.5);
-	if (i >= 0) {
-		int h = i / 3600, m = (i / 60) % 60, s = (i % 60);
-		std::cout << h << ":" << m << ":" << s << std::endl;
-	}
-	else {
-		i = abs(i);
-		int h = i / 3600, m = (i / 60) % 60, s = (i % 60);
-		std::cout << "-" << h << ":" << m << ":" << s << std::endl;
-	}
+	double d = (fabs(rad) / M_PI * 180 * 3600 + 0.5);
+	std::cout << prefix << " difference: " << d << " arcsec " << std::endl;
 }
 
 TEST(CPlanets, Sun) {
-	CPlanets pl(JD0);
-
-	double r, d, D;
-	pl.Sun(&r, &d, &D);
-	PrintRaDiff(fabs(Sun[0] - r));
-	PrintDecDiff(fabs(Sun[1] - d));
-	EXPECT_LT(CompareAngles(r, Sun[0]), DEC_TO_RAD(0, 1, 0));
-	EXPECT_LT(CompareAngles(d, Sun[1]), DEC_TO_RAD(0, 1, 0));
-	EXPECT_NEAR(D, Sun[2], 0.01);
+	Utils::CVector3d xyz(CPlanets(JD0).Sun());
+	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
+	PrintAngularDist("Longitude: ", Sun[0], equ.rightAscension().radians());
+	PrintAngularDist("Latitude:  ", Sun[1], equ.declination().radians());
+	EXPECT_LT(CompareAngles(equ.rightAscension().radians(), Sun[0]), DEC_TO_RAD(0, 1, 0));
+	EXPECT_LT(CompareAngles(equ.declination().radians(), Sun[1]), DEC_TO_RAD(0, 1, 0));
+	EXPECT_NEAR(xyz.length(), Sun[2], 0.01);
 }
 
 TEST(CPlanets, Moon) {
-	CPlanets pl(JD0);
-
-	double r, d;
-	pl.Moon(&r, &d);
-	PrintRaDiff(fabs(Moon[0] - r));
-	PrintDecDiff(fabs(Moon[1] - d));
-	EXPECT_LT(CompareAngles(r, Moon[0]), DEC_TO_RAD(0, 40, 0));
-	EXPECT_LT(CompareAngles(d, Moon[1]), DEC_TO_RAD(0, 30, 0));
+	Utils::CVector3d xyz(CPlanets(JD0).Moon());
+	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
+	PrintAngularDist("Longitude: ", Moon[0], equ.rightAscension().radians());
+	PrintAngularDist("Latitude:  ", Moon[1], equ.declination().radians());
+	EXPECT_LT(CompareAngles(equ.rightAscension().radians(), Moon[0]), DEC_TO_RAD(0, 30, 0));
+	EXPECT_LT(CompareAngles(equ.declination().radians(), Moon[1]), DEC_TO_RAD(0, 30, 0));
 }
 
 TEST(CPlanets, Mercury) {
-	CPlanets pl(JD0);
-
-	double r, d;
-	pl.Mercury(&r, &d);
-	PrintRaDiff(fabs(Mercury[0] - r));
-	PrintDecDiff(fabs(Mercury[1] - d));
-	EXPECT_LT(CompareAngles(r, Mercury[0]), DEC_TO_RAD(0, 1, 0));
-	EXPECT_LT(CompareAngles(d, Mercury[1]), DEC_TO_RAD(0, 1, 0));
+	Utils::CVector3d xyz(CPlanets(JD0).Mercury());
+	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
+	PrintAngularDist("Longitude: ", Mercury[0], equ.rightAscension().radians());
+	PrintAngularDist("Latitude:  ", Mercury[1], equ.declination().radians());
+	EXPECT_LT(CompareAngles(equ.rightAscension().radians(), Mercury[0]), DEC_TO_RAD(0, 5, 0));
+	EXPECT_LT(CompareAngles(equ.declination().radians(), Mercury[1]), DEC_TO_RAD(0, 5, 0));
 }
 
 TEST(CPlanets, Venus) {
-	CPlanets pl(JD0);
-
-	double r, d;
-	pl.Venus(&r, &d);
-	PrintRaDiff(fabs(Venus[0] - r));
-	PrintDecDiff(fabs(Venus[1] - d));
-	EXPECT_LT(CompareAngles(r, Venus[0]), DEC_TO_RAD(0, 20, 0));
-	EXPECT_LT(CompareAngles(d, Venus[1]), DEC_TO_RAD(0, 5, 0));
+	Utils::CVector3d xyz(CPlanets(JD0).Venus());
+	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
+	PrintAngularDist("Longitude: ", Venus[0], equ.rightAscension().radians());
+	PrintAngularDist("Latitude:  ", Venus[1], equ.declination().radians());
+	EXPECT_LT(CompareAngles(equ.rightAscension().radians(), Venus[0]), DEC_TO_RAD(0, 5, 0));
+	EXPECT_LT(CompareAngles(equ.declination().radians(), Venus[1]), DEC_TO_RAD(0, 5, 0));
 }
 
 TEST(CPlanets, Mars) {
-	CPlanets pl(JD0);
-
-	double r, d;
-	pl.Mars(&r, &d);
-	PrintRaDiff(fabs(Mars[0] - r));
-	PrintDecDiff(fabs(Mars[1] - d));
-	EXPECT_LT(CompareAngles(r, Mars[0]), DEC_TO_RAD(0, 5, 0));
-	EXPECT_LT(CompareAngles(d, Mars[1]), DEC_TO_RAD(0, 5, 0));
+	Utils::CVector3d xyz(CPlanets(JD0).Mars());
+	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
+	PrintAngularDist("Longitude: ", Mars[0], equ.rightAscension().radians());
+	PrintAngularDist("Latitude:  ", Mars[1], equ.declination().radians());
+	EXPECT_LT(CompareAngles(equ.rightAscension().radians(), Mars[0]), DEC_TO_RAD(0, 5, 0));
+	EXPECT_LT(CompareAngles(equ.declination().radians(), Mars[1]), DEC_TO_RAD(0, 5, 0));
 }
 
 TEST(CPlanets, Jupiter) {
-	CPlanets pl(JD0);
-
-	double r, d;
-	pl.Jupiter(&r, &d);
-	PrintRaDiff(fabs(Jupiter[0] - r));
-	PrintDecDiff(fabs(Jupiter[1] - d));
-	EXPECT_LT(CompareAngles(r, Jupiter[0]), DEC_TO_RAD(0, 5, 0));
-	EXPECT_LT(CompareAngles(d, Jupiter[1]), DEC_TO_RAD(0, 5, 0));
+	Utils::CVector3d xyz(CPlanets(JD0).Jupiter());
+	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
+	PrintAngularDist("Longitude: ", Jupiter[0], equ.rightAscension().radians());
+	PrintAngularDist("Latitude:  ", Jupiter[1], equ.declination().radians());
+	EXPECT_LT(CompareAngles(equ.rightAscension().radians(), Jupiter[0]), DEC_TO_RAD(0, 5, 0));
+	EXPECT_LT(CompareAngles(equ.declination().radians(), Jupiter[1]), DEC_TO_RAD(0, 5, 0));
 }
 
 TEST(CPlanets, Saturn) {
-	CPlanets pl(JD0);
-
-	double r, d;
-	pl.Saturn(&r, &d);
-	PrintRaDiff(fabs(Saturn[0] - r));
-	PrintDecDiff(fabs(Saturn[1] - d));
-	EXPECT_LT(CompareAngles(r, Saturn[0]), DEC_TO_RAD(0, 5, 0));
-	EXPECT_LT(CompareAngles(d, Saturn[1]), DEC_TO_RAD(0, 5, 0));
+	Utils::CVector3d xyz(CPlanets(JD0).Saturn());
+	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
+	PrintAngularDist("Longitude: ", Saturn[0], equ.rightAscension().radians());
+	PrintAngularDist("Latitude:  ", Saturn[1], equ.declination().radians());
+	EXPECT_LT(CompareAngles(equ.rightAscension().radians(), Saturn[0]), DEC_TO_RAD(0, 5, 0));
+	EXPECT_LT(CompareAngles(equ.declination().radians(), Saturn[1]), DEC_TO_RAD(0, 5, 0));
 }
 
 TEST(CPlanets, Uranus) {
-	CPlanets pl(JD0);
-
-	double r, d;
-	pl.Uranus(&r, &d);
-	PrintRaDiff(fabs(Uranus[0] - r));
-	PrintDecDiff(fabs(Uranus[1] - d));
-	EXPECT_LT(CompareAngles(r, Uranus[0]), DEC_TO_RAD(0, 2, 0));
-	EXPECT_LT(CompareAngles(d, Uranus[1]), DEC_TO_RAD(0, 2, 0));
+	Utils::CVector3d xyz(CPlanets(JD0).Uranus());
+	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
+	PrintAngularDist("Longitude: ", Uranus[0], equ.rightAscension().radians());
+	PrintAngularDist("Latitude:  ", Uranus[1], equ.declination().radians());
+	EXPECT_LT(CompareAngles(equ.rightAscension().radians(), Uranus[0]), DEC_TO_RAD(0, 2, 0));
+	EXPECT_LT(CompareAngles(equ.declination().radians(), Uranus[1]), DEC_TO_RAD(0, 2, 0));
 }
 
 TEST(CPlanets, Neptune) {
-	CPlanets pl(JD0);
-
-	double r, d;
-	pl.Neptune(&r, &d);
-	PrintRaDiff(fabs(Neptune[0] - r));
-	PrintDecDiff(fabs(Neptune[1] - d));
-	EXPECT_LT(CompareAngles(r, Neptune[0]), DEC_TO_RAD(0, 2, 0));
-	EXPECT_LT(CompareAngles(d, Neptune[1]), DEC_TO_RAD(0, 2, 0));
-}
-
-TEST(CPlanets, Pluto) {
-	CPlanets pl(JD0);
-
-	double r, d;
-	pl.Pluto(&r, &d);
-	PrintRaDiff(fabs(Pluto[0] - r));
-	PrintDecDiff(fabs(Pluto[1] - d));
-	EXPECT_LT(CompareAngles(r, Pluto[0]), DEC_TO_RAD(0, 30, 0));
-	EXPECT_LT(CompareAngles(d, Pluto[1]), DEC_TO_RAD(0, 5, 0));
+	Utils::CVector3d xyz(CPlanets(JD0).Neptune());
+	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
+	PrintAngularDist("Longitude: ", Neptune[0], equ.rightAscension().radians());
+	PrintAngularDist("Latitude:  ", Neptune[1], equ.declination().radians());
+	EXPECT_LT(CompareAngles(equ.rightAscension().radians(), Neptune[0]), DEC_TO_RAD(0, 2, 0));
+	EXPECT_LT(CompareAngles(equ.declination().radians(), Neptune[1]), DEC_TO_RAD(0, 2, 0));
 }

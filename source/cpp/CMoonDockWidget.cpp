@@ -179,9 +179,8 @@ bool CMoonDockWidget::computeMoonRiseSet(QDateTime& rise, QDateTime& set) const
 	CJulianDate::tRiseSetResult res_1 = CJulianDate::rcOK;
 	double jd_rise = jd0.jd_utc();
 	for (int i = 0; i < 10; i++) {
-		double last_jd = jd_rise, ra, de;
-		CPlanets(jd_rise).Moon(&ra, &de);
-		res_1 = CJulianDate(jd_rise).RaDeToRise(CEquCoordinates(ra, de), m_geoloc, &jd_rise, 0, CJulianDate::rtNearest);
+		double last_jd = jd_rise;
+		res_1 = CJulianDate(jd_rise).RaDeToRise(CEquCoordinates(Utils::vsop87ToFK5(CPlanets(jd_rise).Moon())), m_geoloc, &jd_rise, 0, CJulianDate::rtNearest);
 		if (res_1 != CJulianDate::rcOK || fabs(jd_rise - last_jd) < eps)
 			break;
 	}
@@ -189,9 +188,8 @@ bool CMoonDockWidget::computeMoonRiseSet(QDateTime& rise, QDateTime& set) const
 	CJulianDate::tRiseSetResult res_2 = CJulianDate::rcOK;
 	double jd_set = jd0.jd_utc();
 	for (int i = 0; i < 10; i++) {
-		double last_jd = jd_set, ra, de;
-		CPlanets(jd_set).Moon(&ra, &de);
-		res_2 = CJulianDate(jd_set).RaDeToSet(CEquCoordinates(ra, de), m_geoloc, &jd_set, 0, CJulianDate::rtNearest);
+		double last_jd = jd_set;
+		res_2 = CJulianDate(jd_set).RaDeToSet(CEquCoordinates(Utils::vsop87ToFK5(CPlanets(jd_set).Moon())), m_geoloc, &jd_set, 0, CJulianDate::rtNearest);
 		if (res_2 != CJulianDate::rcOK || fabs(jd_set - last_jd) < eps)
 			break;
 	}
@@ -333,13 +331,12 @@ void CMoonDockWidget::updateValues()
 	else {
 		QDateTime utc = m_dateTime.toUTC();
 		double jd0 = utc.date().toJulianDay() + static_cast<double>(utc.time().msecsSinceStartOfDay()) / 86400000 - 0.5;
-		double ra, dec;
-		CPlanets(jd0).Moon(&ra, &dec);
-		ra = ra * 12 / M_PI;
+		CEquCoordinates equ(Utils::vsop87ToFK5(CPlanets(jd0).Moon()));
+		double ra = equ.rightAscension().hours();
 		if (ra < 0)
 			ra = 24 + ra;
 		rasc->setText(QString::number(ra, 'f', 4));
-		dec = RAD_TO_DEG(dec);
+		double dec = equ.declination().degrees();
 		decl->setText(QString::number(dec, 'f', 4));
 
 		static double period = 29.53059;

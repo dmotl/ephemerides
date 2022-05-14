@@ -37,10 +37,12 @@ extern "C" {
 	* Rectangular coordinates in AU.
 	* Heliocentric position.
 	* Dynamic equinox and ecliptic J2000
+	* 
+	* The reference frame is "dynamical equinox and ecliptic J2000"
 	*
 	* \param ibody ignored, for compatibility with VSOP87
 	* \param T julian date (time scale: dynamical time TDB)
-	* \param[out] xyz rectangular heliocentric coordinates
+	* \param[out] xyz rectangular ecliptical coordinates [AU]
 	*/
 
 	int elp82b(int ibody, double tjd, tELP82_Rect* xyz);

@@ -181,9 +181,8 @@ bool CSunDockWidget::computeSunRiseSet(QDateTime& rise, QDateTime& set) const
 	CJulianDate::tRiseSetResult res_1 = CJulianDate::rcOK;
 	double jd_rise = jd0.jd_utc();
 	for (int i = 0; i < 10; i++) {
-		double last_jd = jd_rise, ra, de;
-		CPlanets(jd_rise).Sun(&ra, &de);
-		res_1 = jd0.RaDeToRise(CEquCoordinates(ra, de), m_geoloc, &jd_rise);
+		double last_jd = jd_rise;
+		res_1 = jd0.RaDeToRise(CEquCoordinates(Utils::vsop87ToFK5(CPlanets(jd_rise).Sun())), m_geoloc, &jd_rise);
 		if (res_1 != CJulianDate::rcOK || fabs(jd_rise - last_jd) < eps)
 			break;
 	}
@@ -191,9 +190,8 @@ bool CSunDockWidget::computeSunRiseSet(QDateTime& rise, QDateTime& set) const
 	CJulianDate::tRiseSetResult res_2 = CJulianDate::rcOK;
 	double jd_set = jd0.jd_utc();
 	for (int i = 0; i < 10; i++) {
-		double last_jd = jd_set, ra, de;
-		CPlanets(jd_set).Sun(&ra, &de);
-		res_2 = jd0.RaDeToSet(CEquCoordinates(ra, de), m_geoloc, &jd_set);
+		double last_jd = jd_set;
+		res_2 = jd0.RaDeToSet(CEquCoordinates(Utils::vsop87ToFK5(CPlanets(jd_set).Sun())), m_geoloc, &jd_set);
 		if (res_2 != CJulianDate::rcOK || fabs(jd_set - last_jd) < eps)
 			break;
 	}
@@ -231,18 +229,16 @@ bool CSunDockWidget::computeTwilight(QDateTime& start, QDateTime& end) const
 	CJulianDate::tRiseSetResult res_1 = CJulianDate::rcOK;
 	double jd_end = jd0.jd_utc();
 	for (int i = 0; i < 10; i++) {
-		double last_jd = jd_end, ra, de;
-		CPlanets(jd_end).Sun(&ra, &de);
-		res_1 = jd0.RaDeToRise(CEquCoordinates(ra, de), m_geoloc, &jd_end, twel);
+		double last_jd = jd_end;
+		res_1 = jd0.RaDeToRise(CEquCoordinates(Utils::vsop87ToFK5(CPlanets(jd_end).Sun())), m_geoloc, &jd_end, twel);
 		if (res_1 != CJulianDate::rcOK || fabs(jd_end - last_jd) < eps)
 			break;
 	}
 	CJulianDate::tRiseSetResult res_2 = CJulianDate::rcOK;
-	double ra, de, jd_start = jd0.jd_utc();
+	double jd_start = jd0.jd_utc();
 	for (int i = 0; i < 10; i++) {
 		double last_jd = jd_start;
-		CPlanets(jd_start).Sun(&ra, &de);
-		res_2 = jd0.RaDeToSet(CEquCoordinates(ra, de), m_geoloc, &jd_start, twel);
+		res_2 = jd0.RaDeToSet(CEquCoordinates(Utils::vsop87ToFK5(CPlanets(jd_start).Sun())), m_geoloc, &jd_start, twel);
 		if (res_2 != CJulianDate::rcOK || fabs(jd_start - last_jd) < eps)
 			break;
 	}
@@ -307,14 +303,12 @@ void CSunDockWidget::updateValues()
 		QDateTime utc = m_dateTime.toUTC();
 		double jd0 = utc.date().toJulianDay() + static_cast<double>(utc.time().msecsSinceStartOfDay()) / 86400000 - 0.5;
 
-		double ra, dec;
-		CPlanets(jd0).Sun(&ra, &dec);
-		ra = ra * 12 / M_PI;
+		CEquCoordinates equ(Utils::vsop87ToFK5(CPlanets(jd0).Sun()));
+		double ra = equ.rightAscension().hours();
 		if (ra < 0)
 			ra = 24 + ra;
 		rasc->setText(QString::number(ra, 'f', 4));
-		dec = RAD_TO_DEG(dec);
-		decl->setText(QString::number(dec, 'f', 4));
+		decl->setText(QString::number(equ.declination().degrees(), 'f', 4));
 	}
 
 }

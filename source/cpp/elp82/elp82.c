@@ -432,21 +432,27 @@ int elp82b(int ibody, double tjd, tELP82_Rect* xyz)
     //
     r[1] = r[1] / rad + w[1][1] + w[1][2] * t[2] + w[1][3] * t[3] + w[1][4] * t[4] + w[1][5] * t[5];
     r[2] = r[2] / rad;
-    r[3] = r[3] * a0 / ath;
-    double x1 = r[3] * cos(r[2]);
-    double x2 = x1 * sin(r[1]);
-    x1 = x1 * cos(r[1]);
+    r[3] = r[3] * a0 / ath * 1000 / AU;
+
+    double rh = r[3] * cos(r[2]);
     double x3 = r[3] * sin(r[2]);
+    double x1 = rh * cos(r[1]);
+    double x2 = rh * sin(r[1]);
+
     double pw = (p1 + p2 * t[2] + p3 * t[3] + p4 * t[4] + p5 * t[5]) * t[2];
     double qw = (q1 + q2 * t[2] + q3 * t[3] + q4 * t[4] + q5 * t[5]) * t[2];
-    double ra = 2.0 * sqrt(1 - pw * pw - qw * qw);
+    double pwq = pw * pw;
+    double qwq = qw * qw;
     double pwqw = 2.0 * pw * qw;
-    double pw2 = 1 - 2.0 * pw * pw;
-    double qw2 = 1 - 2.0 * qw * qw;
+    double pw2 = 1 - 2.0 * pwq;
+    double qw2 = 1 - 2.0 * qwq;
+    double h = 1 - pwq - qwq;
+    double ra = 2.0 * (h > 0 ? sqrt(h) : 0);
     pw = pw * ra;
     qw = qw * ra;
-    xyz->X[0] = (pw2 * x1 + pwqw * x2 + pw * x3) * 1000 / AU;
-    xyz->X[1] = (pwqw * x1 + qw2 * x2 - qw * x3) * 1000 / AU;
-    xyz->X[2] = (-pw * x1 + qw * x2 + (pw2 + qw2 - 1) * x3) * 1000 / AU;
+
+    xyz->X[0] = (pw2 * x1 + pwqw * x2 + pw * x3);
+    xyz->X[1] = (pwqw * x1 + qw2 * x2 - qw * x3);
+    xyz->X[2] = (-pw * x1 + qw * x2 + (pw2 + qw2 - 1.0) * x3);
 	return 0;
 }

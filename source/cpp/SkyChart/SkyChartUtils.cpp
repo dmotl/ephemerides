@@ -21,6 +21,8 @@
 */
 #include "SkyChartUtils.h"
 
+#include <math.h>
+
 using namespace Utils;
 
 // Ecliptic obliquity of J2000.0, degrees
@@ -54,14 +56,15 @@ CVector3d Utils::vsop87ToFK5(const CVector3d& in)
 		);
 }
 
-CEquCoordinates Utils::rectangularToSperical(const CVector3d& xyz)
+void Utils::rectangularToSperical(const CVector3d& xyz, double* lng, double* lat)
 {
-	double rho = M_PI_2 - atan2(sqrt(xyz.x() * xyz.x() + xyz.y() * xyz.y()), xyz.z());
-	double phi = atan2(xyz.y(), xyz.x());
-	return CEquCoordinates(CRightAscension(phi), CDeclination(rho));
+	if (lat)
+		*lat = M_PI_2 - atan2(sqrt(xyz.x() * xyz.x() + xyz.y() * xyz.y()), xyz.z());
+	if (lng)
+		*lng = atan2(xyz.y(), xyz.x());
 }
 
-CVector3d Utils::aberrationPush(double planet_Earth_distance, CVector3d& earth_velocity)
+CVector3d Utils::aberrationPush(double planet_Earth_distance, const CVector3d& earth_velocity)
 {
 	return earth_velocity * (planet_Earth_distance * AU / (SPEED_OF_LIGHT * 86400.0));
 }

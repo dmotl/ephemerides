@@ -21,14 +21,13 @@
 */
 #pragma once
 
-#include "CEquCoordinates.h"
-
 namespace Utils
 {
 	template<typename T>
 	class CVector3
 	{
 	public:
+		CVector3() {}
 		CVector3(const T& x, const T& y, const T& z) { m_x[0] = x; m_x[1] = y; m_x[2] = z; }
 		CVector3(const double *xyz) { m_x[0] = xyz[0]; m_x[1] = xyz[1]; m_x[2] = xyz[2]; }
 
@@ -54,13 +53,17 @@ namespace Utils
 			return CVector3<T>(m_x[0] - b.m_x[0], m_x[1] - b.m_x[1], m_x[2] - b.m_x[2]);
 		}
 
+		bool isNull() const {
+			return (*this) * (*this) == 0;
+		}
+
 	private:
 		T m_x[3];
 	};
 
 	using CVector3d = CVector3<double>;
 
-	/* Converts VSOP87 rectangular coordinates to the
+	/* Converts VSOP87 ecliptical rectangular coordinates to the
 	 * equatorial frame FK5 J2000. This should be used
 	 * for VSOP87A and VSOP87E.
 	 *
@@ -74,13 +77,13 @@ namespace Utils
 	* \param xyz FK5 J2000 equatorial coordinates
 	* \return equatorial spherical coordinates
 	 */
-	CEquCoordinates rectangularToSperical(const CVector3d& xyz);
+	void rectangularToSperical(const CVector3d& xyz, double *lng, double *lat);
 
 	/* Compute aberration shift to position of a planet
 	 *
-	 * \param planet_Earth_distance distance from the planet to earth [AU]
-	 * \param earth_velocity heliocentric ecliptic velocity [AU/d]
+	 * \param planet_distance distance between the observer and the planet [AU]
+	 * \param earth_velocity ecliptic velocity of the observer [AU/d]
 	 * \return aberration shift [AU]
 	 */
-	CVector3d aberrationPush(double planet_Earth_distance, CVector3d& earth_velocity);
+	CVector3d aberrationPush(double planet_distance, const CVector3d& earth_velocity);
 }

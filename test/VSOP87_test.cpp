@@ -28,7 +28,8 @@
 #include "vsop87.h"
 
 #include "vsop87.chk.h"
-#include <SkyChart/SkyChartUtils.h>
+#include <SkyChartUtils.h>
+#include <CEquCoordinates.h>
 
 #define VSOP87_RECT_TEST(ib, iv, testTab, error) \
 	static const tVSOP87TestXYZ* tab = vsop87_ ## testTab; \
@@ -135,7 +136,7 @@ TEST(VSOP87, VSPO87C_Neptune)
 #define KM_TO_AU(km) (static_cast<double>(km) / 149597870.700)
 
 // January 1, 2022, 0:00 UTC
-static const double JD0 = 2459580.5;
+static const double JD0 = 2459580.5 + 69 / 86400.0;
 
 static double CompareAngles(double alpha, double beta)
 {
@@ -187,8 +188,8 @@ static void PrintAngularDist(std::string prefix, double rad1, double rad2)
 		\
 	Utils::CVector3d dist = Utils::CVector3d(planet.X) - Utils::CVector3d(earth.X); \
 	Utils::CVector3d ap = Utils::aberrationPush(dist.length(), Utils::CVector3d(earth.X + 3)); \
-	CEquCoordinates pos = Utils::rectangularToSperical(Utils::vsop87ToFK5(dist) + ap);\
-	double r = pos.rightAscension().radians(), d = pos.declination().radians();\
+	CEquCoordinates pos(Utils::vsop87ToFK5(dist + ap)); \
+	double r = pos.rightAscension().radians(), d = pos.declination().radians(); \
     PrintAngularDist("Lon:", r, (posRA)); \
     PrintAngularDist("Lat:", d, (posDEC)); \
 	EXPECT_LT(CompareAngles(r, (posRA)), (epsRA));\
@@ -201,13 +202,13 @@ TEST(VSOP87, Sun_J2000)
 	tVSOP87_Rect earth;
 	EXPECT_EQ(vsop87a(3, JD0, &earth), 0);
 	Utils::CVector3d dist = Utils::CVector3d(earth.X) * (-1.0);
-	Utils::CVector3d ap = Utils::aberrationPush(dist.length(), Utils::CVector3d(earth.X + 3));
-	CEquCoordinates pos = Utils::rectangularToSperical(Utils::vsop87ToFK5(dist) + ap);
+	Utils::CVector3d ap = Utils::aberrationPush(Utils::CVector3d(earth.X).length(), Utils::CVector3d(earth.X + 3));
+	CEquCoordinates pos(Utils::vsop87ToFK5(dist + ap));
 	double r = pos.rightAscension().radians(), d = pos.declination().radians();
 	PrintAngularDist("Lon:", r, (posRA));
 	PrintAngularDist("Lat:", d, (posDEC));
-	EXPECT_LT(CompareAngles(r, posRA), HMS_TO_RAD(0, 0, 2));
-	EXPECT_LT(CompareAngles(d, posDEC), DEC_TO_RAD(0, 0, 10));
+	EXPECT_LT(CompareAngles(r, posRA), DEC_TO_RAD(0, 0, 5));
+	EXPECT_LT(CompareAngles(d, posDEC), DEC_TO_RAD(0, 0, 5));
 	EXPECT_NEAR(dist.length(), 0.98, 0.01);
 }
 
@@ -215,49 +216,49 @@ TEST(VSOP87, Mercury_J2000)
 {
 	static const double Mercury[2] = { 1.14, 0.78 };
 	VSOP87_TEST_J2000(1, HMS_TO_RAD(20, 01, 25.5), -DEC_TO_RAD(22, 22, 08.0), 
-		HMS_TO_RAD(0, 0, 2), DEC_TO_RAD(0, 0, 10));
+		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Venus_J2000)
 {
 	static const double Venus[2] = { 0.27, 0.02 };
 	VSOP87_TEST_J2000(2, HMS_TO_RAD(19, 37, 13.2), -DEC_TO_RAD(18, 38, 20.4),
-		HMS_TO_RAD(0, 0, 2), DEC_TO_RAD(0, 0, 30));
+		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Mars_J2000)
 {
 	static const double Mars[2] = { 2.34, 0.98 };
 	VSOP87_TEST_J2000(4, HMS_TO_RAD(16, 45, 20.4), -DEC_TO_RAD(22, 27, 40.0),
-		HMS_TO_RAD(0, 0, 2), DEC_TO_RAD(0, 0, 30));
+		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Jupiter_J2000)
 {
 	static const double Jupiter[1] = { 5.57 };
 	VSOP87_TEST_J2000(5, HMS_TO_RAD(22, 10, 43.6), -DEC_TO_RAD(12, 19, 01.8),
-		HMS_TO_RAD(0, 0, 2), DEC_TO_RAD(0, 0, 30));
+		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Saturn_J2000)
 {
 	static const double Saturn[1] = { 14.94 };
 	VSOP87_TEST_J2000(6, HMS_TO_RAD(20, 57, 10.2), -DEC_TO_RAD(18, 05, 46.7),
-		HMS_TO_RAD(0, 0, 2), DEC_TO_RAD(0, 0, 30));
+		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Uranus_J2000)
 {
 	static const double Uranus[1] = { 19.2 };
 	VSOP87_TEST_J2000(7, HMS_TO_RAD(02, 33, 26.7), DEC_TO_RAD(14, 37, 51.2),
-		HMS_TO_RAD(0, 0, 2), DEC_TO_RAD(0, 0, 30));
+		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Neptune_J2000)
 {
 	static const double Neptune[1] = { 30.24 };
 	VSOP87_TEST_J2000(8, HMS_TO_RAD(23, 26, 22.9), -DEC_TO_RAD(4, 51, 35.2),
-		HMS_TO_RAD(0, 0, 2), DEC_TO_RAD(0, 0, 30));
+		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 //-------------------------------------------------------------------------
@@ -270,8 +271,8 @@ TEST(VSOP87, Neptune_J2000)
 		\
 	Utils::CVector3d dist = Utils::CVector3d(planet.X) - Utils::CVector3d(earth.X); \
 	Utils::CVector3d ap = Utils::aberrationPush(dist.length(), Utils::CVector3d(earth.X + 3)); \
-	CEquCoordinates pos = Utils::rectangularToSperical(Utils::vsop87ToFK5(dist) + ap);\
-	double r = pos.rightAscension().radians(), d = pos.declination().radians();\
+	CEquCoordinates pos(Utils::vsop87ToFK5(dist + ap)); \
+	double r = pos.rightAscension().radians(), d = pos.declination().radians(); \
 	PrintAngularDist("Lon:", r, (posRA)); \
 	PrintAngularDist("Lat:", d, (posDEC)); \
 	EXPECT_LT(CompareAngles(r, (posRA)), (epsRA));\
@@ -285,7 +286,7 @@ TEST(VSOP87, Sun_DATE)
 	EXPECT_EQ(vsop87c(3, JD0, &earth), 0);
 	Utils::CVector3d dist = Utils::CVector3d(earth.X) * (-1.0);
 	Utils::CVector3d ap = Utils::aberrationPush(dist.length(), Utils::CVector3d(earth.X + 3));
-	CEquCoordinates pos = Utils::rectangularToSperical(Utils::vsop87ToFK5(dist) + ap);
+	CEquCoordinates pos(Utils::vsop87ToFK5(dist + ap));
 	double r = pos.rightAscension().radians(), d = pos.declination().radians();
 	PrintAngularDist("Lon:", r, (posRA)); \
 	PrintAngularDist("Lat:", d, (posDEC)); \
@@ -305,40 +306,40 @@ TEST(VSOP87, Venus_DATE)
 {
 	static const double Venus[2] = { 0.27, 0.02 };
 	VSOP87_TEST_DATE(2, HMS_TO_RAD(19, 38, 28.8), -DEC_TO_RAD(18, 35, 24.3),
-		HMS_TO_RAD(0, 0, 5), DEC_TO_RAD(0, 0, 20));
+		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Mars_DATE)
 {
 	static const double Mars[2] = { 2.34, 0.98 };
 	VSOP87_TEST_DATE(4, HMS_TO_RAD(16, 46, 38.6), -DEC_TO_RAD(22, 30, 02.0),
-		HMS_TO_RAD(0, 0, 5), DEC_TO_RAD(0, 0, 10));
+		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Jupiter_DATE)
 {
 	static const double Jupiter[1] = { 5.57 };
 	VSOP87_TEST_DATE(5, HMS_TO_RAD(22, 11, 53.3), -DEC_TO_RAD(12, 12, 36.5),
-		HMS_TO_RAD(0, 0, 5), DEC_TO_RAD(0, 0, 10));
+		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Saturn_DATE)
 {
 	static const double Saturn[1] = { 14.94 };
 	VSOP87_TEST_DATE(6, HMS_TO_RAD(20, 58, 23.8), -DEC_TO_RAD(18, 00, 44.8),
-		HMS_TO_RAD(0, 0, 5), DEC_TO_RAD(0, 0, 10));
+		DEC_TO_RAD(0, 0, 45), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Uranus_DATE)
 {
 	static const double Uranus[1] = { 19.2 };
 	VSOP87_TEST_DATE(7, HMS_TO_RAD(02, 34, 38.2), DEC_TO_RAD(14, 43, 34.4),
-		HMS_TO_RAD(0, 0, 5), DEC_TO_RAD(0, 0, 15));
+		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Neptune_DATE)
 {
 	static const double Neptune[1] = { 30.24 };
 	VSOP87_TEST_DATE(8, HMS_TO_RAD(23, 27, 30.1), -DEC_TO_RAD(4, 44, 25.0),
-		HMS_TO_RAD(0, 0, 5), DEC_TO_RAD(0, 0, 10));
+		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
