@@ -39,8 +39,13 @@ set(lib_sources
 set(ui_sources
  "CSkyChartView.cpp"
  "CSkyChartView.h"
+ "CSkyChartDataset.h"
  "SkyChartUtilsQt.cpp"
  "SkyChartUtilsQt.h"
+ "CEquGridDataset.h"
+ "CEquGridDataset.cpp"
+ "CBrightStarCatalogDataset.h"
+ "CBrightStarCatalogDataset.cpp"
 )
 
 add_library(skychartcorelib STATIC ${lib_sources})
@@ -50,5 +55,5 @@ target_link_libraries(skychartcorelib PUBLIC vsop87 elp82)
 add_library(skychart STATIC ${ui_sources})
 target_include_directories(skychart PUBLIC .)
 target_compile_options(skychart PRIVATE /W3 /WX)
-target_link_libraries(skychart PRIVATE Qt6::Core Qt6::Widgets skychartcorelib)
+target_link_libraries(skychart PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets skychartcorelib)
 target_compile_definitions(skychart PRIVATE QT_NO_CAST_FROM_ASCII QT_NO_CAST_TO_ASCII)

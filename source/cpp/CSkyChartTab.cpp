@@ -21,8 +21,12 @@
 */
 #include "CSkyChartTab.h"
 
-#include "CSkyChartView.h"
+#include "CEquGridDataset.h"
+#include "CBrightStarCatalogDataset.h"
 
+//
+// Constructor
+//
 CSkyChartTab::CSkyChartTab(CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(mainWnd, parent),
 m_toolBar(NULL), m_toolsBtn(NULL), m_toolsMenu(NULL), m_toolsActionMapper(NULL)
 {
@@ -33,6 +37,9 @@ m_toolBar(NULL), m_toolsBtn(NULL), m_toolsMenu(NULL), m_toolsActionMapper(NULL)
 
 	m_toolsActionMapper = new QSignalMapper(this);
 	connect(m_toolsActionMapper, &QSignalMapper::mappedInt, this, &CSkyChartTab::onToolsAction);
+
+	view->addDataset(new CEquGridDataset(this));
+	view->addDataset(new CBrightStarCatalogDataset(this));
 
 	createToolBar();
 

@@ -25,6 +25,8 @@
 
 #include "CEquCoordinates.h"
 
+class CSkyChartDataset;
+
 class CSkyChartView : public QWidget
 {
 	Q_OBJECT
@@ -46,6 +48,8 @@ public:
 
 	CEquCoordinates mapToCoords(const QPointF& pos) const;
 
+	void addDataset(CSkyChartDataset* dataset);
+
 private:
 	// Viewport normal vector (look direction)
 	// Z = +/-1 (celestial north/south pole)
@@ -59,6 +63,8 @@ private:
 	QPointF m_offset;
 
 	QVector3D project(const QPoint& xy) const;
+
+	QList<CSkyChartDataset*> m_datasets;
 
 signals:
 	void viewChanged(void);

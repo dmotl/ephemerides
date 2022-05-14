@@ -61,8 +61,8 @@ TEST(CNGC2000, NGC_1)
 
 	CNGC2000::CObject* obj = file.find_ngc(1);
 	EXPECT_FALSE(obj == nullptr);
-	EXPECT_NEAR(obj->pos().rightAscension().radians(), NGC_1[0], 1e-6);
-	EXPECT_NEAR(obj->pos().declination().radians(), NGC_1[1], 1e-6);
+	EXPECT_NEAR(obj->equatorialJ2000().rightAscension().radians(), NGC_1[0], 1e-6);
+	EXPECT_NEAR(obj->equatorialJ2000().declination().radians(), NGC_1[1], 1e-6);
 	EXPECT_NEAR(obj->magnitude(), NGC_1[2], 1e-6);
 }
 
@@ -74,8 +74,8 @@ TEST(CNGC2000, IC_1)
 
 	CNGC2000::CObject* obj = file.find_ic(1);
 	EXPECT_FALSE(obj == nullptr);
-	EXPECT_NEAR(obj->pos().rightAscension().radians(), IC_1[0], 1e-6);
-	EXPECT_NEAR(obj->pos().declination().radians(), IC_1[1], 1e-6);
+	EXPECT_NEAR(obj->equatorialJ2000().rightAscension().radians(), IC_1[0], 1e-6);
+	EXPECT_NEAR(obj->equatorialJ2000().declination().radians(), IC_1[1], 1e-6);
 	EXPECT_NEAR(obj->magnitude(), IC_1[2], 1e-6);
 }
 
@@ -87,7 +87,7 @@ TEST(CNGC2000, M_1)
 
 	/*CNGC2000::CObject* obj = file.find_messier(1);
 	EXPECT_FALSE(obj == nullptr);
-	EXPECT_NEAR(obj->pos().rightAscension().radians(), M_1[0], 1e-6);
-	EXPECT_NEAR(obj->pos().declination().radians(), M_1[1], 1e-6);
+	EXPECT_NEAR(obj->equatorialJ2000().rightAscension().radians(), M_1[0], 1e-6);
+	EXPECT_NEAR(obj->equatorialJ2000().declination().radians(), M_1[1], 1e-6);
 	EXPECT_NEAR(obj->magnitude(), M_1[2], 1e-6);*/
 }

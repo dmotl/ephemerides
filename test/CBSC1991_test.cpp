@@ -55,7 +55,7 @@ TEST(CBSC1991, Sirius)
 
 	CBSC1991::CObject* obj = file.find_bs(2491);
 	EXPECT_FALSE(obj == nullptr);
-	EXPECT_NEAR(obj->pos().rightAscension().radians(), Sirius[0], 1e-6);
-	EXPECT_NEAR(obj->pos().declination().radians(), Sirius[1], 1e-6);
+	EXPECT_NEAR(obj->equatorialJ2000().rightAscension().radians(), Sirius[0], 1e-6);
+	EXPECT_NEAR(obj->equatorialJ2000().declination().radians(), Sirius[1], 1e-6);
 	EXPECT_NEAR(obj->magnitude(), Sirius[2], 1e-6);
 }

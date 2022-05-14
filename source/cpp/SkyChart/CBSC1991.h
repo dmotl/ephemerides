@@ -35,7 +35,7 @@ public:
 	public:
 		CObject(int bs_num,
 			const CEquCoordinates& pos, double mag) : m_bsnum(bs_num), m_pos(pos), m_mag(mag) {}
-		CEquCoordinates pos(void) override { return m_pos; }
+		CEquCoordinates equatorialJ2000(void) override { return m_pos; }
 		int brightStarNumber(void) const { return m_bsnum; }
 		double magnitude(void) const { return m_mag; }
 

@@ -22,6 +22,7 @@
 #pragma once
 
 #include <QtWidgets>
+#include <CEquGridDataset.h>
 
 class CSharedData;
 
@@ -51,6 +52,9 @@ public:
 private:
 	// Shared data
 	CSharedData* m_sharedData;
+
+	// Equatorial grid
+	CEquGridDataset* m_equGrid;
 
 	// Chart widget
 	QWidget* m_chartView;

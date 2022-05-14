@@ -21,7 +21,7 @@
 */
 #include "CSkyChartView.h"
 
-#include "CEquCoordinates.h"
+#include "CSkyChartDataset.h"
 
 QVector3D CSkyChartView::project(const QPoint& xy) const
 {
@@ -49,20 +49,13 @@ m_currQ(QQuaternion()), m_scale(1.0), m_viewSize(0), m_rotating(false), m_width(
 void CSkyChartView::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
-	painter.setPen(QPen(Qt::white));
 	painter.fillRect(event->rect(), Qt::black);
 
-	// Equatorial grid
-	for (int i = -8; i <= 8; i++) {
-		double dec = CDeclination::fromDegrees(i * 10).radians();
-		for (int j = 0; j < 24; j++) {
-			double ra = CRightAscension::fromHours(j).radians();
-			QVector3D equ3d(cos(ra) * cos(dec), sin(ra) * cos(dec), sin(dec));
-			QVector3D r3d = (m_currQ * m_lastQ).rotatedVector(equ3d).normalized();
-			if (r3d.z() >= 0)
-				painter.drawPoint(r3d.toPointF() * 0.5 * m_scale * m_viewSize + m_offset);
-		}
-	}
+	double scale = 0.5 * m_scale * m_viewSize, dx = m_offset.x(), dy = m_offset.y();
+	QTransform map = QTransform::fromScale(scale, scale) * QTransform::fromTranslate(dx, dy);
+
+	for (int i = 0; i < m_datasets.count(); i++)
+		m_datasets[i]->paint(painter, m_currQ * m_lastQ, map);
 }
 
 void CSkyChartView::resizeEvent(QResizeEvent* event)
@@ -148,5 +141,13 @@ void CSkyChartView::setScale(double scale)
 	if (scale != m_scale) {
 		m_scale = scale;
 		update();
+	}
+}
+
+void CSkyChartView::addDataset(CSkyChartDataset* dataset)
+{
+	if (dataset != nullptr) {
+		m_datasets.append(dataset);
+
 	}
 }

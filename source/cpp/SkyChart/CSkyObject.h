@@ -30,5 +30,5 @@ public:
 
 	virtual ~CSkyObject() {}
 
-	virtual CEquCoordinates pos() = 0;
+	virtual CEquCoordinates equatorialJ2000() = 0;
 };

@@ -82,7 +82,7 @@ public:
 		CObject(const CObjectDesignation&id,
 			tObjectType type, const CEquCoordinates& pos, std::string& con, double mag) : m_id(id), m_type(type), m_pos(pos), m_mag(mag), m_messier(0) {}
 		tObjectType type(void) const { return m_type; }
-		CEquCoordinates pos(void) override { return m_pos; }
+		CEquCoordinates equatorialJ2000(void) override { return m_pos; }
 		const CObjectDesignation& designation(void) const { return m_id; }
 		double magnitude(void) const { return m_mag; }
 
