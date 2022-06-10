@@ -25,6 +25,7 @@
 
 #include "CEquCoordinates.h"
 
+class CProjection;
 class CSkyChartDataset;
 
 class CSkyChartView : public QWidget
@@ -33,6 +34,8 @@ class CSkyChartView : public QWidget
 
 public:
 	CSkyChartView(QWidget* parent);
+
+	~CSkyChartView() override;
 
 	QQuaternion viewQuat(void) const { return m_currQ * m_lastQ; }
 	
@@ -61,6 +64,8 @@ private:
 	double m_scale;
 	int m_viewSize, m_width, m_height;
 	QPointF m_offset;
+
+	CProjection* m_projector;
 
 	QVector3D project(const QPoint& xy) const;
 

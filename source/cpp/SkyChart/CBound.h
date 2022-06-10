@@ -21,11 +21,10 @@
 */
 #pragma once
 
-#include <string>
 #include <list>
-#include <map>
 
 #include "CSkyObject.h"
+#include "constellation_names.h"
 
 class CBound
 {
@@ -35,29 +34,26 @@ public:
 	class CPoint
 	{
 	public:
-		CPoint(tPointType type, const CEquCoordinates& origin, std::string con, int csuffix): m_type(type), m_origin(origin), m_con(con), m_csuffix(csuffix) {}
+		CPoint(tPointType type, const CEquCoordinates& origin, tConstellation cons): m_type(type), m_origin(origin), m_cons(cons) {}
 
 		tPointType type(void) const { return m_type; }
 
-		const CEquCoordinates& origin(void) { return m_origin; }
+		const CEquCoordinates& equatorialJ2000(void) const { return m_origin; }
+
+		tConstellation constellation(void) const { return m_cons; }
 
 	private:
 		tPointType m_type;
 		CEquCoordinates m_origin;
-		std::string m_con;
-		int m_csuffix;
+		tConstellation m_cons;
 	};
 
-	CBound() {}
+	CBound();
 
-	~CBound();
-
-	void clear();
-
-	bool load(const char* dirPath);
+	const std::list<CPoint>& data() const { return m_list; }
 
 private:
-	std::list<CPoint*> m_list;
+	std::list<CPoint> m_list;
 
 	static double invalidRightAscension() { return 1e99; }
 	static double invalidDeclination() { return -99; }

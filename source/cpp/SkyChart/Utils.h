@@ -20,6 +20,7 @@
 *      permission.
 */
 #pragma once
+#include "SkyChartUtils.h"
 
 /*
 * \brief Degrees to radians
@@ -73,4 +74,8 @@ namespace Utils
 	*/
 	double AngularDistance(double Ra1, double De1, double Ra2, double De2);
 
+	//
+	// Hegret precession 
+	//
+	void HegretPrecession(double epoch_from, double epoch_to, CVector3d& pos);
 };

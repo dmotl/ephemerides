@@ -1,7 +1,7 @@
 /*!
-*  \file      CBound.cpp
+*  \file      CStereographicProjection.h
 *  \author    David Motl
-*  \date      2022-05-11
+*  \date      2022-06-10
 *
 *  \copyright
 *
@@ -19,23 +19,28 @@
 *      to endorse or promote products derived from this software without specific prior written
 *      permission.
 */
-#include "CBound.h"
+#pragma once
 
-#include <locale>
-#include <sstream>
-#include <fstream>
-#include <iostream>
-#include <filesystem>
+#include "CProjection.h"
 
-#include "constbnd_tables.h"
-
-CBound::CBound()
+class CStereographicProjection : public CProjection
 {
-	int length = sizeof(constbnd) / sizeof(tConstBoundariesTable);
-	for (int i = 0; i < length; i++) {
-		const tConstBoundariesTable* src = constbnd + i;
+public:
+	CStereographicProjection() {}
 
-		CEquCoordinates equ(CRightAscension::fromHours((double)src->ra / 3600.0), CDeclination::fromDegrees((double)src->dec / 3600.0));
-		m_list.push_back(CPoint(tPointType::ORIGIN, equ, (tConstellation)src->cons));
+	void project(QVector3D& v) const override
+	{
+		double r = sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+		double h = 0.5 * (r - v[2]);
+		if (h > 1e-6) {
+			double f = 1. / h;
+			v[0] *= f;
+			v[1] *= f;
+			v[2] = r;
+		}
+		else {
+			v[0] = v[1] = FLT_MAX;
+			v[2] = -FLT_MIN;
+		}
 	}
-}
+};

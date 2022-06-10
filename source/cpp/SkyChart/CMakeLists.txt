@@ -46,11 +46,11 @@ set(ui_sources
  "CEquGridDataset.cpp"
  "CBrightStarCatalogDataset.h"
  "CBrightStarCatalogDataset.cpp"
-)
+ "CConstBoundsDataset.h" "CConstBoundsDataset.cpp")
 
 add_library(skychartcorelib STATIC ${lib_sources})
 target_include_directories(skychartcorelib PUBLIC .)
-target_link_libraries(skychartcorelib PUBLIC vsop87 elp82)
+target_link_libraries(skychartcorelib PUBLIC vsop87 elp82 constbnd)
 
 add_library(skychart STATIC ${ui_sources})
 target_include_directories(skychart PUBLIC .)

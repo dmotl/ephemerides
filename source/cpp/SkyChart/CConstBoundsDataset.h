@@ -1,7 +1,7 @@
 /*!
-*  \file      CBound.cpp
+*  \file      CConstBoundDataset.h
 *  \author    David Motl
-*  \date      2022-05-11
+*  \date      2022-06-10
 *
 *  \copyright
 *
@@ -19,23 +19,28 @@
 *      to endorse or promote products derived from this software without specific prior written
 *      permission.
 */
-#include "CBound.h"
+#pragma once
 
-#include <locale>
-#include <sstream>
-#include <fstream>
-#include <iostream>
-#include <filesystem>
+#include "CSkyChartDataset.h"
+#include "SkyChartUtils.h"
+#include "CEquCoordinates.h"
 
-#include "constbnd_tables.h"
-
-CBound::CBound()
+class CConstBoundsDataset : public CSkyChartDataset
 {
-	int length = sizeof(constbnd) / sizeof(tConstBoundariesTable);
-	for (int i = 0; i < length; i++) {
-		const tConstBoundariesTable* src = constbnd + i;
+public:
+	explicit CConstBoundsDataset(QObject* parent = nullptr);
 
-		CEquCoordinates equ(CRightAscension::fromHours((double)src->ra / 3600.0), CDeclination::fromDegrees((double)src->dec / 3600.0));
-		m_list.push_back(CPoint(tPointType::ORIGIN, equ, (tConstellation)src->cons));
-	}
-}
+	void paint(QPainter& painter, const QQuaternion& q, const CProjection& p, const QTransform& m) override;
+
+private:
+	class CCurve : public QList<Utils::CVector3d>
+	{
+	public:
+		CCurve() {}
+		std::optional<QPainterPath> toPath(const QQuaternion& q, const CProjection& p, const QTransform& m) const;
+	};
+
+	static void cubic(Utils::CVector3d out[], const Utils::CVector3d& start, const Utils::CVector3d& end);
+
+	QList<CCurve> m_data;
+};

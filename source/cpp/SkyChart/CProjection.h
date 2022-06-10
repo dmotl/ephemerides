@@ -1,7 +1,7 @@
 /*!
-*  \file      CBound.cpp
+*  \file      CProjection.h
 *  \author    David Motl
-*  \date      2022-05-11
+*  \date      2022-06-10
 *
 *  \copyright
 *
@@ -19,23 +19,16 @@
 *      to endorse or promote products derived from this software without specific prior written
 *      permission.
 */
-#include "CBound.h"
+#pragma once
 
-#include <locale>
-#include <sstream>
-#include <fstream>
-#include <iostream>
-#include <filesystem>
+#include <QtGui>
 
-#include "constbnd_tables.h"
-
-CBound::CBound()
+class CProjection
 {
-	int length = sizeof(constbnd) / sizeof(tConstBoundariesTable);
-	for (int i = 0; i < length; i++) {
-		const tConstBoundariesTable* src = constbnd + i;
+public:
+	CProjection() {}
 
-		CEquCoordinates equ(CRightAscension::fromHours((double)src->ra / 3600.0), CDeclination::fromDegrees((double)src->dec / 3600.0));
-		m_list.push_back(CPoint(tPointType::ORIGIN, equ, (tConstellation)src->cons));
-	}
-}
+	virtual ~CProjection() {}
+
+	virtual void project(QVector3D& v) const = 0;
+};

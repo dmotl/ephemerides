@@ -22,6 +22,7 @@
 #include "CSkyChartView.h"
 
 #include "CSkyChartDataset.h"
+#include "CStereographicProjection.h"
 
 QVector3D CSkyChartView::project(const QPoint& xy) const
 {
@@ -42,20 +43,30 @@ QVector3D CSkyChartView::project(const QPoint& xy) const
 
 CSkyChartView::CSkyChartView(QWidget* parent) : QWidget(parent), m_lastQ(1, QVector3D(0, 0, 1)), 
 m_currQ(QQuaternion()), m_scale(1.0), m_viewSize(0), m_rotating(false), m_width(0), m_height(0)
-{ 
+{
+	m_projector = new CStereographicProjection();
 	setMouseTracking(true); 
+}
+
+CSkyChartView::~CSkyChartView()
+{
+	delete m_projector;
 }
 
 void CSkyChartView::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
 	painter.fillRect(event->rect(), Qt::black);
+	painter.setRenderHint(QPainter::Antialiasing);
+	painter.setRenderHint(QPainter::TextAntialiasing);
 
 	double scale = 0.5 * m_scale * m_viewSize, dx = m_offset.x(), dy = m_offset.y();
 	QTransform map = QTransform::fromScale(scale, scale) * QTransform::fromTranslate(dx, dy);
 
-	for (int i = 0; i < m_datasets.count(); i++)
-		m_datasets[i]->paint(painter, m_currQ * m_lastQ, map);
+	if (m_projector) {
+		for (int i = 0; i < m_datasets.count(); i++)
+			m_datasets[i]->paint(painter, m_currQ * m_lastQ, *m_projector, map);
+	}
 }
 
 void CSkyChartView::resizeEvent(QResizeEvent* event)

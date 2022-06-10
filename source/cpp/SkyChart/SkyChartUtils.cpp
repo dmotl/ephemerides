@@ -64,6 +64,11 @@ void Utils::rectangularToSperical(const CVector3d& xyz, double* lng, double* lat
 		*lng = atan2(xyz.y(), xyz.x());
 }
 
+CVector3d Utils::sphericalToRectangular(double lng, double lat)
+{
+	return CVector3d(cos(lng) * cos(lat), sin(lng) * cos(lat), sin(lat));
+}
+
 CVector3d Utils::aberrationPush(double planet_Earth_distance, const CVector3d& earth_velocity)
 {
 	return earth_velocity * (planet_Earth_distance * AU / (SPEED_OF_LIGHT * 86400.0));

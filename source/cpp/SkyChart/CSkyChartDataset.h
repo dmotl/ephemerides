@@ -2,6 +2,8 @@
 
 #include <QtGui>
 
+#include "CProjection.h"
+
 class CSkyChartDataset : public QObject
 {
 public:
@@ -9,5 +11,6 @@ public:
 
 	virtual ~CSkyChartDataset() {}
 
-	virtual void paint(QPainter& painter, const QQuaternion& q, const QTransform& m) = 0;
+	virtual void paint(QPainter& painter, const QQuaternion& q, 
+		const CProjection& p, const QTransform& m) = 0;
 };

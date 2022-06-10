@@ -28,7 +28,7 @@ CBrightStarCatalogDataset::~CBrightStarCatalogDataset()
 	delete m_bsc;
 }
 
-void CBrightStarCatalogDataset::paint(QPainter& painter, const QQuaternion& q, const QTransform& m)
+void CBrightStarCatalogDataset::paint(QPainter& painter, const QQuaternion& q, const CProjection& p, const QTransform& m)
 {
 	Qt::GlobalColor color = Qt::transparent;
 
@@ -38,6 +38,7 @@ void CBrightStarCatalogDataset::paint(QPainter& painter, const QQuaternion& q, c
 	auto begin = m_data.begin(), end = m_data.end();
 	while (begin != end) {
 		QVector3D r3d = q.rotatedVector(begin->pos).normalized();
+		p.project(r3d);
 		if (r3d.z() >= 0) {
 			if (begin->rsize < 0.5) {
 				if (color != Qt::gray) {

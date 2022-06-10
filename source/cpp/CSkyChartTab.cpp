@@ -23,6 +23,7 @@
 
 #include "CEquGridDataset.h"
 #include "CBrightStarCatalogDataset.h"
+#include "CConstBoundsDataset.h"
 
 //
 // Constructor
@@ -38,8 +39,9 @@ m_toolBar(NULL), m_toolsBtn(NULL), m_toolsMenu(NULL), m_toolsActionMapper(NULL)
 	m_toolsActionMapper = new QSignalMapper(this);
 	connect(m_toolsActionMapper, &QSignalMapper::mappedInt, this, &CSkyChartTab::onToolsAction);
 
-	view->addDataset(new CEquGridDataset(this));
+	//view->addDataset(new CEquGridDataset(this));
 	view->addDataset(new CBrightStarCatalogDataset(this));
+	view->addDataset(new CConstBoundsDataset(this));
 
 	createToolBar();
 

@@ -21,6 +21,8 @@
 */
 #pragma once
 
+#include <assert.h>
+
 namespace Utils
 {
 	template<typename T>
@@ -35,8 +37,13 @@ namespace Utils
 		double y() const { return m_x[1]; }
 		double z() const { return m_x[2]; }
 
-		CVector3<T> operator*(double k) const {
-			return CVector3<T>(k * m_x[0], k * m_x[1], k * m_x[2]);
+		CVector3<T> operator*(double factor) const 
+		{
+			return CVector3<T>(factor * m_x[0], factor * m_x[1], factor * m_x[2]);
+		}
+		CVector3<T> operator/(double divisor)
+		{
+			return CVector3<T>(m_x[0] / divisor, m_x[1] / divisor, m_x[2] / divisor);
 		}
 		double length() const {
 			return sqrt((*this) * (*this));
@@ -55,6 +62,26 @@ namespace Utils
 
 		bool isNull() const {
 			return (*this) * (*this) == 0;
+		}
+
+		bool operator==(const CVector3<T>& other) const {
+			return m_x[0] == other.m_x[0] && m_x[1] == other.m_x[1] && m_x[2] == other.m_x[2];
+		}
+		bool operator!=(const CVector3<T>& other) const {
+			return !operator==(other);
+		}
+		T& operator[](int index) {
+			assert(index >= 0 && index <= 2);
+			return m_x[index];
+		}
+		const T& operator[](int index) const {
+			assert(index >= 0 && index <= 2);
+			return m_x[index];
+		}
+
+		constexpr friend inline CVector3<T> operator*(double factor, const CVector3<T>& vector) noexcept
+		{
+			return CVector3<T>(factor * vector[0], factor * vector[1], factor * vector[2]);
 		}
 
 	private:
@@ -78,6 +105,13 @@ namespace Utils
 	* \return equatorial spherical coordinates
 	 */
 	void rectangularToSperical(const CVector3d& xyz, double *lng, double *lat);
+
+	/* Convert equatorial rectangular coordinates to spherical ones.
+	*
+	* \param FK5 J2000 equatorial coordinates (in radians)
+	* \param[out] xyz coordinates (normalized)
+	 */
+	CVector3d sphericalToRectangular(double lng, double lat);
 
 	/* Compute aberration shift to position of a planet
 	 *

@@ -63,4 +63,5 @@ target_compile_definitions(${uiTargetName} PRIVATE QT_NO_CAST_FROM_ASCII QT_NO_C
 add_subdirectory(SkyChart)
 add_subdirectory(vsop87)
 add_subdirectory(elp82)
+add_subdirectory(constbnd)
 

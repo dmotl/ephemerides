@@ -11,7 +11,7 @@ public:
 
 	~CBrightStarCatalogDataset() override;
 
-	void paint(QPainter& painter, const QQuaternion& q, const QTransform& m) override;
+	void paint(QPainter& painter, const QQuaternion& q, const CProjection& p, const QTransform& m) override;
 
 private:
 	struct tObject
