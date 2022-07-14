@@ -47,7 +47,8 @@ void CEquGridDataset::paint(QPainter& painter, const CQuaterniond& q,
 	if (m_dirty)
 		updatePoints();
 
-	painter.setPen(QPen(Qt::red));
+	painter.setPen(QPen(Qt::darkRed));
+	painter.setBrush(QBrush());
 
 	// Equatorial grid
 	switch (m_style)

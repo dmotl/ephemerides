@@ -1,5 +1,5 @@
 /*!
-*  \file      CPoint.h
+*  \file      CMatrix3d.h
 *  \author    David Motl
 *  \date      2022-07-05
 *
@@ -21,4 +21,4 @@
 */
 #pragma once
 
-#include "CPoint.h"
+#include "CMatrix3.h"

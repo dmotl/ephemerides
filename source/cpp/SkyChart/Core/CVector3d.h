@@ -1,5 +1,5 @@
 /*!
-*  \file      CVector3.h
+*  \file      CVector3d.h
 *  \author    David Motl
 *  \date      2022-07-05
 *

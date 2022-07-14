@@ -23,7 +23,7 @@
 
 #include <list>
 
-#include "CSkyObject.h"
+#include "CSkyChartObject.h"
 #include "constellation_names.h"
 
 class CBound

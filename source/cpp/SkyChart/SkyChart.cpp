@@ -1,5 +1,5 @@
 /*!
-*  \file      CSkyObject.h
+*  \file      SkyChart.cpp
 *  \author    David Motl
 *  \date      2022-05-11
 *
@@ -21,14 +21,4 @@
 */
 #pragma once
 
-#include "CEquCoordinates.h"
-
-class CSkyObject
-{
-public:
-	CSkyObject() {}
-
-	virtual ~CSkyObject() {}
-
-	virtual CEquCoordinates equatorialJ2000() = 0;
-};
+// This file is intentionally left blank ;-)

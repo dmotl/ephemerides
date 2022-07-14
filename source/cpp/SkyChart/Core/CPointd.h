@@ -1,5 +1,5 @@
 /*!
-*  \file      CTransform.h
+*  \file      CPointd.h
 *  \author    David Motl
 *  \date      2022-07-05
 *
@@ -21,4 +21,4 @@
 */
 #pragma once
 
-#include "CTransform.h"
+#include "CPoint.h"

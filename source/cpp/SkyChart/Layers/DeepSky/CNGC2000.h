@@ -25,7 +25,7 @@
 #include <list>
 #include <map>
 
-#include "CSkyObject.h"
+#include "CSkyChartObject.h"
 
 class CNGC2000
 {
@@ -76,7 +76,7 @@ public:
 		bool operator<=(const CObjectDesignation& other) const { return !other.operator<(*this); }
 	};
 
-	struct CObject : public CSkyObject
+	struct CObject : public CSkyChartObject
 	{
 	public:
 		CObject(const CObjectDesignation&id,

@@ -141,7 +141,7 @@ CConstBoundsDataset::CConstBoundsDataset()
 void CConstBoundsDataset::paint(QPainter& painter, const CQuaterniond& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect)
 {
 	painter.setBrush(QBrush());
-	painter.setPen(Qt::green);
+	painter.setPen(Qt::darkGreen);
 
 	auto begin = m_data.begin(), end = m_data.end();
 	while (begin != end) {

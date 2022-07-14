@@ -25,12 +25,12 @@
 #include <list>
 #include <map>
 
-#include "CSkyObject.h"
+#include "CSkyChartObject.h"
 
 class CBSC1991
 {
 public:
-	struct CObject : public CSkyObject
+	struct CObject : public CSkyChartObject
 	{
 	public:
 		CObject(int bs_num,

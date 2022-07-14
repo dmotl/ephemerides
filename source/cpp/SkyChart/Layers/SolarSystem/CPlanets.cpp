@@ -108,7 +108,7 @@ void CPlanets::Init()
     }
 
     // Moon
-    tELP82_Rect xyz, xyz_10;
+    tELP82_Rect xyz;
     elp82b(0, m_jd, &xyz);
     m_moon = CVector3d(xyz.X[0], xyz.X[1], xyz.X[2]);
 }

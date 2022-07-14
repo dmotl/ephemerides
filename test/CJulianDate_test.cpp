@@ -28,6 +28,9 @@
 #include "CJulianDate.h"
 #include "CPlanets.h"
 
+#undef DEG_TO_RAD
+#undef RAD_TO_DEG
+
 #define RA_TO_RAD(h, m, s) (((h) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 12 * M_PI)
 #define DEC_TO_RAD(d, m, s) DMS_TO_RAD(d, m, s)
 #define DEG_TO_RAD(deg) ((deg) / 180 * M_PI)

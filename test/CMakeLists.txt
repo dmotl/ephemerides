@@ -14,9 +14,9 @@ add_executable(tests
 "ELP82_test.cpp"
 "CPoint_test.cpp" 
 "CVector3_test.cpp"
- "CTransform_test.cpp")
+"CTransform_test.cpp")
 
-target_link_libraries(tests GTest::gtest vsop87 vsop87_tests elp82 skychartcorelib )
+target_link_libraries(tests GTest::gtest vsop87 vsop87_tests elp82 skychartcorelib skychartlayers)
 target_include_directories(tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 gtest_discover_tests(tests)
 

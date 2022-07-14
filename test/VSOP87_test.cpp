@@ -31,6 +31,9 @@
 #include <SkyChartUtils.h>
 #include <CEquCoordinates.h>
 
+#undef DEG_TO_RAD
+#undef RAD_TO_DEG
+
 #define VSOP87_RECT_TEST(ib, iv, testTab, error) \
 	static const tVSOP87TestXYZ* tab = vsop87_ ## testTab; \
 	int size = sizeof(vsop87_ ## testTab) / sizeof(tVSOP87TestXYZ); \

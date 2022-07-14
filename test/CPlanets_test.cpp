@@ -28,7 +28,10 @@
 #include "CPlanets.h"
 #include <CEquCoordinates.h>
 
+#undef RA_TO_RAD
 #define RA_TO_RAD(h, m, s) (((h) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 12 * M_PI)
+
+#undef DEC_TO_RAD
 #define DEC_TO_RAD(d, m, s) (((d) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 180 * M_PI)
 
 #define KM_TO_AU(km) (static_cast<double>(km) / 149597870.700)
