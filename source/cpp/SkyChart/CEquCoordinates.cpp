@@ -2,7 +2,7 @@
 
 #include "SkyChartUtils.h"
 
-CEquCoordinates::CEquCoordinates(const Utils::CVector3d& rect)
+CEquCoordinates::CEquCoordinates(const CVector3d& rect)
 {
 	if (!rect.isNull()) {
 		double ra, dec;

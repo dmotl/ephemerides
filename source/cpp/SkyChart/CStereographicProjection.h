@@ -28,9 +28,9 @@ class CStereographicProjection : public CProjection
 public:
 	CStereographicProjection() {}
 
-	void project(QVector3D& v) const override
+	void project(CVector3d& v) const override
 	{
-		double r = sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+		double r = v.length();
 		double h = 0.5 * (r - v[2]);
 		if (h > 1e-6) {
 			double f = 1. / h;
@@ -42,5 +42,13 @@ public:
 			v[0] = v[1] = FLT_MAX;
 			v[2] = -FLT_MIN;
 		}
+	}
+
+	bool unproject(CVector3d& v) const override
+	{
+		const double lqq = 0.25 * (v[0] * v[0] + v[1] * v[1]);
+		v[2] = lqq - 1.0;
+		v *= (1.0 / (lqq + 1.0));
+		return true;
 	}
 };

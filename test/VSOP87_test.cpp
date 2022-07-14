@@ -168,12 +168,12 @@ static std::string radToString(double rad)
 	return s.str();
 }
 
-static void PrintAngularDist(std::string prefix, double rad1, double rad2)
+static void PrintAngularDist(std::string prefix, double _rad1, double _rad2)
 {
-	//std::cout << prefix << "computed: " << radToString(rad1) << std::endl;
-	//std::cout << prefix << "expected: " << radToString(rad2) << std::endl;
+	//std::cout << prefix << "computed: " << radToString(_rad1) << std::endl;
+	//std::cout << prefix << "expected: " << radToString(_rad2) << std::endl;
 
-	double rad = CompareAngles(rad1, rad2);
+	double rad = CompareAngles(_rad1, _rad2);
 	if (rad > M_PI)
 		rad = 2 * M_PI - rad;
 	double d = (fabs(rad) / M_PI * 180 * 3600 + 0.5);
@@ -186,8 +186,8 @@ static void PrintAngularDist(std::string prefix, double rad1, double rad2)
 	EXPECT_EQ(vsop87a((PlanetID), JD0, &planet), 0); \
 	EXPECT_EQ(vsop87a(3, JD0, &earth), 0); \
 		\
-	Utils::CVector3d dist = Utils::CVector3d(planet.X) - Utils::CVector3d(earth.X); \
-	Utils::CVector3d ap = Utils::aberrationPush(dist.length(), Utils::CVector3d(earth.X + 3)); \
+	CVector3d dist = CVector3d(planet.X[0], planet.X[1], planet.X[2]) - CVector3d(earth.X[0], earth.X[1], earth.X[2]); \
+	CVector3d ap = Utils::aberrationPush(dist.length(), CVector3d(earth.X[3], earth.X[4], earth.X[5])); \
 	CEquCoordinates pos(Utils::vsop87ToFK5(dist + ap)); \
 	double r = pos.rightAscension().radians(), d = pos.declination().radians(); \
     PrintAngularDist("Lon:", r, (posRA)); \
@@ -201,8 +201,8 @@ TEST(VSOP87, Sun_J2000)
 
 	tVSOP87_Rect earth;
 	EXPECT_EQ(vsop87a(3, JD0, &earth), 0);
-	Utils::CVector3d dist = Utils::CVector3d(earth.X) * (-1.0);
-	Utils::CVector3d ap = Utils::aberrationPush(Utils::CVector3d(earth.X).length(), Utils::CVector3d(earth.X + 3));
+	CVector3d dist = CVector3d(earth.X[0], earth.X[1], earth.X[2]) * (-1.0);
+	CVector3d ap = Utils::aberrationPush(CVector3d(earth.X[0], earth.X[1], earth.X[2]).length(), CVector3d(earth.X[3], earth.X[4], earth.X[5]));
 	CEquCoordinates pos(Utils::vsop87ToFK5(dist + ap));
 	double r = pos.rightAscension().radians(), d = pos.declination().radians();
 	PrintAngularDist("Lon:", r, (posRA));
@@ -269,8 +269,8 @@ TEST(VSOP87, Neptune_J2000)
 	EXPECT_EQ(vsop87c((PlanetID), JD0, &planet), 0); \
 	EXPECT_EQ(vsop87c(3, JD0, &earth), 0); \
 		\
-	Utils::CVector3d dist = Utils::CVector3d(planet.X) - Utils::CVector3d(earth.X); \
-	Utils::CVector3d ap = Utils::aberrationPush(dist.length(), Utils::CVector3d(earth.X + 3)); \
+	CVector3d dist = CVector3d(planet.X[0], planet.X[1], planet.X[2]) - CVector3d(earth.X[0], earth.X[1], earth.X[2]); \
+	CVector3d ap = Utils::aberrationPush(dist.length(), CVector3d(earth.X[3], earth.X[4], earth.X[5])); \
 	CEquCoordinates pos(Utils::vsop87ToFK5(dist + ap)); \
 	double r = pos.rightAscension().radians(), d = pos.declination().radians(); \
 	PrintAngularDist("Lon:", r, (posRA)); \
@@ -284,8 +284,8 @@ TEST(VSOP87, Sun_DATE)
 
 	tVSOP87_Rect earth;
 	EXPECT_EQ(vsop87c(3, JD0, &earth), 0);
-	Utils::CVector3d dist = Utils::CVector3d(earth.X) * (-1.0);
-	Utils::CVector3d ap = Utils::aberrationPush(dist.length(), Utils::CVector3d(earth.X + 3));
+	CVector3d dist = CVector3d(earth.X[0], earth.X[1], earth.X[2]) * (-1.0);
+	CVector3d ap = Utils::aberrationPush(dist.length(), CVector3d(earth.X[3], earth.X[4], earth.X[5]));
 	CEquCoordinates pos(Utils::vsop87ToFK5(dist + ap));
 	double r = pos.rightAscension().radians(), d = pos.declination().radians();
 	PrintAngularDist("Lon:", r, (posRA)); \

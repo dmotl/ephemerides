@@ -1,7 +1,7 @@
 /*!
-*  \file      CConstBoundDataset.h
+*  \file      CVector3.h
 *  \author    David Motl
-*  \date      2022-06-10
+*  \date      2022-07-05
 *
 *  \copyright
 *
@@ -21,29 +21,4 @@
 */
 #pragma once
 
-#include "CSkyChartDataset.h"
-#include "SkyChartUtils.h"
-#include "CEquCoordinates.h"
-
-class CConstBoundsDataset : public CSkyChartDataset
-{
-public:
-	CConstBoundsDataset();
-
-	void paint(QPainter& painter, const CQuaterniond& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect) override;
-
-private:
-	class CCurve
-	{
-	public:
-		CCurve() {}
-		CCurve(const std::vector<CVector3d>& pts) : m_pts(pts) {}
-		std::optional<QPainterPath> toPath(const CQuaterniond& q, const CProjection& p, const CTransformd& m,
-			const QRectF& paint_rect) const;
-
-	private:
-		std::vector<CVector3d> m_pts;
-	};
-
-	std::vector<CCurve> m_data;
-};
+#include "CVector3.h"

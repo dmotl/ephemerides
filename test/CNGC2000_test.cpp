@@ -30,7 +30,10 @@
 
 #include "test_config.h"
 
+#undef RA_TO_RAD
 #define RA_TO_RAD(h, m) (((h) + static_cast<double>(m) / 60) / 12 * M_PI)
+
+#undef DEC_TO_RAD
 #define DEC_TO_RAD(d, m) ((abs(d) + static_cast<double>(m) / 60) / 180 * M_PI)
 
 /*    1  Gx  0 07.3  +27 43 s  Peg   1.9  13. p F, S, R, bet *11 and *14                          */

@@ -20,22 +20,3 @@
 *      permission.
 */
 #include "SkyChartUtilsQt.h"
-
-static QMatrix4x4 matVSOP87ToJ2000;
-static bool initialized = false;
-
-void vsop87ToFK5(const QVector4D& in, QVector4D& out)
-{
-	if (!initialized) {
-
-
-
-
-		QMatrix4x4 mat;
-		mat.rotate((float)( - 23.4392803055555555556 * M_PI / 180), 1, 0);
-		mat.rotate((float)(0.0000275 * M_PI / 180), 0, 0, 1);
-		matVSOP87ToJ2000 = mat.transposed();
-		initialized = true;
-	}
-	out = matVSOP87ToJ2000 * in;
-}

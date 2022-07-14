@@ -3,14 +3,21 @@
 #include <QtGui>
 
 #include "CProjection.h"
+#include "CQuaternion.h"
+#include "CTransform.h"
 
-class CSkyChartDataset : public QObject
+using CPointd = QPointF;
+using CVector3d = QVector3D;
+using CTransformd = QTransform;
+using CQuaterniond = QQuaternion;
+
+class CSkyChartDataset
 {
 public:
-	explicit CSkyChartDataset(QObject* parent = nullptr) : QObject(parent) {}
+	CSkyChartDataset() {}
 
 	virtual ~CSkyChartDataset() {}
 
-	virtual void paint(QPainter& painter, const QQuaternion& q, 
-		const CProjection& p, const QTransform& m) = 0;
+	virtual void paint(QPainter& painter, const CQuaterniond& q,
+		const CProjection& p, const CTransformd& m, const QRectF& paint_rect) = 0;
 };

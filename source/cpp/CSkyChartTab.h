@@ -72,4 +72,9 @@ private slots:
 	void on_qXSpinBox_valueChanged(double value);
 	void on_qYSpinBox_valueChanged(double value);
 	void on_qZSpinBox_valueChanged(double value);
+
+	void on_btnCopyQ_clicked(void);
+	void on_btnPasteQ_clicked(void);
+	void on_btnCopyE_clicked(void);
+	void on_btnPasteE_clicked(void);
 };

@@ -1,5 +1,5 @@
 /*!
-*  \file      CConstBoundDataset.h
+*  \file      CStereographicProjection.h
 *  \author    David Motl
 *  \date      2022-06-10
 *
@@ -21,29 +21,41 @@
 */
 #pragma once
 
-#include "CSkyChartDataset.h"
-#include "SkyChartUtils.h"
-#include "CEquCoordinates.h"
+#include "CProjection.h"
 
-class CConstBoundsDataset : public CSkyChartDataset
+class COrthographicProjection : public CProjection
 {
 public:
-	CConstBoundsDataset();
+	COrthographicProjection() {}
 
-	void paint(QPainter& painter, const CQuaterniond& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect) override;
-
-private:
-	class CCurve
+	void project(CVector3d& v) const override
 	{
-	public:
-		CCurve() {}
-		CCurve(const std::vector<CVector3d>& pts) : m_pts(pts) {}
-		std::optional<QPainterPath> toPath(const CQuaterniond& q, const CProjection& p, const CTransformd& m,
-			const QRectF& paint_rect) const;
+		const double r = v.length();
+		if (r > 0) {
+			v[0] /= r;
+			v[1] /= r;
+			v[2] /= r;
+		}
+		else {
+			v[0] = v[1] = FLT_MAX;
+			v[2] = -FLT_MIN;
+		}
+	}
 
-	private:
-		std::vector<CVector3d> m_pts;
-	};
-
-	std::vector<CCurve> m_data;
+	bool unproject(CVector3d& v) const override
+	{
+		const double dq = v[0] * v[0] + v[1] * v[1];
+		double h = 1.0 - dq;
+		if (h < 0) {
+			h = 1.0 / std::sqrt(dq);
+			v[0] *= h;
+			v[1] *= h;
+			v[2] = 0.0;
+			return false;
+		}
+		else {
+			v[2] = -std::sqrt(h);
+			return true;
+		}
+	}
 };

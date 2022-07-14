@@ -23,6 +23,10 @@
 
 #include <QtGui>
 
+#include "CVector3.h"
+
+using CVector3d = QVector3D;
+
 class CProjection
 {
 public:
@@ -30,5 +34,7 @@ public:
 
 	virtual ~CProjection() {}
 
-	virtual void project(QVector3D& v) const = 0;
+	virtual void project(CVector3d& v) const = 0;
+
+	virtual bool unproject(CVector3d& v) const = 0;
 };

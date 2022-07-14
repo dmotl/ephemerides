@@ -38,7 +38,7 @@ public:
 
 		tPointType type(void) const { return m_type; }
 
-		const CEquCoordinates& equatorialJ2000(void) const { return m_origin; }
+		const CEquCoordinates& equatorialB1875(void) const { return m_origin; }
 
 		tConstellation constellation(void) const { return m_cons; }
 
@@ -50,10 +50,10 @@ public:
 
 	CBound();
 
-	const std::list<CPoint>& data() const { return m_list; }
+	const std::vector<CPoint>& data() const { return m_list; }
 
 private:
-	std::list<CPoint> m_list;
+	std::vector<CPoint> m_list;
 
 	static double invalidRightAscension() { return 1e99; }
 	static double invalidDeclination() { return -99; }

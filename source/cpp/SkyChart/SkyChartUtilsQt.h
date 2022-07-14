@@ -27,13 +27,5 @@
 
 namespace Utils
 {
-	inline QVector4D vec3dToVec4d(const CVector3d& in)
-	{
-		return QVector4D(in.x(), in.y(), in.z(), 1.0);
-	}
 
-	inline CVector3d vec4dToVec3d(const QVector4D& in)
-	{
-		return CVector3d(in.x(), in.y(), in.z());
-	}
 }

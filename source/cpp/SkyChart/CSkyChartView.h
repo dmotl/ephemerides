@@ -24,9 +24,13 @@
 #include <QtWidgets>
 
 #include "CEquCoordinates.h"
+#include "CQuaternion.h"
 
 class CProjection;
 class CSkyChartDataset;
+
+using CQuaterniond = QQuaternion;
+using CPointd = QPointF;
 
 class CSkyChartView : public QWidget
 {
@@ -37,19 +41,22 @@ public:
 
 	~CSkyChartView() override;
 
-	QQuaternion viewQuat(void) const { return m_currQ * m_lastQ; }
+	CQuaterniond viewQuat(void) const { return m_currQ * m_lastQ; }
 	
-	void setViewQuat(const QQuaternion& quat);
+	void setViewQuat(const CQuaterniond& quat);
 
 	CEquCoordinates centerCoords(void) const;
 
-	void setCoords(const CEquCoordinates& coords);
+	void setCoords(const CEquCoordinates& coords)
+	{
+
+	}
 
 	double scale(void) const { return m_scale; }
 
 	void setScale(double scale);
 
-	CEquCoordinates mapToCoords(const QPointF& pos) const;
+	CEquCoordinates mapToCoords(const CPointd& pos) const;
 
 	void addDataset(CSkyChartDataset* dataset);
 
@@ -58,16 +65,16 @@ private:
 	// Z = +/-1 (celestial north/south pole)
 	// X = +/-1 (spring/autumnal equinox)
 	// Y = +/-1 (???)
-	QQuaternion m_lastQ, m_currQ;
+	CQuaterniond m_lastQ, m_currQ;
 	bool m_rotating;
 	QPoint m_startPos;
 	double m_scale;
 	int m_viewSize, m_width, m_height;
-	QPointF m_offset;
+	CPointd m_offset;
 
 	CProjection* m_projector;
 
-	QVector3D project(const QPoint& xy) const;
+	CVector3d toXYZ(const QPoint& xy) const;
 
 	QList<CSkyChartDataset*> m_datasets;
 

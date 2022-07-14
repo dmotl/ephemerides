@@ -89,7 +89,7 @@
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="decimals">
-           <number>4</number>
+           <number>13</number>
           </property>
           <property name="minimum">
            <double>-100.000000000000000</double>
@@ -127,7 +127,7 @@
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="decimals">
-           <number>4</number>
+           <number>13</number>
           </property>
           <property name="minimum">
            <double>-100.000000000000000</double>
@@ -146,7 +146,7 @@
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="decimals">
-           <number>4</number>
+           <number>13</number>
           </property>
           <property name="minimum">
            <double>-100.000000000000000</double>
@@ -222,7 +222,7 @@
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="decimals">
-           <number>4</number>
+           <number>13</number>
           </property>
           <property name="minimum">
            <double>-100.000000000000000</double>
@@ -232,6 +232,24 @@
           </property>
           <property name="singleStep">
            <double>0.010000000000000</double>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QPushButton" name="btnCopyQ">
+          <property name="text">
+           <string>Copy</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnPasteQ">
+          <property name="text">
+           <string>Paste</string>
           </property>
          </widget>
         </item>
@@ -248,10 +266,10 @@
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="decimals">
-           <number>4</number>
+           <number>13</number>
           </property>
           <property name="singleStep">
-           <double>0.010000000000000</double>
+           <double>0.001000000000000</double>
           </property>
          </widget>
         </item>
@@ -261,10 +279,10 @@
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="decimals">
-           <number>4</number>
+           <number>13</number>
           </property>
           <property name="singleStep">
-           <double>0.010000000000000</double>
+           <double>0.001000000000000</double>
           </property>
          </widget>
         </item>
@@ -325,10 +343,28 @@
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="decimals">
-           <number>4</number>
+           <number>13</number>
           </property>
           <property name="singleStep">
            <double>0.010000000000000</double>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QPushButton" name="btnCopyE">
+          <property name="text">
+           <string>Copy</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnPasteE">
+          <property name="text">
+           <string>Paste</string>
           </property>
          </widget>
         </item>

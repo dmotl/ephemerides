@@ -106,7 +106,7 @@ public:
 
 	bool load(const char* dirPath);
 
-	const std::list<CObject*>& data() const
+	const std::vector<CObject*>& data() const
 	{
 		return m_list;
 	}
@@ -118,7 +118,7 @@ public:
 	static double invalidMagnitude() { return -99; }
 
 private:
-	std::list<CObject*> m_list;
+	std::vector<CObject*> m_list;
 	std::map<int, CObject*> m_ngc, m_ic, m_messier;
 
 	CNGC2000(const CNGC2000&) = delete;

@@ -21,9 +21,13 @@
 */
 #include "CJulianDate.h"
 
+#if 0
 #define _USE_MATH_DEFINES
 
 #include <math.h>
+
+#endif
+
 #include <assert.h>
 
 //

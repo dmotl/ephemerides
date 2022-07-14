@@ -21,75 +21,17 @@
 */
 #pragma once
 
-#include <assert.h>
+#include <QtGui>
+
+#include "Utils.h"
+#include "CVector3.h"
+#include "CMatrix3.h"
+
+using CVector3d = QVector3D;
+using CMatrix3d = QMatrix3x3;
 
 namespace Utils
 {
-	template<typename T>
-	class CVector3
-	{
-	public:
-		CVector3() {}
-		CVector3(const T& x, const T& y, const T& z) { m_x[0] = x; m_x[1] = y; m_x[2] = z; }
-		CVector3(const double *xyz) { m_x[0] = xyz[0]; m_x[1] = xyz[1]; m_x[2] = xyz[2]; }
-
-		double x() const { return m_x[0]; }
-		double y() const { return m_x[1]; }
-		double z() const { return m_x[2]; }
-
-		CVector3<T> operator*(double factor) const 
-		{
-			return CVector3<T>(factor * m_x[0], factor * m_x[1], factor * m_x[2]);
-		}
-		CVector3<T> operator/(double divisor)
-		{
-			return CVector3<T>(m_x[0] / divisor, m_x[1] / divisor, m_x[2] / divisor);
-		}
-		double length() const {
-			return sqrt((*this) * (*this));
-		}
-		double operator*(const CVector3<T> b) const {
-			return m_x[0] * b.m_x[0] + m_x[1] * b.m_x[1] + m_x[2] * b.m_x[2];
-		}
-		CVector3<T> operator+(const CVector3<T> b) const
-		{
-			return CVector3<T>(m_x[0] + b.m_x[0], m_x[1] + b.m_x[1], m_x[2] + b.m_x[2]);
-		}
-		CVector3<T> operator-(const CVector3<T> b) const
-		{
-			return CVector3<T>(m_x[0] - b.m_x[0], m_x[1] - b.m_x[1], m_x[2] - b.m_x[2]);
-		}
-
-		bool isNull() const {
-			return (*this) * (*this) == 0;
-		}
-
-		bool operator==(const CVector3<T>& other) const {
-			return m_x[0] == other.m_x[0] && m_x[1] == other.m_x[1] && m_x[2] == other.m_x[2];
-		}
-		bool operator!=(const CVector3<T>& other) const {
-			return !operator==(other);
-		}
-		T& operator[](int index) {
-			assert(index >= 0 && index <= 2);
-			return m_x[index];
-		}
-		const T& operator[](int index) const {
-			assert(index >= 0 && index <= 2);
-			return m_x[index];
-		}
-
-		constexpr friend inline CVector3<T> operator*(double factor, const CVector3<T>& vector) noexcept
-		{
-			return CVector3<T>(factor * vector[0], factor * vector[1], factor * vector[2]);
-		}
-
-	private:
-		T m_x[3];
-	};
-
-	using CVector3d = CVector3<double>;
-
 	/* Converts VSOP87 ecliptical rectangular coordinates to the
 	 * equatorial frame FK5 J2000. This should be used
 	 * for VSOP87A and VSOP87E.
@@ -98,6 +40,32 @@ namespace Utils
 	 * \param out FK5 J2000 coordinates
 	 */
 	CVector3d vsop87ToFK5(const CVector3d& in);
+
+	CMatrix3<double> vsop87ToFK5();
+
+	/*
+	* \brief Angular distance of two objects
+	*
+	* The function computes angular distance an a unit sphere of two objects specified
+	* by polar coordinates in radians.
+	*
+	* \param Ra1 first coordinate of the first object, in radians
+	* \param Dec1 second coordinate of the first object, in radians
+	* \param Ra2 first coordinate of the second object, in radians
+	* \param Dec2 second coordinate of the second object, in radians
+	* \return angular distance in radians
+	*/
+	double AngularDistance(double Ra1, double De1, double Ra2, double De2);
+
+	//
+	// Hegret precession 
+	//
+	CVector3d HegretPrecession(double epoch_from, double epoch_to, const CVector3d& pos);
+
+	//
+	// Hegret precession 
+	//
+	CMatrix3d HegretPrecession(double epoch_from, double epoch_to);
 
 	/* Convert equatorial rectangular coordinates to spherical ones.
 	* 
@@ -120,4 +88,7 @@ namespace Utils
 	 * \return aberration shift [AU]
 	 */
 	CVector3d aberrationPush(double planet_distance, const CVector3d& earth_velocity);
+
+
+	void cubic(CVector3d out[], const CVector3d& start, const CVector3d& end);
 }

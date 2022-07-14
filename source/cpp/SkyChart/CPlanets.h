@@ -65,7 +65,7 @@ public:
 	* \param rad Earth-Moon distance in AU
 	* \param phase phase in radians - see description
 	*/
-	Utils::CVector3d Moon() const;
+	CVector3d Moon() const;
 
 	/* Sun
 	*
@@ -75,7 +75,7 @@ public:
 	* \param dec declination of ecliptical geocentric coordinates, in radians
 	* \param rad Earth-Moon distance in AU
 	*/
-	Utils::CVector3d Sun() const;
+	CVector3d Sun() const;
 
 	/* Mercury
 	*
@@ -86,7 +86,7 @@ public:
 	* \param rad distance in AU
 	* \param phase phase in radians
 	*/
-	Utils::CVector3d Mercury() const { return _Planet(1); }
+	CVector3d Mercury() const { return _Planet(1); }
 
 	/* Venus
 	*
@@ -97,7 +97,7 @@ public:
 	* \param rad distance in AU
 	* \param phase phase in radians
 	*/
-	Utils::CVector3d Venus() const { return _Planet(2); }
+	CVector3d Venus() const { return _Planet(2); }
 
 	/* Mars
 	*
@@ -108,7 +108,7 @@ public:
 	* \param rad distance in AU
 	* \param phase phase in radians
 	*/
-	Utils::CVector3d Mars() const { return _Planet(4); }
+	CVector3d Mars() const { return _Planet(4); }
 
 	/* Jupiter
 	*
@@ -119,7 +119,7 @@ public:
 	* \param rad distance in AU
 	* \param phase phase in radians
 	*/
-	Utils::CVector3d Jupiter() const { return _Planet(5); }
+	CVector3d Jupiter() const { return _Planet(5); }
 
 	/* Saturn
 	*
@@ -130,7 +130,7 @@ public:
 	* \param rad distance in AU
 	* \param phase phase in radians
 	*/
-	Utils::CVector3d Saturn() const { return _Planet(6); }
+	CVector3d Saturn() const { return _Planet(6); }
 
 	/* Uranus
 	*
@@ -141,7 +141,7 @@ public:
 	* \param rad distance in AU
 	* \param phase phase in radians
 	*/
-	Utils::CVector3d Uranus() const { return _Planet(7); }
+	CVector3d Uranus() const { return _Planet(7); }
 
 	/* Neptune
 	*
@@ -152,7 +152,7 @@ public:
 	* \param rad distance in AU
 	* \param phase phase in radians
 	*/
-	Utils::CVector3d Neptune() const { return _Planet(8); }
+	CVector3d Neptune() const { return _Planet(8); }
 
 private:
 	// Julian date (UTC)
@@ -160,21 +160,21 @@ private:
 
 	// Rectangular ecliptical heliocentric coordinates (positions [AU])
 	// 0 = Sun, 1 = Mercury, ...
-	Utils::CVector3d m_eclipticPos[9];
+	CVector3d m_eclipticPos[9];
 
 	// Rectangular ecliptical heliocentric coordinates (velocities [AU/d])
 	// 0 = Sun, 1 = Mercury, ...
-	Utils::CVector3d m_eclipticVelocity[9];
+	CVector3d m_eclipticVelocity[9];
 
 	// Rectangular ecliptical geocentric coordinates (positions [AU])
-	Utils::CVector3d m_moon;
+	CVector3d m_moon;
 
 	// Compute values for current JD
 	void Init();
 
 	// Ecliptical geocentric position [AU]
-	Utils::CVector3d aberationPush(int ibody) const;
+	CVector3d aberationPush(int ibody) const;
 
 	// Ecliptical geocentric position [AU]
-	Utils::CVector3d _Planet(int ibody) const;
+	CVector3d _Planet(int ibody) const;
 };

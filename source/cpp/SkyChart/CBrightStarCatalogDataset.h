@@ -7,19 +7,19 @@ class CBSC1991;
 class CBrightStarCatalogDataset : public CSkyChartDataset
 {
 public:
-	explicit CBrightStarCatalogDataset(QObject* parent = nullptr);
+	CBrightStarCatalogDataset();
 
 	~CBrightStarCatalogDataset() override;
 
-	void paint(QPainter& painter, const QQuaternion& q, const CProjection& p, const QTransform& m) override;
+	void paint(QPainter& painter, const CQuaterniond& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect) override;
 
 private:
 	struct tObject
 	{
-		QVector3D pos;
+		CVector3d pos;
 		double rsize;
 	};
 
 	CBSC1991 *m_bsc;
-	std::list<tObject> m_data;
+	std::vector<tObject> m_data;
 };

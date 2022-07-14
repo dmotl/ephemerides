@@ -59,7 +59,7 @@ public:
 	*
 	* The constructor creates an object from a equatorial rectangular coordinates
 	*/
-	CEquCoordinates(const Utils::CVector3d& rect);
+	CEquCoordinates(const CVector3d& rect);
 
 	/*! \brief True if the coordinates are valid */
 	bool isValid(void) const { return m_rightAscension.isValid() && m_declination.isValid(); }
@@ -93,6 +93,9 @@ public:
 
 	/*! \brief comparison operator */
 	inline bool operator!=(const CEquCoordinates& other) const { return !this->operator==(other); }
+
+	/*! \brief convert to rectangular coordinates */
+	CVector3d toXYZ(void) const { return Utils::sphericalToRectangular(m_rightAscension.radians(), m_declination.radians()); }
 
 private:
 	CRightAscension m_rightAscension;

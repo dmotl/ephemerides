@@ -30,6 +30,8 @@ set(lib_sources
  "CPlanets.cpp"
  "CRightAscension.cpp"
  "CRightAscension.h"
+ "CVector3.h"
+ "CQuaternion.h"
  "SkyChartUtils.h"
  "SkyChartUtils.cpp"
  "Utils.cpp"
@@ -50,7 +52,7 @@ set(ui_sources
 
 add_library(skychartcorelib STATIC ${lib_sources})
 target_include_directories(skychartcorelib PUBLIC .)
-target_link_libraries(skychartcorelib PUBLIC vsop87 elp82 constbnd)
+target_link_libraries(skychartcorelib PUBLIC vsop87 elp82 constbnd Qt6::Core Qt6::Gui)
 
 add_library(skychart STATIC ${ui_sources})
 target_include_directories(skychart PUBLIC .)

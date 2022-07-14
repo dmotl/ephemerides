@@ -25,7 +25,7 @@
 
 #include <math.h>
 
-#include "Utils.h"
+#include "SkyChartUtils.h"
 
 TEST(Utils, AngularDistance)
 {

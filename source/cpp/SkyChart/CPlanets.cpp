@@ -21,9 +21,11 @@
 */
 #include "CPlanets.h"
 
+/*/
 #define _USE_MATH_DEFINES
 
 #include <math.h>
+*/
 
 #include "vsop87.h"
 #include "elp82.h"
@@ -74,9 +76,9 @@ static double cropAngle(double rad)
 //
 CPlanets::CPlanets(double jd) : m_jd(0)
 {
-    for (int i = 0; i < sizeof(m_eclipticPos) / sizeof(Utils::CVector3d); i++)
-        m_eclipticPos[i] = m_eclipticVelocity[3] = Utils::CVector3d();
-    m_moon = Utils::CVector3d();
+    for (int i = 0; i < sizeof(m_eclipticPos) / sizeof(CVector3d); i++)
+        m_eclipticPos[i] = m_eclipticVelocity[3] = CVector3d();
+    m_moon = CVector3d();
     if (jd > 0)
         setJD(jd);
 }
@@ -101,21 +103,21 @@ void CPlanets::Init()
     for (int i = 1; i < 9; i++) {
         tVSOP87_Rect xyz;
         vsop87c(i, m_jd, &xyz);
-        m_eclipticPos[i] = Utils::CVector3d(xyz.X);
-        m_eclipticVelocity[3] = Utils::CVector3d(xyz.X + 3);
+        m_eclipticPos[i] = CVector3d(xyz.X[0], xyz.X[1], xyz.X[2]);
+        m_eclipticVelocity[3] = CVector3d(xyz.X[3], xyz.X[4], xyz.X[5]);
     }
 
     // Moon
     tELP82_Rect xyz, xyz_10;
     elp82b(0, m_jd, &xyz);
-    m_moon = Utils::CVector3d(xyz.X);
+    m_moon = CVector3d(xyz.X[0], xyz.X[1], xyz.X[2]);
 }
 
 
 //
 // Moon
 //
-Utils::CVector3d CPlanets::Moon(void) const
+CVector3d CPlanets::Moon(void) const
 {
     return m_moon;
 }
@@ -124,9 +126,9 @@ Utils::CVector3d CPlanets::Moon(void) const
 //
 // Sun
 //
-Utils::CVector3d CPlanets::Sun(void) const
+CVector3d CPlanets::Sun(void) const
 {
-    Utils::CVector3d dist = m_eclipticPos[3] * (-1.0);
+    CVector3d dist = m_eclipticPos[3] * (-1.0);
     return (dist + Utils::aberrationPush(m_eclipticPos[3].length(), m_eclipticVelocity[3]));
 }
 
@@ -134,8 +136,8 @@ Utils::CVector3d CPlanets::Sun(void) const
 //
 // Planets
 //
-Utils::CVector3d CPlanets::_Planet(int ibody) const
+CVector3d CPlanets::_Planet(int ibody) const
 {
-    Utils::CVector3d dist = m_eclipticPos[ibody] - m_eclipticPos[3];
+    CVector3d dist = m_eclipticPos[ibody] - m_eclipticPos[3];
     return (dist + Utils::aberrationPush(dist.length(), m_eclipticVelocity[3]));
 }

@@ -23,8 +23,9 @@
 
 #include "CSkyChartDataset.h"
 #include "CStereographicProjection.h"
+#include "COrthographicProjection.h"
 
-QVector3D CSkyChartView::project(const QPoint& xy) const
+CVector3d CSkyChartView::toXYZ(const QPoint& xy) const
 {
 	double res = m_viewSize - 1;
 
@@ -32,19 +33,18 @@ QVector3D CSkyChartView::project(const QPoint& xy) const
 	double x = (2 * xy.x() - m_width - 1) / res;
 	double y = (2 * xy.y() - m_height - 1) / res;
 
-	double z;
-	if (x * x + y * y <= 0.5)
-		z = sqrt(1 - (x * x + y * y));
+	double h = x * x + y * y;
+	if (h <= 0.5)
+		return CVector3d(x, y, sqrt(1 - h));
 	else
-		z = 0.5 / sqrt(x * x + y * y);
-
-	return QVector3D(x, y, z);
+		return CVector3d(x, y, 0.5 / sqrt(h));
 }
 
-CSkyChartView::CSkyChartView(QWidget* parent) : QWidget(parent), m_lastQ(1, QVector3D(0, 0, 1)), 
-m_currQ(QQuaternion()), m_scale(1.0), m_viewSize(0), m_rotating(false), m_width(0), m_height(0)
+CSkyChartView::CSkyChartView(QWidget* parent) : QWidget(parent), m_lastQ(1, CVector3d(0, 0, 1)), 
+m_scale(1.0), m_viewSize(0), m_rotating(false), m_width(0), m_height(0)
 {
-	m_projector = new CStereographicProjection();
+	//m_projector = new CStereographicProjection();
+	m_projector = new COrthographicProjection();
 	setMouseTracking(true); 
 }
 
@@ -60,12 +60,11 @@ void CSkyChartView::paintEvent(QPaintEvent* event)
 	painter.setRenderHint(QPainter::Antialiasing);
 	painter.setRenderHint(QPainter::TextAntialiasing);
 
-	double scale = 0.5 * m_scale * m_viewSize, dx = m_offset.x(), dy = m_offset.y();
-	QTransform map = QTransform::fromScale(scale, scale) * QTransform::fromTranslate(dx, dy);
-
 	if (m_projector) {
+		double scale = 0.5 * m_scale * m_viewSize, dx = m_offset.x(), dy = m_offset.y();
+		CTransformd scaleShift = CTransformd::fromScale(scale, scale) * CTransformd::fromTranslate(dx, dy);
 		for (int i = 0; i < m_datasets.count(); i++)
-			m_datasets[i]->paint(painter, m_currQ * m_lastQ, *m_projector, map);
+			m_datasets[i]->paint(painter, viewQuat(), *m_projector, scaleShift, event->rect());
 	}
 }
 
@@ -77,7 +76,7 @@ void CSkyChartView::resizeEvent(QResizeEvent* event)
 	int size = qMin(m_width, m_height);
 	if (size != m_viewSize) {
 		m_viewSize = size;
-		m_offset = 0.5 * QPointF(m_width, m_height);
+		m_offset = 0.5 * CPointd(m_width, m_height);
 		update();
 	}
 	QWidget::resizeEvent(event);
@@ -86,9 +85,7 @@ void CSkyChartView::resizeEvent(QResizeEvent* event)
 void CSkyChartView::mouseMoveEvent(QMouseEvent* event)
 {
 	if (m_rotating) {
-		QVector3D a = project(m_startPos);
-		QVector3D b = project(event->pos());
-		m_currQ = QQuaternion::rotationTo(a, b);
+		m_currQ = CQuaterniond::rotationTo(toXYZ(m_startPos), toXYZ(event->pos()));
 		event->accept();
 		emit viewChanged();
 		update();
@@ -120,7 +117,7 @@ void CSkyChartView::mouseReleaseEvent(QMouseEvent* event)
 {
 	if (m_rotating) {
 		m_lastQ = m_currQ * m_lastQ;
-		m_currQ = QQuaternion();
+		m_currQ = CQuaterniond();
 		m_rotating = false;
 		emit viewChanged();
 		update();
@@ -139,10 +136,11 @@ void CSkyChartView::wheelEvent(QWheelEvent* event)
 	QWidget::wheelEvent(event);
 }
 
-void CSkyChartView::setViewQuat(const QQuaternion& quat)
+void CSkyChartView::setViewQuat(const CQuaterniond& quat)
 {
-	if (quat != m_currQ && !m_rotating) {
-		m_currQ = quat;
+	if (quat != m_lastQ && !m_rotating) {
+		m_lastQ = quat;
+		m_currQ = CQuaterniond();
 		update();
 	}
 }
@@ -161,4 +159,28 @@ void CSkyChartView::addDataset(CSkyChartDataset* dataset)
 		m_datasets.append(dataset);
 
 	}
+}
+
+CEquCoordinates CSkyChartView::centerCoords(void) const
+{
+	/*if (m_projector) {
+		CMatrix3d invRotMatrix = viewQuat().toRotationMatrix().inverted();
+		CVector3d r3d;
+		m_projector->unproject(r3d);
+		return CEquCoordinates(invRotMatrix * r3d);
+	}*/
+	return CEquCoordinates();
+}
+
+CEquCoordinates CSkyChartView::mapToCoords(const CPointd& pos) const
+{
+	/*if (m_projector) {
+		CMatrix3d invRotMatrix = viewQuat().toRotationMatrix().inverted();
+		double scale = 0.5 * m_scale * m_viewSize, dx = m_offset.x(), dy = m_offset.y();
+		CTransformd invScaleShift = (CTransformd::fromScale(scale, scale) * CTransformd::fromTranslate(dx, dy)).inverted();
+		CVector3d r3d(invScaleShift.map(pos));
+		m_projector->unproject(r3d);
+		return CEquCoordinates(invRotMatrix * r3d);
+	}*/
+	return CEquCoordinates();
 }

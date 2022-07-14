@@ -83,12 +83,12 @@ static double CompareAngles(double alpha, double beta)
 	return diff;
 }
 
-static void PrintAngularDist(std::string prefix, double rad1, double rad2)
+static void PrintAngularDist(std::string prefix, double _rad1, double _rad2)
 {
-	//std::cout << prefix << "computed: " << radToString(rad1) << std::endl;
-	//std::cout << prefix << "expected: " << radToString(rad2) << std::endl;
+	//std::cout << prefix << "computed: " << radToString(_rad1) << std::endl;
+	//std::cout << prefix << "expected: " << radToString(_rad2) << std::endl;
 
-	double rad = CompareAngles(rad1, rad2);
+	double rad = CompareAngles(_rad1, _rad2);
 	if (rad > M_PI)
 		rad = 2 * M_PI - rad;
 	double d = (fabs(rad) / M_PI * 180 * 3600 + 0.5);
@@ -96,7 +96,7 @@ static void PrintAngularDist(std::string prefix, double rad1, double rad2)
 }
 
 TEST(CPlanets, Sun) {
-	Utils::CVector3d xyz(CPlanets(JD0).Sun());
+	CVector3d xyz(CPlanets(JD0).Sun());
 	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
 	PrintAngularDist("Longitude: ", Sun[0], equ.rightAscension().radians());
 	PrintAngularDist("Latitude:  ", Sun[1], equ.declination().radians());
@@ -106,7 +106,7 @@ TEST(CPlanets, Sun) {
 }
 
 TEST(CPlanets, Moon) {
-	Utils::CVector3d xyz(CPlanets(JD0).Moon());
+	CVector3d xyz(CPlanets(JD0).Moon());
 	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
 	PrintAngularDist("Longitude: ", Moon[0], equ.rightAscension().radians());
 	PrintAngularDist("Latitude:  ", Moon[1], equ.declination().radians());
@@ -115,7 +115,7 @@ TEST(CPlanets, Moon) {
 }
 
 TEST(CPlanets, Mercury) {
-	Utils::CVector3d xyz(CPlanets(JD0).Mercury());
+	CVector3d xyz(CPlanets(JD0).Mercury());
 	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
 	PrintAngularDist("Longitude: ", Mercury[0], equ.rightAscension().radians());
 	PrintAngularDist("Latitude:  ", Mercury[1], equ.declination().radians());
@@ -124,7 +124,7 @@ TEST(CPlanets, Mercury) {
 }
 
 TEST(CPlanets, Venus) {
-	Utils::CVector3d xyz(CPlanets(JD0).Venus());
+	CVector3d xyz(CPlanets(JD0).Venus());
 	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
 	PrintAngularDist("Longitude: ", Venus[0], equ.rightAscension().radians());
 	PrintAngularDist("Latitude:  ", Venus[1], equ.declination().radians());
@@ -133,7 +133,7 @@ TEST(CPlanets, Venus) {
 }
 
 TEST(CPlanets, Mars) {
-	Utils::CVector3d xyz(CPlanets(JD0).Mars());
+	CVector3d xyz(CPlanets(JD0).Mars());
 	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
 	PrintAngularDist("Longitude: ", Mars[0], equ.rightAscension().radians());
 	PrintAngularDist("Latitude:  ", Mars[1], equ.declination().radians());
@@ -142,7 +142,7 @@ TEST(CPlanets, Mars) {
 }
 
 TEST(CPlanets, Jupiter) {
-	Utils::CVector3d xyz(CPlanets(JD0).Jupiter());
+	CVector3d xyz(CPlanets(JD0).Jupiter());
 	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
 	PrintAngularDist("Longitude: ", Jupiter[0], equ.rightAscension().radians());
 	PrintAngularDist("Latitude:  ", Jupiter[1], equ.declination().radians());
@@ -151,7 +151,7 @@ TEST(CPlanets, Jupiter) {
 }
 
 TEST(CPlanets, Saturn) {
-	Utils::CVector3d xyz(CPlanets(JD0).Saturn());
+	CVector3d xyz(CPlanets(JD0).Saturn());
 	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
 	PrintAngularDist("Longitude: ", Saturn[0], equ.rightAscension().radians());
 	PrintAngularDist("Latitude:  ", Saturn[1], equ.declination().radians());
@@ -160,7 +160,7 @@ TEST(CPlanets, Saturn) {
 }
 
 TEST(CPlanets, Uranus) {
-	Utils::CVector3d xyz(CPlanets(JD0).Uranus());
+	CVector3d xyz(CPlanets(JD0).Uranus());
 	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
 	PrintAngularDist("Longitude: ", Uranus[0], equ.rightAscension().radians());
 	PrintAngularDist("Latitude:  ", Uranus[1], equ.declination().radians());
@@ -169,7 +169,7 @@ TEST(CPlanets, Uranus) {
 }
 
 TEST(CPlanets, Neptune) {
-	Utils::CVector3d xyz(CPlanets(JD0).Neptune());
+	CVector3d xyz(CPlanets(JD0).Neptune());
 	CEquCoordinates equ(Utils::vsop87ToFK5(xyz));
 	PrintAngularDist("Longitude: ", Neptune[0], equ.rightAscension().radians());
 	PrintAngularDist("Latitude:  ", Neptune[1], equ.declination().radians());

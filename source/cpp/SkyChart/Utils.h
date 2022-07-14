@@ -20,7 +20,6 @@
 *      permission.
 */
 #pragma once
-#include "SkyChartUtils.h"
 
 /*
 * \brief Degrees to radians
@@ -29,7 +28,7 @@
 * \param deg angle in degrees
 * \return angle in radians
 */
-#define DEG_TO_RAD(deg) ((deg) / 180 * M_PI)
+#define DEG_TO_RAD(deg) (static_cast<double>(deg) / 180.0 * M_PI)
 
 /*
 * \brief Radians to degrees
@@ -38,7 +37,7 @@
 * \param deg angle in radians
 * \return angle in degrees
 */
-#define RAD_TO_DEG(rad) ((rad) / M_PI * 180)
+#define RAD_TO_DEG(rad) (static_cast<double>(rad) / M_PI * 180.0)
 
 
 #define DMS_TO_RAD(d, m, s) ((abs(d) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 180 * M_PI)
@@ -57,25 +56,3 @@
 * 
 */
 #define HMS_TO_JD(h, m, s) (((h) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 24)
-
-namespace Utils
-{
-	/*
-	* \brief Angular distance of two objects
-	* 
-	* The function computes angular distance an a unit sphere of two objects specified 
-	* by polar coordinates in radians.
-	* 
-	* \param Ra1 first coordinate of the first object, in radians
-	* \param Dec1 second coordinate of the first object, in radians
-	* \param Ra2 first coordinate of the second object, in radians
-	* \param Dec2 second coordinate of the second object, in radians
-	* \return angular distance in radians
-	*/
-	double AngularDistance(double Ra1, double De1, double Ra2, double De2);
-
-	//
-	// Hegret precession 
-	//
-	void HegretPrecession(double epoch_from, double epoch_to, CVector3d& pos);
-};
