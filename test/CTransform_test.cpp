@@ -30,33 +30,33 @@
 TEST(CTransform, default_constructor)
 {
 	CTransform<int> t;
-	EXPECT_EQ(t.at(0, 0), 1);
-	EXPECT_EQ(t.at(0, 1), 0);
-	EXPECT_EQ(t.at(0, 2), 0);
+	EXPECT_EQ(t.m11(), 1);
+	EXPECT_EQ(t.m12(), 0);
+	EXPECT_EQ(t.m13(), 0);
 
-	EXPECT_EQ(t.at(1, 0), 0);
-	EXPECT_EQ(t.at(1, 1), 1);
-	EXPECT_EQ(t.at(1, 2), 0);
+	EXPECT_EQ(t.m21(), 0);
+	EXPECT_EQ(t.m22(), 1);
+	EXPECT_EQ(t.m23(), 0);
 
-	EXPECT_EQ(t.at(2, 0), 0);
-	EXPECT_EQ(t.at(2, 1), 0);
-	EXPECT_EQ(t.at(2, 2), 1);
+	EXPECT_EQ(t.m31(), 0);
+	EXPECT_EQ(t.m32(), 0);
+	EXPECT_EQ(t.m33(), 1);
 }
 
 TEST(CTransform, from_values)
 {
 	CTransform<int> t(1, 2, 3, 4, 5, 6);
-	EXPECT_EQ(t.at(0, 0), 1);
-	EXPECT_EQ(t.at(0, 1), 2);
-	EXPECT_EQ(t.at(0, 2), 0);
+	EXPECT_EQ(t.m11(), 1);
+	EXPECT_EQ(t.m12(), 2);
+	EXPECT_EQ(t.m13(), 0);
 
-	EXPECT_EQ(t.at(1, 0), 3);
-	EXPECT_EQ(t.at(1, 1), 4);
-	EXPECT_EQ(t.at(1, 2), 0);
+	EXPECT_EQ(t.m21(), 3);
+	EXPECT_EQ(t.m22(), 4);
+	EXPECT_EQ(t.m23(), 0);
 
-	EXPECT_EQ(t.at(2, 0), 5);
-	EXPECT_EQ(t.at(2, 1), 6);
-	EXPECT_EQ(t.at(2, 2), 1);
+	EXPECT_EQ(t.m31(), 5);
+	EXPECT_EQ(t.m32(), 6);
+	EXPECT_EQ(t.m33(), 1);
 
 	EXPECT_EQ(t.dx(), 5);
 	EXPECT_EQ(t.dy(), 6);
@@ -65,17 +65,17 @@ TEST(CTransform, from_values)
 TEST(CTransform, identity)
 {
 	CTransform<int> t = CMatrix3<int>::identity();
-	EXPECT_EQ(t.at(0, 0), 1);
-	EXPECT_EQ(t.at(0, 1), 0);
-	EXPECT_EQ(t.at(0, 2), 0);
+	EXPECT_EQ(t.m11(), 1);
+	EXPECT_EQ(t.m12(), 0);
+	EXPECT_EQ(t.m13(), 0);
 
-	EXPECT_EQ(t.at(1, 0), 0);
-	EXPECT_EQ(t.at(1, 1), 1);
-	EXPECT_EQ(t.at(1, 2), 0);
+	EXPECT_EQ(t.m21(), 0);
+	EXPECT_EQ(t.m22(), 1);
+	EXPECT_EQ(t.m23(), 0);
 
-	EXPECT_EQ(t.at(2, 0), 0);
-	EXPECT_EQ(t.at(2, 1), 0);
-	EXPECT_EQ(t.at(2, 2), 1);
+	EXPECT_EQ(t.m31(), 0);
+	EXPECT_EQ(t.m32(), 0);
+	EXPECT_EQ(t.m33(), 1);
 }
 
 TEST(CTransform, dxdy)

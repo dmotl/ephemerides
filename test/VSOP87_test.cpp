@@ -133,6 +133,9 @@ TEST(VSOP87, VSPO87C_Neptune)
 
 //-------------------------------------------------------------------------
 
+#undef HMS_TO_RAD
+#undef DEC_TO_RAD
+
 #define HMS_TO_RAD(h, m, s) (((h) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 12 * M_PI)
 #define DEC_TO_RAD(d, m, s) ((abs(d) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 180 * M_PI)
 

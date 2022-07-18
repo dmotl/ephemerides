@@ -7,11 +7,11 @@ class CBSC1991;
 class CBrightStarCatalogDataset : public CSkyChartDataset
 {
 public:
-	CBrightStarCatalogDataset();
+	explicit CBrightStarCatalogDataset(QObject* parent = nullptr);
 
 	~CBrightStarCatalogDataset() override;
 
-	void paint(QPainter& painter, const CQuaterniond& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect) override;
+	void paint(QPainter& painter, const CMatrix3d& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect) override;
 
 private:
 	struct tObject

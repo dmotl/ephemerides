@@ -272,7 +272,7 @@ public:
 		// http://www.j3d.org/matrix_faq/matrfaq_latest.html#Q37
 
 		const T len = length();
-		const bool rescale = !qFuzzyCompare(len, 1.0f) && !qFuzzyIsNull(len);
+		const bool rescale = len != 1 && len != 0;
 		const T xps = rescale ? at(1) / len : at(1);
 		const T yps = rescale ? at(2) / len : at(2);
 		const T zps = rescale ? at(3) / len : at(3);
@@ -282,21 +282,16 @@ public:
 		const T yz = yps * zps;
 
 		const T sinp = -2.0 * (yz - xw);
-		if (std::abs(sinp) >= 1.0)
-			*pitch = std::copysign(M_PI_2, sinp);
-		else
-			*pitch = std::asin(sinp);
+		return (std::abs(sinp) >= 1.0 ? std::copysign(M_PI_2, sinp) : std::asin(sinp));
 	}
 
 	T yaw(void) const
 	{
-		Q_ASSERT(pitch && yaw && roll);
-
 		// Algorithm adapted from:
 		// http://www.j3d.org/matrix_faq/matrfaq_latest.html#Q37
 
 		const T len = length();
-		const bool rescale = !qFuzzyCompare(len, 1.0f) && !qFuzzyIsNull(len);
+		const bool rescale = len != 1 && len != 0;
 		const T xps = rescale ? at(1) / len : at(1);
 		const T yps = rescale ? at(2) / len : at(2);
 		const T zps = rescale ? at(3) / len : at(3);
@@ -313,34 +308,29 @@ public:
 		const T zw = zps * wps;
 
 		const T sinp = -2.0 * (yz - xw);
-		if (std::abs(sinp) >= 1.0)
-			*pitch = std::copysign(M_PI_2, sinp);
-		else
-			*pitch = std::asin(sinp);
-		if (*pitch < M_PI_2) {
-			if (*pitch > -M_PI_2) {
-				*yaw = std::atan2(2.0f * (xz + yw), 1.0f - 2.0f * (xx + yy));
+		const T pitch = (std::abs(sinp) >= 1.0 ? std::copysign(M_PI_2, sinp) : std::asin(sinp));
+		if (pitch < M_PI_2) {
+			if (pitch > -M_PI_2) {
+				return std::atan2(2.0f * (xz + yw), 1.0f - 2.0f * (xx + yy));
 			}
 			else {
 				// not a unique solution
-				*yaw = -std::atan2(-2.0f * (xy - zw), 1.0f - 2.0f * (yy + zz));
+				return -std::atan2(-2.0f * (xy - zw), 1.0f - 2.0f * (yy + zz));
 			}
 		}
 		else {
 			// not a unique solution
-			*yaw = std::atan2(-2.0f * (xy - zw), 1.0f - 2.0f * (yy + zz));
+			return std::atan2(-2.0f * (xy - zw), 1.0f - 2.0f * (yy + zz));
 		}
 	}
 
 	T roll(void) const
 	{
-		Q_ASSERT(pitch && yaw && roll);
-
 		// Algorithm adapted from:
 		// http://www.j3d.org/matrix_faq/matrfaq_latest.html#Q37
 
 		const T len = length();
-		const bool rescale = !qFuzzyCompare(len, 1.0f) && !qFuzzyIsNull(len);
+		const bool rescale = len != 1 && len != 0;
 		const T xps = rescale ? at(1) / len : at(1);
 		const T yps = rescale ? at(2) / len : at(2);
 		const T zps = rescale ? at(3) / len : at(3);
@@ -357,23 +347,10 @@ public:
 		const T zw = zps * wps;
 
 		const T sinp = -2.0 * (yz - xw);
-		if (std::abs(sinp) >= 1.0)
-			*pitch = std::copysign(M_PI_2, sinp);
-		else
-			*pitch = std::asin(sinp);
-		if (*pitch < M_PI_2) {
-			if (*pitch > -M_PI_2) {
-				*roll = std::atan2(2.0f * (xy + zw), 1.0f - 2.0f * (xx + zz));
-			}
-			else {
-				// not a unique solution
-				*roll = 0.0f;
-			}
-		}
-		else {
-			// not a unique solution
-			*roll = 0.0f;
-		}
+		const T pitch = (std::abs(sinp) >= 1.0 ? std::copysign(M_PI_2, sinp) : std::asin(sinp));
+		if (pitch < M_PI_2 && pitch > -M_PI_2)
+			return std::atan2(2.0 * (xy + zw), 1.0 - 2.0 * (xx + zz));
+		return 0;
 	}
 
 	void getEulerAngles(T* pitch, T* yaw, T* roll) const
@@ -384,7 +361,7 @@ public:
 		// http://www.j3d.org/matrix_faq/matrfaq_latest.html#Q37
 
 		const T len = length();
-		const bool rescale = !qFuzzyCompare(len, 1.0f) && !qFuzzyIsNull(len);
+		const bool rescale = len != 1 && len != 0;
 		const T xps = rescale ? at(1) / len : at(1);
 		const T yps = rescale ? at(2) / len : at(2);
 		const T zps = rescale ? at(3) / len : at(3);
@@ -423,7 +400,7 @@ public:
 		}
 	}
 
-	CQuaternion fromPitch(const T& pitch)
+	static CQuaternion fromPitch(const T& pitch)
 	{
 		// Algorithm from:
 		// http://www.j3d.org/matrix_faq/matrfaq_latest.html#Q60
@@ -436,7 +413,7 @@ public:
 		return CQuaternion(c3, s3, 0, 0);
 	}
 
-	CQuaternion fromYaw(const T& yaw)
+	static CQuaternion fromYaw(const T& yaw)
 	{
 		// Algorithm from:
 		// http://www.j3d.org/matrix_faq/matrfaq_latest.html#Q60
@@ -449,7 +426,7 @@ public:
 		return CQuaternion(c1, 0, s1, 0);
 	}
 
-	CQuaternion fromRoll(const T& roll)
+	static CQuaternion fromRoll(const T& roll)
 	{
 		// Algorithm from:
 		// http://www.j3d.org/matrix_faq/matrfaq_latest.html#Q60
@@ -462,21 +439,19 @@ public:
 		return CQuaternion(c2, 0, 0, s2);
 	}
 
-	CQuaternion fromEulerAngles(const T& pitch, const T& yaw, const T& roll)
+	static CQuaternion fromEulerAngles(const T& pitch, const T& yaw, const T& roll)
 	{
 		// Algorithm from:
 		// http://www.j3d.org/matrix_faq/matrfaq_latest.html#Q60
 
-		pitch *= 0.5f;
-		yaw *= 0.5f;
-		roll *= 0.5f;
+		T half_pitch = pitch * 0.5, half_yaw = yaw * 0.5, half_roll = roll * 0.5;
 
-		const T c1 = std::cos(yaw);
-		const T s1 = std::sin(yaw);
-		const T c2 = std::cos(roll);
-		const T s2 = std::sin(roll);
-		const T c3 = std::cos(pitch);
-		const T s3 = std::sin(pitch);
+		const T c1 = std::cos(half_yaw);
+		const T s1 = std::sin(half_yaw);
+		const T c2 = std::cos(half_roll);
+		const T s2 = std::sin(half_roll);
+		const T c3 = std::cos(half_pitch);
+		const T s3 = std::sin(half_pitch);
 		const T c1c2 = c1 * c2;
 		const T s1s2 = s1 * s2;
 
@@ -673,4 +648,4 @@ inline const CQuaternion<T> operator/(const CQuaternion<T>& quaternion, T diviso
 	return CQuaternion(quaternion.at(0) / divisor, quaternion.at(1) / divisor, quaternion.at(2) / divisor, quaternion.at(3) / divisor);
 }
 
-//using CQuaterniond = CQuaternion<double>;
+using CQuaterniond = CQuaternion<double>;

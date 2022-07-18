@@ -41,15 +41,6 @@ public:
 	/*! Constructs an identity matrix */
 	CMatrix3() :m_matrix{ { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } } } {}
 
-	/*! Constructs a matrix from an array */
-	CMatrix3(int n, const T* m)
-	{
-		assert(n == 9);
-		at(0, 0) = m[0]; at(0, 1) = m[1]; at(0, 2) = m[2];
-		at(1, 0) = m[3]; at(1, 1) = m[4]; at(1, 2) = m[5];
-		at(2, 0) = m[6]; at(2, 1) = m[7]; at(2, 2) = m[8];
-	}
-
 	/*! Copy constructor */
 	CMatrix3(const CMatrix3& other) : m_matrix(other.m_matrix) {}
 
@@ -348,11 +339,11 @@ public:
 	CVector3<T> operator*(const CVector3<T>& point) const
 	{
 		return CVector3<T>(
-			point.x() * at(0, 0) + point.y() * at(1, 0) + point.z() * at(2, 0),
-			point.x() * at(0, 1) + point.y() * at(1, 1) + point.z() * at(2, 1),
-			point.x() * at(0, 2) + point.y() * at(1, 2) + point.z() * at(2, 2)
+			point.x() * at(0, 0) + point.y() * at(0, 1) + point.z() * at(0, 2),
+			point.x() * at(1, 0) + point.y() * at(1, 1) + point.z() * at(1, 2),
+			point.x() * at(2, 0) + point.y() * at(2, 1) + point.z() * at(2, 2)
 			);
 	}
 };
 
-//using CMatrix3d = CMatrix3<double>;
+using CMatrix3d = CMatrix3<double>;

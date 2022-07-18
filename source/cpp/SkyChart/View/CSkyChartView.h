@@ -29,9 +29,6 @@
 class CProjection;
 class CSkyChartDataset;
 
-using CQuaterniond = QQuaternion;
-using CPointd = QPointF;
-
 class CSkyChartView : public QWidget
 {
 	Q_OBJECT
@@ -60,6 +57,10 @@ public:
 
 	void addDataset(CSkyChartDataset* dataset);
 
+	void setProjector(CProjection* projector);
+
+	CProjection* projector(void) const { return m_projector; }
+
 private:
 	// Viewport normal vector (look direction)
 	// Z = +/-1 (celestial north/south pole)
@@ -75,6 +76,8 @@ private:
 	CProjection* m_projector;
 
 	CVector3d toXYZ(const QPoint& xy) const;
+
+	QVector3D toQXYZ(const QPoint& xy) const;
 
 	QList<CSkyChartDataset*> m_datasets;
 

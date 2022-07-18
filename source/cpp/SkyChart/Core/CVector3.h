@@ -151,6 +151,12 @@ public:
 		return { at(0), at(1) };
 	}
 
+	/*! Get a point with x and y coordinates */
+	CPointd toPointF(void) const
+	{
+		return CPointd(at(0), at(1));
+	}
+
 	/*!
 	* \brief Get normalized vector
 	*
@@ -317,4 +323,4 @@ public:
 	}
 };
 
-//using CVector3d = CVector3<double>;
+using CVector3d = CVector3<double>;

@@ -28,9 +28,9 @@
 class CConstBoundsDataset : public CSkyChartDataset
 {
 public:
-	CConstBoundsDataset();
+	explicit CConstBoundsDataset(QObject* parent = nullptr);
 
-	void paint(QPainter& painter, const CQuaterniond& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect) override;
+	void paint(QPainter& painter, const CMatrix3d& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect) override;
 
 private:
 	class CCurve
@@ -38,7 +38,7 @@ private:
 	public:
 		CCurve() {}
 		CCurve(const std::vector<CVector3d>& pts) : m_pts(pts) {}
-		std::optional<QPainterPath> toPath(const CQuaterniond& q, const CProjection& p, const CTransformd& m,
+		std::optional<QPainterPath> toPath(const CMatrix3d& q, const CProjection& p, const CTransformd& m,
 			const QRectF& paint_rect) const;
 
 	private:

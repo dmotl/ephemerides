@@ -47,16 +47,16 @@ double CAzimuth::normalizeAngle(double rad)
 {
 	double i;
 
-	if (rad > M_PI) {
-		rad = modf((rad + M_PI) / (2 * M_PI), &i);
-		rad = rad * (2 * M_PI) - M_PI;
+	if (rad > 2 * M_PI) {
+		rad = modf(rad / (2 * M_PI), &i);
+		rad = rad * (2 * M_PI);
 	}
-	else if (rad < -M_PI) {
-		rad = modf((M_PI - rad) / (2 * M_PI), &i);
-		rad = (1 - rad) * (2 * M_PI) - M_PI;
+	else if (rad < 0) {
+		rad = modf((-rad) / (2 * M_PI), &i);
+		rad = (1 - rad) * (2 * M_PI);
 	}
-	if (rad == -M_PI)
-		return M_PI;
+	if (rad == 2 * M_PI)
+		return 0;
 	return rad;
 }
 

@@ -21,14 +21,15 @@
 */
 #include "CJulianDate.h"
 
-#if 0
-#define _USE_MATH_DEFINES
+#include <assert.h>
 
-#include <math.h>
-
+#ifndef M_PI
+#define M_PI (3.14159265358979323846)
 #endif
 
-#include <assert.h>
+#ifndef M_PI_2
+#define M_PI_2 (1.57079632679489661923)
+#endif
 
 //
 // Normalize angle to the range 0..2pi

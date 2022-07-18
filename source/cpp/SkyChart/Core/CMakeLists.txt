@@ -29,9 +29,6 @@ set(lib_sources
  "CMatrix3d.h"
  "CQuaternion.h"
  "CQuaterniond.h"
- "CProjection.h"
- "COrthographicProjection.h"
- "CStereographicProjection.h"
  "SkyChartUtils.h"
  "SkyChartUtils.cpp"
  "Utils.cpp"
@@ -40,4 +37,3 @@ set(lib_sources
 
 add_library(skychartcorelib STATIC ${lib_sources})
 target_include_directories(skychartcorelib PUBLIC .)
-target_link_libraries(skychartcorelib PUBLIC Qt6::Core Qt6::Gui)

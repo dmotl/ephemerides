@@ -26,6 +26,8 @@
 #include "CSkyChartObject.h"
 #include "constellation_names.h"
 
+#include <vector>
+
 class CBound
 {
 public:

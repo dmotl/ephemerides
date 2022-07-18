@@ -31,5 +31,5 @@ target_include_directories(skychartlayers
 		Stars
 )
 target_compile_options(skychartlayers PRIVATE /W3 /WX)
-target_link_libraries(skychartlayers PRIVATE constbnd vsop87 elp82 Qt6::Core Qt6::Gui Qt6::Widgets skychartcorelib)
+target_link_libraries(skychartlayers PRIVATE constbnd vsop87 elp82 Qt6::Core Qt6::Gui Qt6::Widgets skychartcorelib skychartprojections)
 target_compile_definitions(skychartlayers PRIVATE QT_NO_CAST_FROM_ASCII QT_NO_CAST_TO_ASCII)

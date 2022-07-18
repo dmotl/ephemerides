@@ -287,4 +287,4 @@ public:
 	}
 };
 
-//using CPointd = CPoint<double>;
+using CPointd = CPoint<double>;

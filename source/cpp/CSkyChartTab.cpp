@@ -24,6 +24,7 @@
 #include "CEquGridDataset.h"
 #include "CBrightStarCatalogDataset.h"
 #include "CConstBoundsDataset.h"
+#include "CStereographicProjection.h"
 
 //
 // Constructor
@@ -39,9 +40,11 @@ m_toolBar(NULL), m_toolsBtn(NULL), m_toolsMenu(NULL), m_toolsActionMapper(NULL)
 	m_toolsActionMapper = new QSignalMapper(this);
 	connect(m_toolsActionMapper, &QSignalMapper::mappedInt, this, &CSkyChartTab::onToolsAction);
 
-	view->addDataset(new CEquGridDataset());
-	view->addDataset(new CBrightStarCatalogDataset());
-	view->addDataset(new CConstBoundsDataset());
+	view->addDataset(new CEquGridDataset(this));
+	view->addDataset(new CBrightStarCatalogDataset(this));
+	view->addDataset(new CConstBoundsDataset(this));
+
+	view->setProjector(new CStereographicProjection(this));
 
 	createToolBar();
 
@@ -84,21 +87,17 @@ void CSkyChartTab::on_view_viewChanged(void)
 {
 	CQuaterniond q = view->viewQuat();
 
-	qSSpinBox->blockSignals(true);
-	qSSpinBox->setValue(q.scalar());
-	qSSpinBox->blockSignals(false);
+	pitchSpinBox->blockSignals(true);
+	pitchSpinBox->setValue(RAD_TO_DEG(q.pitch()));
+	pitchSpinBox->blockSignals(false);
 
-	qXSpinBox->blockSignals(true);
-	qXSpinBox->setValue(q.x());
-	qXSpinBox->blockSignals(false);
+	yawSpinBox->blockSignals(true);
+	yawSpinBox->setValue(RAD_TO_DEG(q.yaw()));
+	yawSpinBox->blockSignals(false);
 
-	qYSpinBox->blockSignals(true);
-	qYSpinBox->setValue(q.y());
-	qYSpinBox->blockSignals(false);
-
-	qZSpinBox->blockSignals(true);
-	qZSpinBox->setValue(q.z());
-	qZSpinBox->blockSignals(false);
+	rollSpinBox->blockSignals(true);
+	rollSpinBox->setValue(RAD_TO_DEG(q.roll()));
+	rollSpinBox->blockSignals(false);
 
 	CEquCoordinates equ = view->centerCoords();
 
@@ -111,62 +110,48 @@ void CSkyChartTab::on_view_viewChanged(void)
 	decSpinBox->blockSignals(false);
 }
 
-void CSkyChartTab::on_qSSpinBox_valueChanged(double value)
+void CSkyChartTab::on_pitchSpinBox_valueChanged(double value)
 {
 	CQuaterniond q = view->viewQuat();
-	q.setScalar(value);
+	q = CQuaterniond::fromEulerAngles(DEG_TO_RAD(value), q.yaw(), q.roll());
 	view->setViewQuat(q);
 	on_view_viewChanged();
 }
 
-void CSkyChartTab::on_qXSpinBox_valueChanged(double value)
+void CSkyChartTab::on_yawSpinBox_valueChanged(double value)
 {
 	CQuaterniond q = view->viewQuat();
-	q.setX(value);
+	q = CQuaterniond::fromEulerAngles(q.pitch(), DEG_TO_RAD(value), q.roll());
 	view->setViewQuat(q);
 	on_view_viewChanged();
 }
 
-void CSkyChartTab::on_qYSpinBox_valueChanged(double value)
+void CSkyChartTab::on_rollSpinBox_valueChanged(double value)
 {
 	CQuaterniond q = view->viewQuat();
-	q.setY(value);
+	q = CQuaterniond::fromEulerAngles(q.pitch(), q.yaw(), DEG_TO_RAD(value));
 	view->setViewQuat(q);
 	on_view_viewChanged();
 }
 
-void CSkyChartTab::on_qZSpinBox_valueChanged(double value)
-{
-	CQuaterniond q = view->viewQuat();
-	q.setZ(value);
-	view->setViewQuat(q);
-	on_view_viewChanged();
-}
 
 void CSkyChartTab::on_btnCopyQ_clicked(void)
 {
 	CQuaterniond q = view->viewQuat();
 	QStringList str;
-	str << QString::number(q.x(), 'f', 12);
-	str << QString::number(q.y(), 'f', 12);
-	str << QString::number(q.z(), 'f', 12);
-	str << QString::number(q.scalar(), 'f', 12);
-	str << QString::number(view->scale(), 'f', 12);
+	str << QString::number(q.pitch(), 'f', 12);
+	str << QString::number(q.yaw(), 'f', 12);
+	str << QString::number(q.roll(), 'f', 12);
 	qApp->clipboard()->setText(str.join(QStringLiteral(" ")));
 }
 
 void CSkyChartTab::on_btnPasteQ_clicked(void)
 {
 	QStringList str = qApp->clipboard()->text().split(QStringLiteral(" "));
-	if (str.size() >= 4) {
-		CQuaterniond q(str[0].toDouble(), str[1].toDouble(), str[2].toDouble(), str[3].toDouble());
+	if (str.size() == 3) {
+		CQuaterniond q = CQuaterniond::fromEulerAngles(str[0].toDouble(), str[1].toDouble(), str[2].toDouble());
 		if (!q.isNull())
 			view->setViewQuat(q);
-	}
-	if (str.size() >= 5) {
-		double scale = str[4].toDouble();
-		if (scale > 0)
-			view->setScale(scale);
 	}
 }
 

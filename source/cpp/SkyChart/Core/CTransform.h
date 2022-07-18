@@ -137,4 +137,4 @@ public:
 	}
 };
 
-//using CTransformd = CTransform<double>;
+using CTransformd = CTransform<double>;

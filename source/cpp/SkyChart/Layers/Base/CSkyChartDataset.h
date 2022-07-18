@@ -5,19 +5,13 @@
 #include "CProjection.h"
 #include "CQuaternion.h"
 #include "CTransform.h"
+#include "CMatrix3d.h"
 
-using CPointd = QPointF;
-using CVector3d = QVector3D;
-using CTransformd = QTransform;
-using CQuaterniond = QQuaternion;
-
-class CSkyChartDataset
+class CSkyChartDataset : public QObject
 {
 public:
-	CSkyChartDataset() {}
+	CSkyChartDataset(QObject* parent = nullptr) : QObject(parent) {}
 
-	virtual ~CSkyChartDataset() {}
-
-	virtual void paint(QPainter& painter, const CQuaterniond& q,
+	virtual void paint(QPainter& painter, const CMatrix3d& q,
 		const CProjection& p, const CTransformd& m, const QRectF& paint_rect) = 0;
 };

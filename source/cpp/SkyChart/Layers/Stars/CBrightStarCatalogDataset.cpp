@@ -4,7 +4,7 @@
 
 #define MAG_LIMIT 6.0
 
-CBrightStarCatalogDataset::CBrightStarCatalogDataset()
+CBrightStarCatalogDataset::CBrightStarCatalogDataset(QObject* parent) : CSkyChartDataset(parent)
 {
 	m_bsc = new CBSC1991();
 	if (m_bsc->load("c:\\dev\\ephemerides\\share\\bsc1991")) {
@@ -14,7 +14,7 @@ CBrightStarCatalogDataset::CBrightStarCatalogDataset()
 				CEquCoordinates equ = (*begin)->equatorialJ2000();
 				double ra = equ.rightAscension().radians(), dec = equ.declination().radians();
 				tObject obj;
-				obj.pos = QVector3D(cos(ra) * cos(dec), sin(ra) * cos(dec), sin(dec));
+				obj.pos = CVector3d(cos(ra) * cos(dec), sin(ra) * cos(dec), sin(dec));
 				obj.rsize = (MAG_LIMIT - (*begin)->magnitude()) / 3;
 				m_data.push_back(obj);
 			}
@@ -28,7 +28,7 @@ CBrightStarCatalogDataset::~CBrightStarCatalogDataset()
 	delete m_bsc;
 }
 
-void CBrightStarCatalogDataset::paint(QPainter& painter, const CQuaterniond& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect)
+void CBrightStarCatalogDataset::paint(QPainter& painter, const CMatrix3d& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect)
 {
 	Qt::GlobalColor color = Qt::transparent;
 
@@ -37,7 +37,7 @@ void CBrightStarCatalogDataset::paint(QPainter& painter, const CQuaterniond& q, 
 	// Equatorial grid
 	auto begin = m_data.begin(), end = m_data.end();
 	while (begin != end) {
-		CVector3d r3d = (q * begin->pos).normalized();
+		CVector3d r3d = (q * begin->pos);
 		p.project(r3d);
 		if (r3d.z() >= 0) {
 			if (begin->rsize < 0.5) {

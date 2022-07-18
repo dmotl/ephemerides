@@ -21,19 +21,7 @@
 */
 #include "gtest/gtest.h"
 
-#include <QtGui>
-
-#if 0
-
-#define _USE_MATH_DEFINES
-
-#include <math.h>
-
-#endif
-
 #include "CVector3.h"
-
-using CVector3d = QVector3D;
 
 TEST(CVector3, default_constructor)
 {

@@ -26,7 +26,7 @@
 class COrthographicProjection : public CProjection
 {
 public:
-	COrthographicProjection() {}
+	COrthographicProjection(QObject* parent = nullptr) : CProjection(parent) {}
 
 	void project(CVector3d& v) const override
 	{

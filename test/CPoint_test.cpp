@@ -21,16 +21,7 @@
 */
 #include "gtest/gtest.h"
 
-#include <QtGui>
-/*/
-#define _USE_MATH_DEFINES
-
-#include <math.h>
-*/
-
 #include "CPointd.h"
-
-using CPointd = QPointF;
 
 TEST(CPoint, default_constructor)
 {

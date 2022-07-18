@@ -21,9 +21,7 @@
 */
 #pragma once
 
-#include <QtGui>
-
-#include "SkyChartUtils.h"
+#include "SkyChartUtilsQt.h"
 
 namespace Utils
 {

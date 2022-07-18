@@ -1,5 +1,5 @@
 /*!
-*  \file      CStereographicProjection.h
+*  \file      CProjection.h
 *  \author    David Motl
 *  \date      2022-06-10
 *
@@ -21,34 +21,14 @@
 */
 #pragma once
 
-#include "CProjection.h"
+#include "CVector3d.h"
 
-class CStereographicProjection : public CProjection
+class CProjection : public QObject
 {
 public:
-	CStereographicProjection() {}
+	explicit CProjection(QObject* parent = nullptr) : QObject(parent) {}
 
-	void project(CVector3d& v) const override
-	{
-		double r = v.length();
-		double h = 0.5 * (r - v[2]);
-		if (h > 1e-6) {
-			double f = 1. / h;
-			v[0] *= f;
-			v[1] *= f;
-			v[2] = r;
-		}
-		else {
-			v[0] = v[1] = FLT_MAX;
-			v[2] = -FLT_MIN;
-		}
-	}
+	virtual void project(CVector3d& v) const = 0;
 
-	bool unproject(CVector3d& v) const override
-	{
-		const double lqq = 0.25 * (v[0] * v[0] + v[1] * v[1]);
-		v[2] = lqq - 1.0;
-		v *= (1.0 / (lqq + 1.0));
-		return true;
-	}
+	virtual bool unproject(CVector3d& v) const = 0;
 };

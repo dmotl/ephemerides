@@ -41,7 +41,7 @@ static bool checkDotProducts(int n, const CPointd* points)
 	return true;
 }
 
-void CEquGridDataset::paint(QPainter& painter, const CQuaterniond& q,
+void CEquGridDataset::paint(QPainter& painter, const CMatrix3d& q,
 	const CProjection& p, const CTransformd& m, const QRectF& paint_rect)
 {
 	if (m_dirty)
@@ -55,7 +55,7 @@ void CEquGridDataset::paint(QPainter& painter, const CQuaterniond& q,
 	{
 	case tStyle::DOTS:
 		for (const CVector3d& equ3d : m_dots) {
-			CVector3d r3d = q.rotatedVector(equ3d).normalized();
+			CVector3d r3d = q * equ3d;
 			p.project(r3d);
 			if (r3d.z() >= 0) {
 				CPointd xy = m.map(r3d.toPointF());
@@ -74,7 +74,7 @@ void CEquGridDataset::paint(QPainter& painter, const CQuaterniond& q,
 	}
 }
 
-std::optional<QPainterPath> CEquGridDataset::CCurve::toPath(const CQuaterniond& q, const CProjection& p, const CTransformd& m,
+std::optional<QPainterPath> CEquGridDataset::CCurve::toPath(const CMatrix3d& q, const CProjection& p, const CTransformd& m,
 	const QRectF& paint_rect) const
 {
 	size_t size = m_pts.size();
@@ -85,7 +85,7 @@ std::optional<QPainterPath> CEquGridDataset::CCurve::toPath(const CQuaterniond& 
 	int i = 0;
 	auto begin = m_pts.cbegin(), end = m_pts.cend();
 	while (begin != end) {
-		CVector3d r3d = (q * (*begin)).normalized();
+		CVector3d r3d = q * (*begin);
 		p.project(r3d);
 		xy[i] = m.map(r3d.toPointF());
 		z[i] = r3d.z();

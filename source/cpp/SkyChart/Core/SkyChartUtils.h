@@ -21,14 +21,9 @@
 */
 #pragma once
 
-#include <QtGui>
-
 #include "Utils.h"
-#include "CVector3.h"
-#include "CMatrix3.h"
-
-using CVector3d = QVector3D;
-using CMatrix3d = QMatrix3x3;
+#include "CVector3d.h"
+#include "CMatrix3d.h"
 
 namespace Utils
 {

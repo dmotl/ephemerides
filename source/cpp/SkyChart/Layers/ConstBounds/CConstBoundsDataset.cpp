@@ -60,7 +60,7 @@ static bool checkDotProducts(int n, const CPointd* points)
 	return true;
 }
 
-CConstBoundsDataset::CConstBoundsDataset()
+CConstBoundsDataset::CConstBoundsDataset(QObject* parent) : CSkyChartDataset(parent)
 {
 	CBound file;
 	tConstellation cons_last = tConstellation::EndOfConstellations;
@@ -138,7 +138,7 @@ CConstBoundsDataset::CConstBoundsDataset()
 	}
 }
 
-void CConstBoundsDataset::paint(QPainter& painter, const CQuaterniond& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect)
+void CConstBoundsDataset::paint(QPainter& painter, const CMatrix3d& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect)
 {
 	painter.setBrush(QBrush());
 	painter.setPen(Qt::darkGreen);
@@ -153,7 +153,7 @@ void CConstBoundsDataset::paint(QPainter& painter, const CQuaterniond& q, const 
 }
 
 
-std::optional<QPainterPath> CConstBoundsDataset::CCurve::toPath(const CQuaterniond& q, const CProjection& p, const CTransformd& m,
+std::optional<QPainterPath> CConstBoundsDataset::CCurve::toPath(const CMatrix3d& q, const CProjection& p, const CTransformd& m,
 	const QRectF& paint_rect) const
 {
 	size_t size = m_pts.size();
@@ -164,7 +164,7 @@ std::optional<QPainterPath> CConstBoundsDataset::CCurve::toPath(const CQuaternio
 	int i = 0;
 	auto begin = m_pts.cbegin(), end = m_pts.cend();
 	while (begin != end) {
-		CVector3d r3d = (q * (*begin)).normalized();
+		CVector3d r3d = q * (*begin);
 		p.project(r3d);
 		xy[i] = m.map(r3d.toPointF());
 		z[i] = r3d.z();
