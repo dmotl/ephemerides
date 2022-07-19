@@ -46,7 +46,7 @@ public:
 	* \param mainWnd main window
 	* \param parent parent widget
 	*/
-	CStarEphemerisTab(CMainWindow* mainWnd, QWidget* parent);
+	CStarEphemerisTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent);
 
 	void onTabEnter(CMainTabWidget* previousTab) override;
 

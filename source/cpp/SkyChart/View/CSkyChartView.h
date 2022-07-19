@@ -44,10 +44,7 @@ public:
 
 	CEquCoordinates centerCoords(void) const;
 
-	void setCoords(const CEquCoordinates& coords)
-	{
-
-	}
+	void setCoords(const CEquCoordinates& coords);
 
 	double scale(void) const { return m_scale; }
 
@@ -77,7 +74,7 @@ private:
 
 	CVector3d toXYZ(const QPoint& xy) const;
 
-	QVector3D toQXYZ(const QPoint& xy) const;
+	CVector3d toXYZ(const CPointd& xy) const;
 
 	QList<CSkyChartDataset*> m_datasets;
 

@@ -91,11 +91,31 @@ public:
 	}
 
 	/*!
+	* \brief Get reference to i-th coordinate
+	*
+	* \param i 0: x coordinate, 1: y coordinate, 2: z coordinate
+	*/
+	T& operator[](int i)
+	{
+		return std::array<T, 3>::at(i);
+	}
+
+	/*!
 	* \brief Get const reference to i-th coordinate
 	*
 	* \param i 0: x coordinate, 1: y coordinate, 2: z coordinate
 	*/
 	const T& at(int i) const
+	{
+		return std::array<T, 3>::at(i);
+	}
+
+	/*!
+	* \brief Get const reference to i-th coordinate
+	*
+	* \param i 0: x coordinate, 1: y coordinate, 2: z coordinate
+	*/
+	const T& operator[](int i) const
 	{
 		return std::array<T, 3>::at(i);
 	}

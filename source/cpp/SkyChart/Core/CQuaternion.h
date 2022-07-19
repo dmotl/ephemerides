@@ -384,19 +384,19 @@ public:
 			*pitch = std::asin(sinp);
 		if (*pitch < M_PI_2) {
 			if (*pitch > -M_PI_2) {
-				*yaw = std::atan2(2.0f * (xz + yw), 1.0f - 2.0f * (xx + yy));
-				*roll = std::atan2(2.0f * (xy + zw), 1.0f - 2.0f * (xx + zz));
+				*yaw = std::atan2(2.0 * (xz + yw), 1.0 - 2.0 * (xx + yy));
+				*roll = std::atan2(2.0 * (xy + zw), 1.0 - 2.0 * (xx + zz));
 			}
 			else {
 				// not a unique solution
-				*roll = 0.0f;
-				*yaw = -std::atan2(-2.0f * (xy - zw), 1.0f - 2.0f * (yy + zz));
+				*roll = 0;
+				*yaw = -std::atan2(-2.0 * (xy - zw), 1.0 - 2.0 * (yy + zz));
 			}
 		}
 		else {
 			// not a unique solution
-			*roll = 0.0f;
-			*yaw = std::atan2(-2.0f * (xy - zw), 1.0f - 2.0f * (yy + zz));
+			*roll = 0;
+			*yaw = std::atan2(-2.0 * (xy - zw), 1.0 - 2.0 * (yy + zz));
 		}
 	}
 

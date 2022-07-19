@@ -24,21 +24,22 @@
 #include "CSkyChartDataset.h"
 #include "SkyChartUtils.h"
 #include "CEquCoordinates.h"
-#include "CBound.h"
+#include "CLines.h"
+#include "CBSC1991.h"
 
-class CConstBoundsDataset : public CSkyChartDataset
+class CConstLinesDataset : public CSkyChartDataset
 {
 public:
-	explicit CConstBoundsDataset(const CBound* data, QObject* parent = nullptr);
+	CConstLinesDataset(const CLines* const_lines, QObject* parent = nullptr);
 
 	void paint(QPainter& painter, const CMatrix3d& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect) override;
 
 private:
-	class CCurve
+	class CPolyline
 	{
 	public:
-		CCurve() {}
-		CCurve(const std::vector<CVector3d>& pts) : m_pts(pts) {}
+		CPolyline() {}
+		CPolyline(const std::vector<CVector3d>& pts) : m_pts(pts) {}
 		std::optional<QPainterPath> toPath(const CMatrix3d& q, const CProjection& p, const CTransformd& m,
 			const QRectF& paint_rect) const;
 
@@ -46,5 +47,5 @@ private:
 		std::vector<CVector3d> m_pts;
 	};
 
-	std::vector<CCurve> m_data;
+	std::vector<CPolyline> m_data;
 };

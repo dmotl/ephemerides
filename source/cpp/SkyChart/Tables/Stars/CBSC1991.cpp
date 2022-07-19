@@ -51,6 +51,24 @@ static std::string ltrim(const std::string& s)
     return (startpos == std::string::npos) ? "" : s.substr(startpos);
 }
 
+#include "bsc91_tables.h"
+
+CBSC1991::CBSC1991()
+{
+    int length = sizeof(bsc91_table) / sizeof(tBSC91Table);
+    for (int i = 0; i < length; i++) {
+        const tBSC91Table* src = bsc91_table + i;
+
+        CEquCoordinates equ(CRightAscension::fromHours((double)src->ra / 36000.0), CDeclination::fromDegrees((double)src->dec / 3600.0));
+        CObject* obj = new CObject(src->bs_id, src->hd_id, equ, (double)src->vmag / 100.0);
+        m_list.push_back(obj);
+        if (src->bs_id > 0)
+            m_bs_id_map.insert({ src->bs_id, obj });
+        if (src->hd_id > 0)
+            m_hd_id_map.insert({ src->hd_id, obj });
+    }
+}
+
 CBSC1991::~CBSC1991()
 {
     auto begin = m_list.begin(), end = m_list.end();
@@ -59,6 +77,8 @@ CBSC1991::~CBSC1991()
         begin++;
     }
 }
+
+#if 0
 
 void CBSC1991::clear()
 {
@@ -69,9 +89,9 @@ void CBSC1991::clear()
     }
     m_list.clear();
 
-    m_idmap.clear();
+    m_bs_id_map.clear();
+    m_hd_id_map.clear();
 }
-
 
 bool CBSC1991::load(const char* dirPath)
 {
@@ -167,11 +187,20 @@ bool CBSC1991::load(const char* dirPath)
     }
     return retval;
 }
+#endif
 
 CBSC1991::CObject* CBSC1991::find_bs(int bs_num) const
 {
-    auto it = m_idmap.find(bs_num);
-    if (it != m_idmap.end())
+    auto it = m_bs_id_map.find(bs_num);
+    if (it != m_bs_id_map.end())
+        return it->second;
+    return NULL;
+}
+
+CBSC1991::CObject* CBSC1991::find_hd(int hd_num) const
+{
+    auto it = m_hd_id_map.find(hd_num);
+    if (it != m_hd_id_map.end())
         return it->second;
     return NULL;
 }

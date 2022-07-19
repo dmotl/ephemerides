@@ -21,9 +21,7 @@
 */
 #pragma once
 
-#include <list>
-
-#include "CSkyChartObject.h"
+#include "CEquCoordinates.h"
 #include "constellation_names.h"
 
 #include <vector>

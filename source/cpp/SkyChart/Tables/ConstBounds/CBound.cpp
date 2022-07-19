@@ -21,12 +21,6 @@
 */
 #include "CBound.h"
 
-#include <locale>
-#include <sstream>
-#include <fstream>
-#include <iostream>
-#include <filesystem>
-
 #include "constbnd_tables.h"
 
 CBound::CBound()

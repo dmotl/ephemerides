@@ -26,36 +26,31 @@
 #include <map>
 #include <vector>
 
-#include "CSkyChartObject.h"
+#include "CEquCoordinates.h"
 
 class CBSC1991
 {
 public:
-	struct CObject : public CSkyChartObject
+	struct CObject
 	{
 	public:
-		CObject(int bs_num,
-			const CEquCoordinates& pos, double mag) : m_bsnum(bs_num), m_pos(pos), m_mag(mag) {}
-		CEquCoordinates equatorialJ2000(void) override { return m_pos; }
+		CObject(int hd_num, int bs_num, const CEquCoordinates& pos, double mag) : m_hdnum(hd_num), m_bsnum(bs_num), m_pos(pos), m_mag(mag) {}
+		CEquCoordinates equatorialJ2000(void) { return m_pos; }
 		int brightStarNumber(void) const { return m_bsnum; }
 		double magnitude(void) const { return m_mag; }
 
 	private:
 		friend class CNGC2000;
 
-		int m_bsnum;
+		int m_hdnum, m_bsnum;
 		CEquCoordinates m_pos;
 		double m_mag;
 	};
 
 public:
-	CBSC1991() {}
+	CBSC1991();
 
 	~CBSC1991();
-
-	void clear();
-
-	bool load(const char* dirPath);
 
 	const std::vector<CObject*>& data() const
 	{
@@ -63,12 +58,13 @@ public:
 	}
 
 	CObject* find_bs(int bs_num) const;
+	CObject* find_hd(int hd_num) const;
 
 	static double invalidMagnitude() { return -99; }
 
 private:
 	std::vector<CObject*> m_list;
-	std::map<int, CObject*> m_idmap;
+	std::map<int, CObject*> m_bs_id_map, m_hd_id_map;
 
 	CBSC1991(const CBSC1991&) = delete;
 	CBSC1991& operator=(const CBSC1991&) const = delete;

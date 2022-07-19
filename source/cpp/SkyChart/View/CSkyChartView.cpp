@@ -40,7 +40,7 @@ CVector3d CSkyChartView::toXYZ(const QPoint& xy) const
 		return CVector3d(x, y, 0.5 / sqrt(h));
 }
 
-QVector3D CSkyChartView::toQXYZ(const QPoint& xy) const
+CVector3d CSkyChartView::toXYZ(const CPointd& xy) const
 {
 	double res = m_viewSize - 1;
 
@@ -50,9 +50,9 @@ QVector3D CSkyChartView::toQXYZ(const QPoint& xy) const
 
 	double h = x * x + y * y;
 	if (h <= 0.5)
-		return QVector3D(x, y, sqrt(1 - h));
+		return CVector3d(x, y, sqrt(1 - h)).normalized();
 	else
-		return QVector3D(x, y, 0.5 / sqrt(h));
+		return CVector3d(x, y, 0.5 / sqrt(h)).normalized();
 }
 
 CSkyChartView::CSkyChartView(QWidget* parent) : QWidget(parent), m_lastQ(1, 0, 0, 1),
@@ -186,11 +186,23 @@ CEquCoordinates CSkyChartView::centerCoords(void) const
 {
 	if (m_projector) {
 		CMatrix3d invRotMatrix = viewQuat().normalized().toRotationMatrix().inverted();
-		CVector3d r3d(0, 0, 0);
+		CVector3d r3d(0, 0, 1);
 		m_projector->unproject(r3d);
 		return CEquCoordinates(invRotMatrix * r3d);
 	}
 	return CEquCoordinates();
+}
+
+void CSkyChartView::setCoords(const CEquCoordinates& coords)
+{
+	if (m_projector && !m_rotating) {
+		CQuaterniond quat = CQuaterniond::rotationTo(coords.toXYZ(), CVector3d(0, 0, -1));
+		if (quat != m_lastQ) {
+			m_lastQ = quat;
+			m_currQ = CQuaterniond();
+			update();
+		}
+	}
 }
 
 CEquCoordinates CSkyChartView::mapToCoords(const CPointd& pos) const

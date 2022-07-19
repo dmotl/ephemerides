@@ -34,10 +34,6 @@ set(CMAKE_AUTORCC ON)
 # Needed python
 find_package(Python)
 
-# GUI
-# ------------
-add_subdirectory(source/cpp)
-
 
 # TESTS
 # -----
@@ -46,7 +42,6 @@ if(ephem_build_tests)
     enable_testing()
     find_package(GTest CONFIG REQUIRED)
     include(GoogleTest)
-    add_subdirectory(test)
 endif()
 
 
@@ -57,3 +52,8 @@ endif()
 include_directories(${CMAKE_BINARY_DIR})
 
 configure_file(config.h.in config.h)
+
+
+# BUILD
+# -----
+add_subdirectory(source/cpp)

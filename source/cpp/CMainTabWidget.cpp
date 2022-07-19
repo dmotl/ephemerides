@@ -26,7 +26,7 @@
 //
 // Constructor
 //
-CMainTabWidget::CMainTabWidget(CMainWindow* mainWnd, QWidget* parent) : QWidget(parent), m_mainWnd(mainWnd)
+CMainTabWidget::CMainTabWidget(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : QWidget(parent), m_mainWnd(mainWnd), m_sharedData(sharedData)
 {
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }

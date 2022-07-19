@@ -24,7 +24,7 @@
 #include "UtilsQt.h"
 
 // Constructor
-CStarEphemerisTab::CStarEphemerisTab(CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(mainWnd, parent), m_toolBar(NULL)
+CStarEphemerisTab::CStarEphemerisTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(sharedData, mainWnd, parent), m_toolBar(NULL)
 {
 	setupUi(this);
 	setText(tr("Star ephemeris"));

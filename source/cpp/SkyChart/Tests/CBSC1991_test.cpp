@@ -39,22 +39,16 @@
 /*2491  9Alp CMaBD-16 1591  48915151881 257I   5423           064044.6-163444064508.9-164258227.22-08.88-1.46   0.00 -0.05 -0.03   A1Vm               -0.553-1.205 +.375-008SBO    13 10.3  11.2AB   4* */
 static const double Sirius[3] = { RA_TO_RAD(06, 45, 08.9), -DEC_TO_RAD(16, 42, 58), -1.46 };
 
-/* Directory */
-static const std::filesystem::path src_dir = std::filesystem::path(CMAKE_SOURCE_DIR).lexically_normal() / "share" / "bsc1991";
-
 TEST(CBSC1991, Size)
 {
 	CBSC1991 file;
 
-	EXPECT_TRUE(file.load(src_dir.string().c_str()));
 	EXPECT_EQ(file.data().size(), 9096);
 }
 
 TEST(CBSC1991, Sirius)
 {
 	CBSC1991 file;
-
-	EXPECT_TRUE(file.load(src_dir.string().c_str()));
 
 	CBSC1991::CObject* obj = file.find_bs(2491);
 	EXPECT_FALSE(obj == nullptr);

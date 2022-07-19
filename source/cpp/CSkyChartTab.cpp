@@ -24,12 +24,14 @@
 #include "CEquGridDataset.h"
 #include "CBrightStarCatalogDataset.h"
 #include "CConstBoundsDataset.h"
+#include "CConstLinesDataset.h"
 #include "CStereographicProjection.h"
+#include "CSharedData.h"
 
 //
 // Constructor
 //
-CSkyChartTab::CSkyChartTab(CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(mainWnd, parent),
+CSkyChartTab::CSkyChartTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(sharedData, mainWnd, parent),
 m_toolBar(NULL), m_toolsBtn(NULL), m_toolsMenu(NULL), m_toolsActionMapper(NULL)
 {
 	setupUi(this);
@@ -41,8 +43,9 @@ m_toolBar(NULL), m_toolsBtn(NULL), m_toolsMenu(NULL), m_toolsActionMapper(NULL)
 	connect(m_toolsActionMapper, &QSignalMapper::mappedInt, this, &CSkyChartTab::onToolsAction);
 
 	view->addDataset(new CEquGridDataset(this));
-	view->addDataset(new CBrightStarCatalogDataset(this));
-	view->addDataset(new CConstBoundsDataset(this));
+	view->addDataset(new CBrightStarCatalogDataset(m_sharedData->bsc(), this));
+	view->addDataset(new CConstBoundsDataset(m_sharedData->constBound(), this));
+	view->addDataset(new CConstLinesDataset(m_sharedData->constLines(), this));
 
 	view->setProjector(new CStereographicProjection(this));
 
@@ -134,6 +137,21 @@ void CSkyChartTab::on_rollSpinBox_valueChanged(double value)
 	on_view_viewChanged();
 }
 
+void CSkyChartTab::on_raSpinBox_valueChanged(double value)
+{
+	CEquCoordinates e = view->centerCoords();
+	e.setRightAscension(CRightAscension::fromHours(value));
+	view->setCoords(e);
+	on_view_viewChanged();
+}
+
+void CSkyChartTab::on_decSpinBox_valueChanged(double value)
+{
+	CEquCoordinates e = view->centerCoords();
+	e.setDeclination(CDeclination::fromDegrees(value));
+	view->setCoords(e);
+	on_view_viewChanged();
+}
 
 void CSkyChartTab::on_btnCopyQ_clicked(void)
 {

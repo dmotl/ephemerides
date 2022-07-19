@@ -1,5 +1,5 @@
 /*!
-*  \file      CConstBoundDataset.cpp
+*  \file      CConstLinesDataset.cpp
 *  \author    David Motl
 *  \date      2022-06-10
 *
@@ -19,7 +19,9 @@
 *      to endorse or promote products derived from this software without specific prior written
 *      permission.
 */
-#include "CConstBoundsDataset.h"
+#include "CConstLinesDataset.h"
+
+#include "CLines.h"
 
 static bool checkBoundingRects(int n, const CPointd* points, const QRectF& paint_rect)
 {
@@ -58,23 +60,16 @@ static bool checkDotProducts(int n, const CPointd* points)
 	return true;
 }
 
-CConstBoundsDataset::CConstBoundsDataset(const CBound* file, QObject* parent) : CSkyChartDataset(parent)
+CConstLinesDataset::CConstLinesDataset(const CLines* file, QObject* parent) : CSkyChartDataset(parent)
 {
+	tConstellation cons_last = tConstellation::EndOfConstellations;
+	CVector3d previous_pos;
+	QList<QPair<CVector3d, CVector3d>> pairs;
+	
 	if (file) {
-		tConstellation cons_last = tConstellation::EndOfConstellations;
-		CVector3d previous_pos;
-		QList<QPair<CVector3d, CVector3d>> pairs;
-		CMatrix3d B1875ToJ2000 = Utils::HegretPrecession(1875.0, 2000.0);
-
 		auto begin = file->data().begin(), end = file->data().end();
 		while (begin != end) {
-			CEquCoordinates equ = begin->equatorialB1875();
-			CVector3d current_pos = Utils::sphericalToRectangular(equ.rightAscension().radians(), equ.declination().radians());
-			if (cons_last == begin->constellation())
-				pairs.append(qMakePair(previous_pos, current_pos));
-			else
-				cons_last = begin->constellation();
-			previous_pos = current_pos;
+			pairs.append(qMakePair(begin->startJ2000().toXYZ(), begin->end2000().toXYZ()));
 			++begin;
 		}
 
@@ -122,12 +117,6 @@ CConstBoundsDataset::CConstBoundsDataset(const CBound* file, QObject* parent) : 
 						curve.push_back(pts[3]);
 						previous_pos = pt_list[i];
 					}
-					// B1875 --> J2000
-					std::transform(curve.cbegin(), curve.cend(),
-						curve.begin(), // write to the same location
-						[B1875ToJ2000](const CVector3d& in) { return /*B1875ToJ2000 * */ in; }
-					);
-
 					m_data.push_back(curve);
 				}
 				pt_list.clear();
@@ -137,22 +126,22 @@ CConstBoundsDataset::CConstBoundsDataset(const CBound* file, QObject* parent) : 
 	}
 }
 
-void CConstBoundsDataset::paint(QPainter& painter, const CMatrix3d& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect)
+void CConstLinesDataset::paint(QPainter& painter, const CMatrix3d& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect)
 {
 	painter.setBrush(QBrush());
-	painter.setPen(Qt::darkGreen);
+	painter.setPen(Qt::gray);
 
 	auto begin = m_data.begin(), end = m_data.end();
 	while (begin != end) {
 		auto path = begin->toPath(q, p, m, paint_rect);
-		if (path) 
+		if (path)
 			painter.drawPath(*path);
 		++begin;
 	}
 }
 
 
-std::optional<QPainterPath> CConstBoundsDataset::CCurve::toPath(const CMatrix3d& q, const CProjection& p, const CTransformd& m,
+std::optional<QPainterPath> CConstLinesDataset::CPolyline::toPath(const CMatrix3d& q, const CProjection& p, const CTransformd& m,
 	const QRectF& paint_rect) const
 {
 	size_t size = m_pts.size();

@@ -4,11 +4,10 @@
 
 #define MAG_LIMIT 6.0
 
-CBrightStarCatalogDataset::CBrightStarCatalogDataset(QObject* parent) : CSkyChartDataset(parent)
+CBrightStarCatalogDataset::CBrightStarCatalogDataset(const CBSC1991* file, QObject* parent) : CSkyChartDataset(parent)
 {
-	m_bsc = new CBSC1991();
-	if (m_bsc->load("c:\\dev\\ephemerides\\share\\bsc1991")) {
-		auto begin = m_bsc->data().begin(), end = m_bsc->data().end();
+	if (file) {
+		auto begin = file->data().begin(), end = file->data().end();
 		while (begin != end) {
 			if ((*begin)->magnitude() < MAG_LIMIT) {
 				CEquCoordinates equ = (*begin)->equatorialJ2000();
@@ -21,11 +20,6 @@ CBrightStarCatalogDataset::CBrightStarCatalogDataset(QObject* parent) : CSkyChar
 			++begin;
 		}
 	}
-}
-
-CBrightStarCatalogDataset::~CBrightStarCatalogDataset()
-{
-	delete m_bsc;
 }
 
 void CBrightStarCatalogDataset::paint(QPainter& painter, const CMatrix3d& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect)

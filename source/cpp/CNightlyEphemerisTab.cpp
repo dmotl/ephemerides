@@ -26,7 +26,7 @@
 //
 // Constructor
 //
-CNightlyEphemerisTab::CNightlyEphemerisTab(CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(mainWnd, parent), m_toolBar(NULL),
+CNightlyEphemerisTab::CNightlyEphemerisTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(sharedData, mainWnd, parent), m_toolBar(NULL),
 m_initialized(false)
 {
 	setupUi(this);

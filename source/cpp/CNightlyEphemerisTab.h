@@ -46,7 +46,7 @@ public:
 	* \param mainWnd main window
 	* \param parent parent widget
 	*/
-	CNightlyEphemerisTab(CMainWindow* mainWnd, QWidget* parent);
+	CNightlyEphemerisTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent);
 
 	void onTabEnter(CMainTabWidget *previousTab) override;
 

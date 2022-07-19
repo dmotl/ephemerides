@@ -26,6 +26,9 @@
 #include "CGeoCoordinates.h"
 #include "CEquCoordinates.h"
 #include "Utils.h"
+#include "CBound.h"
+#include "CLines.h"
+#include "CBSC1991.h"
 
 /*
 * \brief Shared data
@@ -50,14 +53,34 @@ public:
 	* file. If this is the first run, it sets values to defaults.
 	*
 	*/ 
-	explicit CSharedData(QObject* parent = NULL) : QObject(parent), m_twilight(12)
+	explicit CSharedData(QObject* parent = NULL) : QObject(parent), m_twilight(12), m_constBound(NULL),
+		m_constLines(NULL), m_bsc(NULL)
 	{
 		m_localDateTime = QDateTime::currentDateTime();
 		m_geoloc.longitude().setDegrees(16.6103878);
 		m_geoloc.latitude().setDegrees(49.1944631);
 		m_equloc.rightAscension().setRadians(RA_TO_RAD(18, 45, 48.6));
 		m_equloc.declination().setRadians(-DEC_TO_RAD(23, 1, 16.4));
+
+		m_bsc = new CBSC1991();
+		m_constBound = new CBound();
+		m_constLines = new CLines(*m_bsc);
 	}
+
+	~CSharedData(void) override {
+		delete m_constBound;
+		delete m_constLines;
+		delete m_bsc;
+	}
+
+	// Constellation boundary data
+	const CBound* constBound(void) const { return m_constBound; }
+
+	// Constellation lines data
+	const CLines* constLines(void) const { return m_constLines; }
+
+	// Bright star catalog
+	const CBSC1991* bsc(void) const { return m_bsc; }
 
 	/*
 	* \brief Save permanent data
@@ -165,4 +188,13 @@ private:
 
 	// Twilight start/end elevation
 	double m_twilight;
+
+	// Constellation boundary data
+	CBound* m_constBound;
+
+	// Constellation lines data
+	CLines* m_constLines;
+
+	// Bright star catalog
+	CBSC1991* m_bsc;
 };

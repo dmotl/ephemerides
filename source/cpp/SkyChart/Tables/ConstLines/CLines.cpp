@@ -1,7 +1,7 @@
 /*!
-*  \file      CConstBoundDataset.h
+*  \file      CLines.cpp
 *  \author    David Motl
-*  \date      2022-06-10
+*  \date      2022-05-11
 *
 *  \copyright
 *
@@ -19,32 +19,18 @@
 *      to endorse or promote products derived from this software without specific prior written
 *      permission.
 */
-#pragma once
+#include "CLines.h"
 
-#include "CSkyChartDataset.h"
-#include "SkyChartUtils.h"
-#include "CEquCoordinates.h"
-#include "CBound.h"
+#include "constlines_tables.h"
 
-class CConstBoundsDataset : public CSkyChartDataset
+CLines::CLines(const CBSC1991& bsc)
 {
-public:
-	explicit CConstBoundsDataset(const CBound* data, QObject* parent = nullptr);
+	int length = sizeof(constlines) / sizeof(tConstLinesTable);
+	for (int i = 0; i < length; i++) {
+		const tConstLinesTable* src = constlines + i;
 
-	void paint(QPainter& painter, const CMatrix3d& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect) override;
-
-private:
-	class CCurve
-	{
-	public:
-		CCurve() {}
-		CCurve(const std::vector<CVector3d>& pts) : m_pts(pts) {}
-		std::optional<QPainterPath> toPath(const CMatrix3d& q, const CProjection& p, const CTransformd& m,
-			const QRectF& paint_rect) const;
-
-	private:
-		std::vector<CVector3d> m_pts;
-	};
-
-	std::vector<CCurve> m_data;
-};
+		auto obj_start = bsc.find_hd(src->hd_start), obj_end = bsc.find_hd(src->hd_end);
+		if (obj_start && obj_end)
+			m_list.push_back(CLine(obj_start->equatorialJ2000(), obj_end->equatorialJ2000(), (tConstellation)src->cons));
+	}
+}

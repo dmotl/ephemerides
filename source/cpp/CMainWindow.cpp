@@ -147,19 +147,19 @@ void CMainWindow::createDockWindows()
 void CMainWindow::createTabs()
 {
 #if SHOW_NIGHTLY_EPHEMERIS_TAB
-    m_dayTabWidget = new CNightlyEphemerisTab(this, this);
+    m_dayTabWidget = new CNightlyEphemerisTab(m_sharedData, this, this);
     m_dayTabIndex = m_tabWidget->addTab(m_dayTabWidget->text());
     m_stackedWidget->addWidget(m_dayTabWidget);
 #endif
 
 #if SHOW_STAR_EPHEMERIS_TAB
-    m_starTabWidget = new CStarEphemerisTab(this, this);
+    m_starTabWidget = new CStarEphemerisTab(m_sharedData, this, this);
     m_starTabIndex = m_tabWidget->addTab(m_starTabWidget->text());
     m_stackedWidget->addWidget(m_starTabWidget);
 #endif
 
 #if SHOW_SKY_CHART_TAB 
-    m_skyChartTabWidget = new CSkyChartTab(this, this);
+    m_skyChartTabWidget = new CSkyChartTab(m_sharedData, this, this);
     m_starTabIndex = m_tabWidget->addTab(m_skyChartTabWidget, m_skyChartTabWidget->text());
 #endif
 }

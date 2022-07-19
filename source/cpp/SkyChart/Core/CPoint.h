@@ -81,11 +81,31 @@ public:
 	}
 
 	/*!
+	* \brief Get reference to i-th coordinate
+	*
+	* \param i 0: x coordinate, 1: y coordinate
+	*/
+	T& operator[](int i)
+	{
+		return std::array<T, 2>::at(i);
+	}
+
+	/*!
 	* \brief Get const reference to i-th coordinate
 	*
 	* \param i 0: x coordinate, 1: y coordinate
 	*/
 	const T& at(int i) const
+	{
+		return std::array<T, 2>::at(i);
+	}
+
+	/*!
+	* \brief Get const reference to i-th coordinate
+	*
+	* \param i 0: x coordinate, 1: y coordinate
+	*/
+	const T& operator[](int i) const
 	{
 		return std::array<T, 2>::at(i);
 	}

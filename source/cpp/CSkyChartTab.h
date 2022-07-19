@@ -47,7 +47,7 @@ public:
 	* \param mainWnd main window
 	* \param parent parent widget
 	*/
-	CSkyChartTab(CMainWindow* mainWnd, QWidget* parent);
+	CSkyChartTab(CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
 
 private:
 	QToolBar* m_toolBar;
@@ -71,6 +71,9 @@ private slots:
 	void on_pitchSpinBox_valueChanged(double value);
 	void on_yawSpinBox_valueChanged(double value);
 	void on_rollSpinBox_valueChanged(double value);
+
+	void on_raSpinBox_valueChanged(double value);
+	void on_decSpinBox_valueChanged(double value);
 
 	void on_btnCopyQ_clicked(void);
 	void on_btnPasteQ_clicked(void);

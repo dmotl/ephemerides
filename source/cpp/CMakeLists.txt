@@ -61,7 +61,4 @@ target_link_libraries(${uiTargetName} PRIVATE Qt6::Core Qt6::Xml Qt6::Gui Qt6::W
 target_compile_definitions(${uiTargetName} PRIVATE QT_NO_CAST_FROM_ASCII QT_NO_CAST_TO_ASCII)
 
 add_subdirectory(SkyChart)
-add_subdirectory(vsop87)
-add_subdirectory(elp82)
-add_subdirectory(constbnd)
 

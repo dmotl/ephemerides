@@ -23,6 +23,7 @@
 
 #include <QtWidgets>
 
+class CSharedData;
 class CMainWindow;
 
 /*!
@@ -41,7 +42,7 @@ public:
 	* \param mainWnd main window
 	* \param parent parent widget
 	*/
-	CMainTabWidget(CMainWindow* mainWnd, QWidget* parent);
+	CMainTabWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
 
 	/*!
 	* \brief Tab caption
@@ -84,6 +85,9 @@ protected:
 
 	/// Main window
 	CMainWindow* m_mainWnd;
+
+	/// Shared data
+	CSharedData* m_sharedData;
 
 	// Get pointer to a dock widget
 	QDockWidget* dockWidget(tDockWidgetId id) const;

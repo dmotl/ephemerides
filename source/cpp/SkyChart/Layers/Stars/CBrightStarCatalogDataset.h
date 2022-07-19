@@ -1,15 +1,12 @@
 #pragma once
 
 #include "CSkyChartDataset.h"
-
-class CBSC1991;
+#include "CBSC1991.h"
 
 class CBrightStarCatalogDataset : public CSkyChartDataset
 {
 public:
-	explicit CBrightStarCatalogDataset(QObject* parent = nullptr);
-
-	~CBrightStarCatalogDataset() override;
+	explicit CBrightStarCatalogDataset(const CBSC1991* data, QObject* parent = nullptr);
 
 	void paint(QPainter& painter, const CMatrix3d& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect) override;
 
@@ -20,6 +17,5 @@ private:
 		double rsize;
 	};
 
-	CBSC1991 *m_bsc;
 	std::vector<tObject> m_data;
 };
