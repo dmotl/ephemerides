@@ -199,10 +199,10 @@ public:
 	{
 		T aX, aY, aZ;
 		getAxisAndAngle(&aX, &aY, &aZ, angle);
-		*axis = QVector3D(aX, aY, aZ);
+		*axis = CVector3<T>(aX, aY, aZ);
 	}
 
-	CQuaternion fromAxisAndAngle(const CVector3<T>& axis, const T& angle)
+	static CQuaternion<T> fromAxisAndAngle(const CVector3<T>& axis, const T& angle)
 	{
 		// Algorithm from:
 		// http://www.j3d.org/matrix_faq/matrfaq_latest.html#Q56
@@ -210,8 +210,8 @@ public:
 		// to zero, as suggested in the above FAQ.
 		T s = std::sin(angle);
 		T c = std::cos(angle);
-		QVector3D ax = axis.normalized();
-		return CQuaternion(c, ax.x() * s, ax.y() * s, ax.z() * s).normalized();	}
+		CVector3<T> ax = axis.normalized();
+		return CQuaternion<T>(c, ax.x() * s, ax.y() * s, ax.z() * s).normalized();	}
 
 	void getAxisAndAngle(T* x, T* y, T* z, T* angle) const
 	{
@@ -240,7 +240,7 @@ public:
 		}
 	}
 
-	CQuaternion fromAxisAndAngle(const T& x, const T& y, const T& z, const T& angle)
+	static CQuaternion fromAxisAndAngle(const T& x, const T& y, const T& z, const T& angle)
 	{
 		T length = std::hypot(x, y, z);
 		if (length != 1 && length != 0) {
@@ -258,7 +258,7 @@ public:
 	{
 		T pitch, yaw, roll;
 		getEulerAngles(&pitch, &yaw, &roll);
-		return QVector3D(pitch, yaw, roll);
+		return CVector3<T>(pitch, yaw, roll);
 	}
 
 	CQuaternion fromEulerAngles(const CVector3<T>& eulerAngles)

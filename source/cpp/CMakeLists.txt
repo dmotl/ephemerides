@@ -60,5 +60,12 @@ target_compile_options(${uiTargetName} PRIVATE /W3 /WX)
 target_link_libraries(${uiTargetName} PRIVATE Qt6::Core Qt6::Xml Qt6::Gui Qt6::Widgets skychart)
 target_compile_definitions(${uiTargetName} PRIVATE QT_NO_CAST_FROM_ASCII QT_NO_CAST_TO_ASCII)
 
+if(WIN32)
+	configure_file(ephemerides.rc.in ephemerides.rc @ONLY)
+	configure_file(Resources/ephemerides.ico ephemerides.ico COPYONLY)
+	target_sources(${uiTargetName} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/ephemerides.rc)
+endif(WIN32)
+
+
 add_subdirectory(SkyChart)
 

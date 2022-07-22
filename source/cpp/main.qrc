@@ -9,5 +9,6 @@
     <file>Resources/Neptune.svg</file>
     <file>Resources/Sun.svg</file>
     <file>Resources/Moon.svg</file>
+    <file>Resources/ephemerides.ico</file>
   </qresource>
 </RCC>

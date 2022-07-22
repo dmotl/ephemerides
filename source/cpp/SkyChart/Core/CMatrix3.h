@@ -344,6 +344,16 @@ public:
 			point.x() * at(2, 0) + point.y() * at(2, 1) + point.z() * at(2, 2)
 			);
 	}
+
+	CVector3<T> row(int row) const
+	{
+		return CVector3<T>(at(row, 0), at(row, 1), at(row, 2));
+	}
+
+	CVector3<T> col(int col) const
+	{
+		return CVector3<T>(at(0, col), at(1, col), at(2, col));
+	}
 };
 
 using CMatrix3d = CMatrix3<double>;

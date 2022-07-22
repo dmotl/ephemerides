@@ -55,10 +55,11 @@ CVector3d CSkyChartView::toXYZ(const CPointd& xy) const
 		return CVector3d(x, y, 0.5 / sqrt(h)).normalized();
 }
 
-CSkyChartView::CSkyChartView(QWidget* parent) : QWidget(parent), m_lastQ(1, 0, 0, 1),
+CSkyChartView::CSkyChartView(QWidget* parent) : QWidget(parent), m_centerCoords({ 0.0, 0.0, 1.0 }),
 m_scale(1.0), m_viewSize(0), m_rotating(false), m_width(0), m_height(0)
 {
 	m_projector = new COrthographicProjection(this);
+	m_rotMatrix = toRotationMatrix(m_centerCoords);
 	setMouseTracking(true); 
 }
 
@@ -74,11 +75,10 @@ void CSkyChartView::paintEvent(QPaintEvent* event)
 	painter.setRenderHint(QPainter::TextAntialiasing);
 
 	if (m_projector) {
-		CMatrix3d rotMatrix = viewQuat().normalized().toRotationMatrix();
 		double scale = 0.5 * m_scale * m_viewSize, dx = m_offset.x(), dy = m_offset.y();
 		CTransformd scaleShift = CTransformd::fromScale(scale, scale) * CTransformd::fromTranslate(dx, dy);
 		for (int i = 0; i < m_datasets.count(); i++)
-			m_datasets[i]->paint(painter, rotMatrix, *m_projector, scaleShift, event->rect());
+			m_datasets[i]->paint(painter, m_rotMatrix, *m_projector, scaleShift, event->rect());
 	}
 }
 
@@ -99,7 +99,9 @@ void CSkyChartView::resizeEvent(QResizeEvent* event)
 void CSkyChartView::mouseMoveEvent(QMouseEvent* event)
 {
 	if (m_rotating) {
-		m_currQ = CQuaterniond::rotationTo(toXYZ(m_startPos), toXYZ(event->pos()));
+		CQuaterniond rotQ = CQuaterniond::rotationTo(toXYZ(event->pos()), toXYZ(m_startPos));
+		m_centerCoords = fromRotationMatrix((rotQ * m_lastQ).toRotationMatrix());
+		m_rotMatrix = toRotationMatrix(m_centerCoords);
 		event->accept();
 		emit viewChanged();
 		update();
@@ -119,6 +121,7 @@ void CSkyChartView::mousePressEvent(QMouseEvent* event)
 	{
 		if (!m_rotating) {
 			m_rotating = true;
+			m_lastQ = CQuaterniond::fromRotationMatrix(m_rotMatrix);
 			m_startPos = event->pos();
 			event->accept();
 			return;
@@ -130,8 +133,6 @@ void CSkyChartView::mousePressEvent(QMouseEvent* event)
 void CSkyChartView::mouseReleaseEvent(QMouseEvent* event)
 {
 	if (m_rotating) {
-		m_lastQ = m_currQ * m_lastQ;
-		m_currQ = CQuaterniond();
 		m_rotating = false;
 		emit viewChanged();
 		update();
@@ -150,15 +151,6 @@ void CSkyChartView::wheelEvent(QWheelEvent* event)
 	QWidget::wheelEvent(event);
 }
 
-void CSkyChartView::setViewQuat(const CQuaterniond& quat)
-{
-	if (quat != m_lastQ && !m_rotating) {
-		m_lastQ = quat;
-		m_currQ = CQuaterniond();
-		update();
-	}
-}
-
 void CSkyChartView::setScale(double scale)
 {
 	if (scale != m_scale) {
@@ -169,9 +161,8 @@ void CSkyChartView::setScale(double scale)
 
 void CSkyChartView::addDataset(CSkyChartDataset* dataset)
 {
-	if (dataset != nullptr and !m_datasets.contains(dataset)) {
+	if (dataset != nullptr and !m_datasets.contains(dataset)) 
 		m_datasets.append(dataset);
-	}
 }
 
 void CSkyChartView::setProjector(CProjection* projector)
@@ -182,24 +173,69 @@ void CSkyChartView::setProjector(CProjection* projector)
 	}
 }
 
-CEquCoordinates CSkyChartView::centerCoords(void) const
+CMatrix3d CSkyChartView::toRotationMatrix(const CEquCoordinates& coords)
 {
-	if (m_projector) {
-		CMatrix3d invRotMatrix = viewQuat().normalized().toRotationMatrix().inverted();
-		CVector3d r3d(0, 0, 1);
-		m_projector->unproject(r3d);
-		return CEquCoordinates(invRotMatrix * r3d);
+	double ra = coords.rightAscension().radians(), de = coords.declination().radians();
+	const double sin_ra = std::sin(ra), sin_de = std::sin(de);
+	if (std::cos(ra) > 0) {
+		if (sin_de > 1 - 1e-9) {
+			// Northern pole
+			const double c2 = 0.5 * std::sqrt(1 - sin_ra);
+			const double s2 = 0.5 * std::sqrt(1 + sin_ra);
+			return CQuaternion(s2 * 1e-9, s2, c2, -c2 * 1e-9).normalized().toRotationMatrix();
+		}
+		else if (sin_de < -1 + 1e-9) {
+			// Southern pole
+			const double c2 = 0.5 * std::sqrt(1 - sin_ra);
+			const double s2 = 0.5 * std::sqrt(1 + sin_ra);
+			return CQuaternion(c2, c2 * 1e-9, -s2 * 1e-9, s2).normalized().toRotationMatrix();
+		}
+		const double w = 0.5 * std::sqrt((1 - sin_ra) * (1 - sin_de));
+		const double x = 0.5 * std::sqrt((1 - sin_ra) * (1 + sin_de));
+		const double y = 0.5 * std::sqrt((1 + sin_ra) * (1 + sin_de));
+		const double z = -0.5 * std::sqrt((1 + sin_ra) * (1 - sin_de));
+		return CQuaternion(w, x, y, z).toRotationMatrix();
+	}
+	else {
+		if (sin_de > 1 - 1e-9) {
+			// Northern pole
+			const double c2 = -0.5 * std::sqrt(1 - sin_ra);
+			const double s2 = 0.5 * std::sqrt(1 + sin_ra);
+			return CQuaternion(s2 * 1e-9, s2, c2, -c2 * 1e-9).normalized().toRotationMatrix();
+		}
+		else if (sin_de < -1 + 1e-9) {
+			// Southern pole
+			const double c2 = -0.5 * std::sqrt(1 - sin_ra);
+			const double s2 = 0.5 * std::sqrt(1 + sin_ra);
+			return CQuaternion(c2, c2 * 1e-9, -s2 * 1e-9, s2).normalized().toRotationMatrix();
+		}
+		const double w = 0.5 * std::sqrt((1 - sin_ra) * (1 - sin_de));
+		const double x = 0.5 * std::sqrt((1 - sin_ra) * (1 + sin_de));
+		const double y = -0.5 * std::sqrt((1 + sin_ra) * (1 + sin_de));
+		const double z = 0.5 * std::sqrt((1 + sin_ra) * (1 - sin_de));
+		return CQuaternion(w, x, y, z).toRotationMatrix();
+	}
+}
+
+CEquCoordinates CSkyChartView::fromRotationMatrix(const CMatrix3d& rotMatrix)
+{
+	double det = rotMatrix.determinant();
+	if (det != 0) {
+		const double x = (rotMatrix(0, 2) * rotMatrix(1, 1) - rotMatrix(0, 1) * rotMatrix(1, 2)) / det;
+		const double y = (rotMatrix(0, 0) * rotMatrix(1, 2) - rotMatrix(0, 2) * rotMatrix(1, 0)) / det;
+		const double z = (rotMatrix(0, 1) * rotMatrix(1, 0) - rotMatrix(0, 0) * rotMatrix(1, 1)) / det;
+		return CEquCoordinates(CVector3d(x, y, z));
 	}
 	return CEquCoordinates();
 }
 
 void CSkyChartView::setCoords(const CEquCoordinates& coords)
 {
-	if (m_projector && !m_rotating) {
-		CQuaterniond quat = CQuaterniond::rotationTo(coords.toXYZ(), CVector3d(0, 0, -1));
-		if (quat != m_lastQ) {
-			m_lastQ = quat;
-			m_currQ = CQuaterniond();
+	if (m_projector && !m_rotating && coords.isValid()) {
+		CMatrix3d rotMatrix = toRotationMatrix(coords);
+		if (rotMatrix != m_rotMatrix) {
+			m_rotMatrix = rotMatrix;
+			m_centerCoords = coords;
 			update();
 		}
 	}
@@ -208,12 +244,11 @@ void CSkyChartView::setCoords(const CEquCoordinates& coords)
 CEquCoordinates CSkyChartView::mapToCoords(const CPointd& pos) const
 {
 	if (m_projector) {
-		CMatrix3d invRotMatrix = viewQuat().normalized().toRotationMatrix().inverted();
 		double scale = 0.5 * m_scale * m_viewSize, dx = m_offset.x(), dy = m_offset.y();
 		CTransformd invScaleShift = (CTransformd::fromScale(scale, scale) * CTransformd::fromTranslate(dx, dy)).inverted();
 		CVector3d r3d(invScaleShift.map(pos));
 		m_projector->unproject(r3d);
-		return CEquCoordinates(invRotMatrix * r3d);
+		return CEquCoordinates(m_rotMatrix.inverted() * r3d);
 	}
 	return CEquCoordinates();
 }

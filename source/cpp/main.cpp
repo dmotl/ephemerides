@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 	//QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
 	// Taskbar icon
-    //qApp->setWindowIcon(QIcon(":/TimaMainQt/Resources/application.svg"));
+    qApp->setWindowIcon(QIcon(QStringLiteral(":/Resources/ephemerides.ico")));
 
 	// Version
     qApp->setApplicationName(QLatin1String(APPLICATION_NAME));

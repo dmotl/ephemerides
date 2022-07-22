@@ -88,20 +88,6 @@ void CSkyChartTab::onToolsAction(int dockWidgetId)
 
 void CSkyChartTab::on_view_viewChanged(void)
 {
-	CQuaterniond q = view->viewQuat();
-
-	pitchSpinBox->blockSignals(true);
-	pitchSpinBox->setValue(RAD_TO_DEG(q.pitch()));
-	pitchSpinBox->blockSignals(false);
-
-	yawSpinBox->blockSignals(true);
-	yawSpinBox->setValue(RAD_TO_DEG(q.yaw()));
-	yawSpinBox->blockSignals(false);
-
-	rollSpinBox->blockSignals(true);
-	rollSpinBox->setValue(RAD_TO_DEG(q.roll()));
-	rollSpinBox->blockSignals(false);
-
 	CEquCoordinates equ = view->centerCoords();
 
 	raSpinBox->blockSignals(true);
@@ -111,30 +97,6 @@ void CSkyChartTab::on_view_viewChanged(void)
 	decSpinBox->blockSignals(true);
 	decSpinBox->setValue(equ.declination().degrees());
 	decSpinBox->blockSignals(false);
-}
-
-void CSkyChartTab::on_pitchSpinBox_valueChanged(double value)
-{
-	CQuaterniond q = view->viewQuat();
-	q = CQuaterniond::fromEulerAngles(DEG_TO_RAD(value), q.yaw(), q.roll());
-	view->setViewQuat(q);
-	on_view_viewChanged();
-}
-
-void CSkyChartTab::on_yawSpinBox_valueChanged(double value)
-{
-	CQuaterniond q = view->viewQuat();
-	q = CQuaterniond::fromEulerAngles(q.pitch(), DEG_TO_RAD(value), q.roll());
-	view->setViewQuat(q);
-	on_view_viewChanged();
-}
-
-void CSkyChartTab::on_rollSpinBox_valueChanged(double value)
-{
-	CQuaterniond q = view->viewQuat();
-	q = CQuaterniond::fromEulerAngles(q.pitch(), q.yaw(), DEG_TO_RAD(value));
-	view->setViewQuat(q);
-	on_view_viewChanged();
 }
 
 void CSkyChartTab::on_raSpinBox_valueChanged(double value)
@@ -151,26 +113,6 @@ void CSkyChartTab::on_decSpinBox_valueChanged(double value)
 	e.setDeclination(CDeclination::fromDegrees(value));
 	view->setCoords(e);
 	on_view_viewChanged();
-}
-
-void CSkyChartTab::on_btnCopyQ_clicked(void)
-{
-	CQuaterniond q = view->viewQuat();
-	QStringList str;
-	str << QString::number(q.pitch(), 'f', 12);
-	str << QString::number(q.yaw(), 'f', 12);
-	str << QString::number(q.roll(), 'f', 12);
-	qApp->clipboard()->setText(str.join(QStringLiteral(" ")));
-}
-
-void CSkyChartTab::on_btnPasteQ_clicked(void)
-{
-	QStringList str = qApp->clipboard()->text().split(QStringLiteral(" "));
-	if (str.size() == 3) {
-		CQuaterniond q = CQuaterniond::fromEulerAngles(str[0].toDouble(), str[1].toDouble(), str[2].toDouble());
-		if (!q.isNull())
-			view->setViewQuat(q);
-	}
 }
 
 void CSkyChartTab::on_btnCopyE_clicked(void)

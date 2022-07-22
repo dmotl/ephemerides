@@ -38,11 +38,7 @@ public:
 
 	~CSkyChartView() override;
 
-	CQuaterniond viewQuat(void) const { return m_currQ * m_lastQ; }
-	
-	void setViewQuat(const CQuaterniond& quat);
-
-	CEquCoordinates centerCoords(void) const;
+	CEquCoordinates centerCoords(void) const { return fromRotationMatrix(m_rotMatrix); }
 
 	void setCoords(const CEquCoordinates& coords);
 
@@ -58,17 +54,23 @@ public:
 
 	CProjection* projector(void) const { return m_projector; }
 
+	static CMatrix3d toRotationMatrix(const CEquCoordinates& coords);
+
+	static CEquCoordinates fromRotationMatrix(const CMatrix3d& rotMatrix);
+
 private:
 	// Viewport normal vector (look direction)
 	// Z = +/-1 (celestial north/south pole)
 	// X = +/-1 (spring/autumnal equinox)
 	// Y = +/-1 (???)
-	CQuaterniond m_lastQ, m_currQ;
+	CQuaterniond m_lastQ;
 	bool m_rotating;
 	QPoint m_startPos;
 	double m_scale;
 	int m_viewSize, m_width, m_height;
 	CPointd m_offset;
+	CEquCoordinates m_centerCoords;
+	CMatrix3d m_rotMatrix;
 
 	CProjection* m_projector;
 

@@ -68,15 +68,9 @@ private slots:
 
 	void on_view_viewChanged(void);
 
-	void on_pitchSpinBox_valueChanged(double value);
-	void on_yawSpinBox_valueChanged(double value);
-	void on_rollSpinBox_valueChanged(double value);
-
 	void on_raSpinBox_valueChanged(double value);
 	void on_decSpinBox_valueChanged(double value);
 
-	void on_btnCopyQ_clicked(void);
-	void on_btnPasteQ_clicked(void);
 	void on_btnCopyE_clicked(void);
 	void on_btnPasteE_clicked(void);
 };
