@@ -175,46 +175,20 @@ void CSkyChartView::setProjector(CProjection* projector)
 
 CMatrix3d CSkyChartView::toRotationMatrix(const CEquCoordinates& coords)
 {
-	double ra = coords.rightAscension().radians(), de = coords.declination().radians();
-	const double sin_ra = std::sin(ra), sin_de = std::sin(de);
-	if (std::cos(ra) > 0) {
-		if (sin_de > 1 - 1e-9) {
-			// Northern pole
-			const double c2 = 0.5 * std::sqrt(1 - sin_ra);
-			const double s2 = 0.5 * std::sqrt(1 + sin_ra);
-			return CQuaternion(s2 * 1e-9, s2, c2, -c2 * 1e-9).normalized().toRotationMatrix();
-		}
-		else if (sin_de < -1 + 1e-9) {
-			// Southern pole
-			const double c2 = 0.5 * std::sqrt(1 - sin_ra);
-			const double s2 = 0.5 * std::sqrt(1 + sin_ra);
-			return CQuaternion(c2, c2 * 1e-9, -s2 * 1e-9, s2).normalized().toRotationMatrix();
-		}
-		const double w = 0.5 * std::sqrt((1 - sin_ra) * (1 - sin_de));
-		const double x = 0.5 * std::sqrt((1 - sin_ra) * (1 + sin_de));
-		const double y = 0.5 * std::sqrt((1 + sin_ra) * (1 + sin_de));
-		const double z = -0.5 * std::sqrt((1 + sin_ra) * (1 - sin_de));
-		return CQuaternion(w, x, y, z).toRotationMatrix();
-	}
-	else {
-		if (sin_de > 1 - 1e-9) {
-			// Northern pole
-			const double c2 = -0.5 * std::sqrt(1 - sin_ra);
-			const double s2 = 0.5 * std::sqrt(1 + sin_ra);
-			return CQuaternion(s2 * 1e-9, s2, c2, -c2 * 1e-9).normalized().toRotationMatrix();
-		}
-		else if (sin_de < -1 + 1e-9) {
-			// Southern pole
-			const double c2 = -0.5 * std::sqrt(1 - sin_ra);
-			const double s2 = 0.5 * std::sqrt(1 + sin_ra);
-			return CQuaternion(c2, c2 * 1e-9, -s2 * 1e-9, s2).normalized().toRotationMatrix();
-		}
-		const double w = 0.5 * std::sqrt((1 - sin_ra) * (1 - sin_de));
-		const double x = 0.5 * std::sqrt((1 - sin_ra) * (1 + sin_de));
-		const double y = -0.5 * std::sqrt((1 + sin_ra) * (1 + sin_de));
-		const double z = 0.5 * std::sqrt((1 + sin_ra) * (1 - sin_de));
-		return CQuaternion(w, x, y, z).toRotationMatrix();
-	}
+	const double ra = coords.rightAscension().radians(), de = coords.declination().radians();
+	const double sin_ra = std::sin(ra), cos_ra = std::cos(ra), sin_de = std::sin(de), cos_de = std::cos(de);
+
+	CMatrix3<double> rot3x3;
+	rot3x3.at(0, 0) = -sin_ra;
+	rot3x3.at(0, 1) = cos_ra;
+	rot3x3.at(0, 2) = 0.0;
+	rot3x3.at(1, 0) = cos_ra * sin_de;
+	rot3x3.at(1, 1) = sin_ra * sin_de;
+	rot3x3.at(1, 2) = -cos_de;
+	rot3x3.at(2, 0) = -cos_ra * cos_de;
+	rot3x3.at(2, 1) = -sin_ra * cos_de;
+	rot3x3.at(2, 2) = -sin_de;
+	return rot3x3;
 }
 
 CEquCoordinates CSkyChartView::fromRotationMatrix(const CMatrix3d& rotMatrix)

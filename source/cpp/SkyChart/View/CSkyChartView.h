@@ -54,8 +54,10 @@ public:
 
 	CProjection* projector(void) const { return m_projector; }
 
+	/* Equatorial coordinates to rotation matrix */
 	static CMatrix3d toRotationMatrix(const CEquCoordinates& coords);
 
+	/* Rotation matrix to equatorial coordinates */
 	static CEquCoordinates fromRotationMatrix(const CMatrix3d& rotMatrix);
 
 private:
