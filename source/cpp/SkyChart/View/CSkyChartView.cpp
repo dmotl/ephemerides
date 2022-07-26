@@ -56,7 +56,7 @@ CVector3d CSkyChartView::toXYZ(const CPointd& xy) const
 }
 
 CSkyChartView::CSkyChartView(QWidget* parent) : QWidget(parent), m_centerCoords({ 0.0, 0.0, 1.0 }),
-m_scale(1.0), m_viewSize(0), m_rotating(false), m_width(0), m_height(0)
+m_scale(3.0), m_viewSize(0), m_rotating(false), m_width(0), m_height(0)
 {
 	m_projector = new COrthographicProjection(this);
 	m_rotMatrix = toRotationMatrix(m_centerCoords);
@@ -74,11 +74,13 @@ void CSkyChartView::paintEvent(QPaintEvent* event)
 	painter.setRenderHint(QPainter::Antialiasing);
 	painter.setRenderHint(QPainter::TextAntialiasing);
 
-	if (m_projector) {
+	if (m_projector && m_scale > 0) {
 		double scale = 0.5 * m_scale * m_viewSize, dx = m_offset.x(), dy = m_offset.y();
 		CTransformd scaleShift = CTransformd::fromScale(scale, scale) * CTransformd::fromTranslate(dx, dy);
-		for (int i = 0; i < m_datasets.count(); i++)
+		for (int i = 0; i < m_datasets.count(); i++) {
+			m_datasets[i]->setFOV(M_PI / m_scale);
 			m_datasets[i]->paint(painter, m_rotMatrix, *m_projector, scaleShift, event->rect());
+		}
 	}
 }
 

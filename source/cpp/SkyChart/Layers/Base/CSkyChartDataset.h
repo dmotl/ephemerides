@@ -12,6 +12,8 @@ class CSkyChartDataset : public QObject
 public:
 	CSkyChartDataset(QObject* parent = nullptr) : QObject(parent) {}
 
+	virtual void setFOV(double fov) {}
+
 	virtual void paint(QPainter& painter, const CMatrix3d& q,
 		const CProjection& p, const CTransformd& m, const QRectF& paint_rect) = 0;
 };
