@@ -21,13 +21,10 @@
 */
 #pragma once
 
-#include <QtWidgets>
-
 #include "ui_CHeliocentricCorrectionDockWidget.h"
 
+#include "CMainDockWidget.h"
 #include "CJulianDate.h"
-
-class CSharedData;
 
 /*!
 * \brief The "Julian date" tool
@@ -38,7 +35,7 @@ class CSharedData;
 * The time is specified in the shared data and can be modified 
 * in the tool.
 */
-class CHeliocentricCorrectionDockWidget : public QDockWidget, private Ui::CHeliocentricCorrectionDockWidget
+class CHeliocentricCorrectionDockWidget : public CMainDockWidget, private Ui::CHeliocentricCorrectionDockWidget
 {
 	Q_OBJECT
 
@@ -48,7 +45,11 @@ public:
 	* \param data shared data container
 	* \param parent parent widget
 	*/
-	CHeliocentricCorrectionDockWidget(CSharedData* data, QWidget* parent);
+	CHeliocentricCorrectionDockWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
+
+	static constexpr const char* type_id = "helcorr";
+
+	static constexpr const char* caption = QT_TR_NOOP("Heliocentric correction");
 
 protected slots:
 	void onDateTimeChanged();
@@ -70,7 +71,6 @@ protected slots:
 	void on_jdButton_toggled(bool checked);
 
 private:
-	CSharedData* m_sharedData;
 	QDateTime m_dateTimeLocal;
 	CEquCoordinates m_equloc;
 

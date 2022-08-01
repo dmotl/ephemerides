@@ -28,10 +28,11 @@
 //
 // Constructor
 //
-CHeliocentricCorrectionDockWidget::CHeliocentricCorrectionDockWidget(CSharedData* data, QWidget* parent) : QDockWidget(parent), m_sharedData(data)
+CHeliocentricCorrectionDockWidget::CHeliocentricCorrectionDockWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent) : CMainDockWidget(data, mainWnd, parent)
 {
+	registerDockWidget(type_id);
+
 	setupUi(this);
-	setWindowTitle(tr("Heliocentric correction"));
 
 	localButton->blockSignals(true);
 	localButton->setChecked(true);

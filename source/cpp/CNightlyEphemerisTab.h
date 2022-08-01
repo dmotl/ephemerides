@@ -48,28 +48,23 @@ public:
 	*/
 	CNightlyEphemerisTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent);
 
-	void onTabEnter(CMainTabWidget *previousTab) override;
+	static constexpr const char* type_id = "nightly";
+
+	static constexpr const char* caption = QT_TR_NOOP("Nightly ephemerides");
+
+	void loadState(const QDomElement& xml) override;
+
+	void saveState(QDomElement& xml) override;
 
 private:
 	bool m_initialized;
-
-	QToolBar* m_toolBar;
-
-	QToolButton* m_toolsBtn;
-
-	QMenu* m_toolsMenu;
+	QStringList m_constellationList, m_varTypesList;
+	QMap<QString, bool> m_checkedCatalogs;
 
 	QAction* m_updateAction, * m_sortAction, * m_deleteAction, * m_findAction;
 	QAction* m_printAction, * m_exportAction, * m_copyAction;
-	QAction* m_toolsAction, * m_sunAction, * m_moonAction, * m_chartAction;
-	QAction* m_jdConvAction, * m_helCorrAction, * m_airMassAction;
-	QAction* m_setupAction, * m_helpAction;
 
-	QSignalMapper* m_toolsActionMapper;
+	void addCustomToolBarActions();
 
-	// Create toolbar and actions
-	void createToolBar();
-
-private slots:
-	void onToolsAction(int dockWidgetId);
+	void updateCaption();
 };

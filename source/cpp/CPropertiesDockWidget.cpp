@@ -24,8 +24,11 @@
 //
 // Constructor
 //
-CPropertiesDockWidget::CPropertiesDockWidget(CSharedData* data, QWidget* parent): QDockWidget(parent), m_sharedData(data)
+CPropertiesDockWidget::CPropertiesDockWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent): CMainDockWidget(data, mainWnd, parent)
 {
+	registerDockWidget(type_id);
+	setWindowTitle(QObject::tr(caption));
+
 	m_treeView = new QTreeView(this);
 	setWidget(m_treeView);
 }

@@ -23,80 +23,269 @@
 
 #include "UtilsQt.h"
 
+#include "CSunDockWidget.h"
+#include "CMoonDockWidget.h"
+#include "CChartDockWidget.h"
+#include "CJulianDateConverterDockWidget.h"
+#include "CHeliocentricCorrectionDockWidget.h"
+#include "CAirMassDockWidget.h"
+
 //
 // Constructor
 //
-CNightlyEphemerisTab::CNightlyEphemerisTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(sharedData, mainWnd, parent), m_toolBar(NULL),
+CNightlyEphemerisTab::CNightlyEphemerisTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(sharedData, mainWnd, parent), 
 m_initialized(false)
 {
+	registerTabWidget(type_id);
+
 	setupUi(this);
-	setText(tr("Nightly ephemeris"));
+
 	layout()->setContentsMargins(0, 0, 0, 0);
 	toolBox->layout()->setContentsMargins(9, 9, 9, 9);
 
-	m_toolsActionMapper = new QSignalMapper(this);
-	connect(m_toolsActionMapper, &QSignalMapper::mappedInt, this, &CNightlyEphemerisTab::onToolsAction);
+	m_updateAction = new QAction(this);
+	m_updateAction->setText(tr("Update"));
 
-	createToolBar();
+	m_sortAction = new QAction(this);
+	m_sortAction->setText(tr("Sort"));
+
+	m_deleteAction = new QAction(this);
+	m_deleteAction->setText(tr("Delete"));
+
+	m_findAction = new QAction(this);
+	m_findAction->setText(tr("Find"));
+
+	m_printAction = new QAction(this);
+	m_printAction->setText(tr("Print"));
+
+	m_exportAction = new QAction(this);
+	m_exportAction->setText(tr("Export"));
+
+	m_copyAction = new QAction(this);
+	m_copyAction->setText(tr("Copy"));
+
+	createToolBar(mainFrame);
+	addCustomToolBarActions();
 }
 
 
 //
-// Initialize tools menu
+// Restore settings
 //
-void CNightlyEphemerisTab::onTabEnter(CMainTabWidget* previousTab)
+void CNightlyEphemerisTab::loadState(const QDomElement& xml) 
 {
-	INIT_DOCK_WIDGET_ACTION(m_sunAction);
-	INIT_DOCK_WIDGET_ACTION(m_moonAction);
-	INIT_DOCK_WIDGET_ACTION(m_chartAction);
-	INIT_DOCK_WIDGET_ACTION(m_jdConvAction);
-	INIT_DOCK_WIDGET_ACTION(m_helCorrAction);
-	INIT_DOCK_WIDGET_ACTION(m_airMassAction);
+	int date = loadXmlValueInt(xml, "Date");
+	if (date > 0) {
+		dateEdit->blockSignals(true);
+		dateEdit->setDate(QDate::fromJulianDay(date));
+		dateEdit->blockSignals(false);
+	}
+	else {
+		dateEdit->blockSignals(true);
+		dateEdit->setDate(QDate::currentDate());
+		dateEdit->blockSignals(false);
+	}
+
+	tonightCheck->blockSignals(true);
+	tonightCheck->setChecked(loadXmlValueBool(xml, "DateTonight"));
+	tonightCheck->blockSignals(false);
+
+	m_checkedCatalogs = loadXmlValueMap(xml, "Catalogs");
+
+	timeCheck->blockSignals(true);
+	timeCheck->setChecked(loadXmlValueBool(xml, "FilterTimeCheck"));
+	timeCheck->blockSignals(false);
+
+	timeFromEdit->blockSignals(true);
+	timeFromEdit->setValue(loadXmlValueReal(xml, "FilterTimeFrom"));
+	timeFromEdit->blockSignals(false);
+
+	timeToEdit->blockSignals(true);
+	timeToEdit->setValue(loadXmlValueReal(xml, "FilterTimeTo"));
+	timeToEdit->blockSignals(false);
+
+	nightCheck->blockSignals(true);
+	nightCheck->setChecked(loadXmlValueReal(xml, "FilterTimeAuto"));
+	nightCheck->blockSignals(false);
+
+	altCheck->blockSignals(true); 
+	altCheck->setChecked(loadXmlValueBool(xml, "FilterAltCheck"));
+	altCheck->blockSignals(false);
+
+	altFromEdit->blockSignals(true);
+	altFromEdit->setValue(loadXmlValueInt(xml, "FilterAltFrom"));
+	altFromEdit->blockSignals(false);
+
+	altToEdit->blockSignals(true);
+	altToEdit->setValue(loadXmlValueInt(xml, "FilterAltTo"));
+	altToEdit->blockSignals(false);
+
+	magCheck->blockSignals(true); 
+	magCheck->setChecked(loadXmlValueBool(xml, "FilterMagCheck"));
+	magCheck->blockSignals(false);
+
+	magFromEdit->blockSignals(true);
+	magFromEdit->setValue(loadXmlValueReal(xml, "FilterMagFrom"));
+	magFromEdit->blockSignals(false);
+
+	magToEdit->blockSignals(true);
+	magToEdit->setValue(loadXmlValueReal(xml, "FilterMagTo"));
+	magToEdit->blockSignals(false);
+
+	ptsCheck->blockSignals(true);
+	ptsCheck->setChecked(loadXmlValueBool(xml, "FilterPtsCheck"));
+	ptsCheck->blockSignals(false);
+
+	ptsFromEdit->blockSignals(true);
+	ptsFromEdit->setValue(loadXmlValueInt(xml, "FilterPtsFrom"));
+	ptsFromEdit->blockSignals(false);
+
+	ptsToEdit->blockSignals(true);
+	ptsToEdit->setValue(loadXmlValueInt(xml, "FilterPtsTo"));
+	ptsToEdit->blockSignals(false);
+
+	rascCheck->blockSignals(true);
+	rascCheck->setChecked(loadXmlValueBool(xml, "FilterRaCheck"));
+	rascCheck->blockSignals(false);
+
+	rascFromEdit->blockSignals(true);
+	rascFromEdit->setValue(loadXmlValueReal(xml, "FilterRaFrom"));
+	rascFromEdit->blockSignals(false);
+
+	rascToEdit->blockSignals(true);
+	rascToEdit->setValue(loadXmlValueReal(xml, "FilterRaTo"));
+	rascToEdit->blockSignals(false);
+
+	decCheck->blockSignals(true);
+	decCheck->setChecked(loadXmlValueBool(xml, "FilterDecCheck"));
+	decCheck->blockSignals(false);
+
+	decFromEdit->blockSignals(true);
+	decFromEdit->setValue(loadXmlValueReal(xml, "FilterRaFrom"));
+	decFromEdit->blockSignals(false);
+
+	decToEdit->blockSignals(true);
+	decToEdit->setValue(loadXmlValueReal(xml, "FilterDecTo"));
+	decToEdit->blockSignals(false);
+
+	consCheck->blockSignals(true);
+	consCheck->setChecked(loadXmlValueBool(xml, "FilterConsCheck"));
+	consCheck->blockSignals(false);
+
+	m_constellationList = loadXmlValueList(xml, "FilterConsList");
+
+	typesCheck->blockSignals(true);
+	typesCheck->setChecked(loadXmlValueBool(xml, "FilterTypeCheck"));
+	typesCheck->blockSignals(false);
+
+	m_varTypesList = loadXmlValueList(xml, "FilterTypeList");
+
+	aziCheck->blockSignals(true);
+	aziCheck->setChecked(loadXmlValueBool(xml, "FilterAzCheck"));
+	aziCheck->blockSignals(false);
+
+	aziFromEdit->blockSignals(true);
+	aziFromEdit->setValue(loadXmlValueInt(xml, "FilterAzFrom"));
+	aziFromEdit->blockSignals(false);
+
+	aziToEdit->blockSignals(true);
+	aziToEdit->setValue(loadXmlValueInt(xml, "FilterAzTo"));
+	aziToEdit->blockSignals(false);
+
+	omdCheck->blockSignals(true);
+	omdCheck->setChecked(loadXmlValueBool(xml, "FilterOMDCheck"));
+	omdCheck->blockSignals(false);
+
+	omdFromEdit->blockSignals(true);
+	omdFromEdit->setValue(loadXmlValueInt(xml, "FilterOMDFrom"));
+	omdFromEdit->blockSignals(false);
+
+	updateCaption();
+}
+
+
+//
+// Save settings
+//
+void CNightlyEphemerisTab::saveState(QDomElement& xml) 
+{
+	setXmlValue(xml, "Date", dateEdit->date().toJulianDay());
+	setXmlValue(xml, "DateTonight", tonightCheck->isChecked());
+
+	setXmlValue(xml, "Catalogs", m_checkedCatalogs);
+
+	setXmlValue(xml, "FilterTimeCheck", timeCheck->isChecked());
+	setXmlValue(xml, "FilterTimeFrom", QString::number(timeFromEdit->value(), 'f', 1));
+	setXmlValue(xml, "FilterTimeTo", QString::number(timeToEdit->value(), 'f', 1));
+	setXmlValue(xml, "FilterTimeAuto", nightCheck->isChecked());
+
+	setXmlValue(xml, "FilterAltCheck", altCheck->isChecked());
+	setXmlValue(xml, "FilterAltFrom", altFromEdit->value());
+	setXmlValue(xml, "FilterAltTo", altToEdit->value());
+
+	setXmlValue(xml, "FilterMagCheck", magCheck->isChecked());
+	setXmlValue(xml, "FilterMagFrom", QString::number(magFromEdit->value(), 'f', 1));
+	setXmlValue(xml, "FilterMagTo", QString::number(magToEdit->value(), 'f', 1));
+
+	setXmlValue(xml, "FilterPtsCheck", ptsCheck->isChecked());
+	setXmlValue(xml, "FilterPtsFrom", ptsFromEdit->value());
+	setXmlValue(xml, "FilterPtsTo", ptsToEdit->value());
+
+	setXmlValue(xml, "FilterRaCheck", rascCheck->isChecked());
+	setXmlValue(xml, "FilterRaFrom", QString::number(rascFromEdit->value(), 'f', 1));
+	setXmlValue(xml, "FilterRaTo", QString::number(rascToEdit->value(), 'f', 1));
+
+	setXmlValue(xml, "FilterDecCheck", decCheck->isChecked());
+	setXmlValue(xml, "FilterDecFrom", decFromEdit->value());
+	setXmlValue(xml, "FilterDecTo", decToEdit->value());
+
+	setXmlValue(xml, "FilterConsCheck", consCheck->isChecked());
+	setXmlValue(xml, "FilterConsList", m_constellationList);
+
+	setXmlValue(xml, "FilterTypeCheck", typesCheck->isChecked());
+	setXmlValue(xml, "FilterTypeList", m_varTypesList);
+
+	setXmlValue(xml, "FilterAzCheck", aziCheck->isChecked());
+	setXmlValue(xml, "FilterAzFrom", aziFromEdit->value());
+	setXmlValue(xml, "FilterAzTo", aziToEdit->value());
+
+	setXmlValue(xml, "FilterOMDCheck", omdCheck->isChecked());
+	setXmlValue(xml, "FilterOMDFrom", omdFromEdit->value());
 }
 
 
 //
 // Create toolbar and actions
 //
-void CNightlyEphemerisTab::createToolBar()
+void CNightlyEphemerisTab::addCustomToolBarActions()
 {
-	m_toolBar = new QToolBar(this);
-	static_cast<QVBoxLayout*>(mainFrame->layout())->insertWidget(0, m_toolBar);
-	m_toolBar->setFloatable(false);
-	m_toolBar->setMovable(false);
+	if (m_toolBar) {
+		m_toolBar->insertAction(m_toolsAction, m_updateAction);
 
-	m_updateAction = m_toolBar->addAction(tr("Update"));
-	m_toolBar->addSeparator();
-	m_sortAction = m_toolBar->addAction(tr("Sort"));
-	m_deleteAction = m_toolBar->addAction(tr("Delete"));
-	m_findAction = m_toolBar->addAction(tr("Find"));
-	m_toolBar->addSeparator();
-	m_printAction = m_toolBar->addAction(tr("Print"));
-	m_exportAction = m_toolBar->addAction(tr("Export"));
-	m_copyAction = m_toolBar->addAction(tr("Copy"));
-	m_toolBar->addSeparator();
+		m_toolBar->insertSeparator(m_toolsAction);
 
-	m_toolsMenu = new QMenu(this);
-	CREATE_DOCK_WIDGET_TOOL(m_sunAction, SUN_DOCK_WIDGET, tr("Sun"));
-	CREATE_DOCK_WIDGET_TOOL(m_moonAction, MOON_DOCK_WIDGET, tr("Moon"));
-	CREATE_DOCK_WIDGET_TOOL(m_chartAction, SKY_CHART_DOCK_WIDGET, tr("Sky chart"));
-	m_toolsMenu->addSeparator();
-	CREATE_DOCK_WIDGET_TOOL(m_jdConvAction, JD_CONVERTER_DOCK_WIDGET, tr("Julian date converter"));
-	CREATE_DOCK_WIDGET_TOOL(m_helCorrAction, HELIOC_CORRECTION_DOCK_WIDGET, tr("Heliocentric correction"));
-	CREATE_DOCK_WIDGET_TOOL(m_airMassAction, AIR_MASS_DOCK_WIDGET, tr("Air mass"));
-	m_toolsMenu->addSeparator();
-	m_setupAction = m_toolsMenu->addAction(tr("Options"));
+		m_toolBar->insertAction(m_toolsAction, m_sortAction);
+		m_toolBar->insertAction(m_toolsAction, m_deleteAction);
+		m_toolBar->insertAction(m_toolsAction, m_findAction);
 
-	m_toolsBtn = new QToolButton(this);
-	m_toolsBtn->setText(tr("Tools"));
-	m_toolsBtn->setPopupMode(QToolButton::InstantPopup);
-	m_toolsBtn->setMenu(m_toolsMenu);
-	m_toolsAction = m_toolBar->addWidget(m_toolsBtn);
+		m_toolBar->insertSeparator(m_toolsAction);
 
-	m_helpAction = m_toolsMenu->addAction(tr("Help"));
+		m_toolBar->insertAction(m_toolsAction, m_printAction);
+		m_toolBar->insertAction(m_toolsAction, m_exportAction);
+		m_toolBar->insertAction(m_toolsAction, m_copyAction);
+
+		m_toolBar->insertSeparator(m_toolsAction);
+
+		m_toolBar->insertAction(m_toolsAction, DOCK_WIDGET_ACTION(CSunDockWidget));
+		m_toolBar->insertAction(m_toolsAction, DOCK_WIDGET_ACTION(CMoonDockWidget));
+		m_toolBar->insertAction(m_toolsAction, DOCK_WIDGET_ACTION(CChartDockWidget));
+
+		m_toolBar->insertSeparator(m_toolsAction);
+	}
 }
 
-void CNightlyEphemerisTab::onToolsAction(int dockWidgetId)
+void CNightlyEphemerisTab::updateCaption()
 {
-	DOCK_WIDGET_ACTION_TRIGGERED(dockWidgetId);
+	QDate date = dateEdit->date();
+	setText(date.toString());
 }

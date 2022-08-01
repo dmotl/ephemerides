@@ -30,11 +30,12 @@
 //
 // Constructor
 //
-CAirMassDockWidget::CAirMassDockWidget(CSharedData* data, QWidget* parent) : QDockWidget(parent), m_sharedData(data)
+CAirMassDockWidget::CAirMassDockWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent) : CMainDockWidget(data, mainWnd, parent)
 {
-	setupUi(this);
-	setWindowTitle(tr("Air mass"));
+	registerDockWidget(type_id);
 
+	setupUi(this);
+	
 	localButton->blockSignals(true);
 	localButton->setChecked(true);
 	localButton->blockSignals(false);

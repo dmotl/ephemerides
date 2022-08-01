@@ -22,13 +22,91 @@
 #include "CMainTabWidget.h"
 
 #include "CMainWindow.h"
+#include "CMainDockWidget.h"
+
+#include "UtilsQt.h"
+
+#include "CSunDockWidget.h"
+#include "CMoonDockWidget.h"
+#include "CChartDockWidget.h"
+#include "CJulianDateConverterDockWidget.h"
+#include "CHeliocentricCorrectionDockWidget.h"
+#include "CAirMassDockWidget.h"
 
 //
 // Constructor
 //
-CMainTabWidget::CMainTabWidget(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : QWidget(parent), m_mainWnd(mainWnd), m_sharedData(sharedData)
+CMainTabWidget::CMainTabWidget(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : QWidget(parent), m_mainWnd(mainWnd), m_sharedData(sharedData),
+m_toolBar(nullptr), m_toolsMenu(nullptr), m_toolsBtn(nullptr), m_toolsAction(nullptr)
 {
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+
+	m_toolsActionMapper = new QSignalMapper(this);
+	connect(m_toolsActionMapper, &QSignalMapper::mappedString, this, &CMainTabWidget::onToolsAction);
+
+	m_helpAction = new QAction(this);
+	m_helpAction->setText(tr("Help"));
+
+	m_setupAction = new QAction(this);
+	m_setupAction->setText(tr("Options"));
+
+	CREATE_DOCK_WIDGET_TOOL(CSunDockWidget);
+	CREATE_DOCK_WIDGET_TOOL(CMoonDockWidget);
+	CREATE_DOCK_WIDGET_TOOL(CChartDockWidget);
+	CREATE_DOCK_WIDGET_TOOL(CJulianDateConverterDockWidget);
+	CREATE_DOCK_WIDGET_TOOL(CHeliocentricCorrectionDockWidget);
+	CREATE_DOCK_WIDGET_TOOL(CAirMassDockWidget);
+}
+
+// Create popup menu for the "Tools" button
+void CMainTabWidget::createToolsMenu(void)
+{
+	if (!m_toolsMenu) {
+		m_toolsMenu = new QMenu(this);
+		ADD_DOCK_WIDGET_ACTION(CSunDockWidget);
+		ADD_DOCK_WIDGET_ACTION(CMoonDockWidget);
+		ADD_DOCK_WIDGET_ACTION(CChartDockWidget);
+		m_toolsMenu->addSeparator();
+		ADD_DOCK_WIDGET_ACTION(CJulianDateConverterDockWidget);
+		ADD_DOCK_WIDGET_ACTION(CHeliocentricCorrectionDockWidget);
+		ADD_DOCK_WIDGET_ACTION(CAirMassDockWidget);
+		m_toolsMenu->addSeparator();
+		m_toolsMenu->addAction(m_setupAction);
+		m_toolsMenu->addSeparator();
+		m_toolsMenu->addAction(m_helpAction);
+	}
+}
+
+void CMainTabWidget::createToolBar(QWidget* mainFrame)
+{
+	createToolsMenu();
+
+	if (!m_toolsBtn) {
+		m_toolsBtn = new QToolButton(this);
+		m_toolsBtn->setText(tr("Tools"));
+		m_toolsBtn->setPopupMode(QToolButton::InstantPopup);
+		if (m_toolsMenu)
+			m_toolsBtn->setMenu(m_toolsMenu);
+	}
+
+	if (!m_toolBar) {
+		m_toolBar = new QToolBar(this);
+		static_cast<QVBoxLayout*>(mainFrame->layout())->insertWidget(0, m_toolBar);
+		m_toolBar->setFloatable(false);
+		m_toolBar->setMovable(false);
+		if (m_toolsBtn)
+			m_toolsAction = m_toolBar->addWidget(m_toolsBtn);
+	}
+}
+
+
+//
+// Register a tab widget
+//
+void CMainTabWidget::registerTabWidget(const char* typeId)
+{
+	assert(typeId != nullptr && m_mainWnd != nullptr);
+	m_uniqueId = m_mainWnd->registerTabWidget(typeId, this);
 }
 
 
@@ -47,25 +125,58 @@ void CMainTabWidget::setText(const QString& text)
 //
 // Get pointer to a dock widget
 //
-QDockWidget* CMainTabWidget::dockWidget(tDockWidgetId id) const
+CMainDockWidget* CMainTabWidget::dockWidget(const char* typeId) const
 {
 	assert(m_mainWnd != NULL);
 
-	switch (id)
-	{
-	case SUN_DOCK_WIDGET:
-		return m_mainWnd->m_sunDockWidget;
-	case MOON_DOCK_WIDGET:
-		return m_mainWnd->m_moonDockWidget;
-	case SKY_CHART_DOCK_WIDGET:
-		return m_mainWnd->m_chartDockWidget;
-	case JD_CONVERTER_DOCK_WIDGET:
-		return m_mainWnd->m_julianDateDockWidget;
-	case HELIOC_CORRECTION_DOCK_WIDGET:
-		return m_mainWnd->m_heliocentricCorrectionDockWidget;
-	case AIR_MASS_DOCK_WIDGET:
-		return m_mainWnd->m_airMassDockWidget;
-	default:
-		return NULL;
+	QList<CMainDockWidget*> widgets = m_mainWnd->dockWidgetsByType(typeId);
+	if (!widgets.isEmpty())
+		return widgets.first();
+	return nullptr;
+}
+
+CMainDockWidget* CMainTabWidget::dockWidget(const QString& typeId) const
+{
+	return dockWidget(typeId.toLatin1().constData());
+}
+
+void CMainTabWidget::onToolsAction(const QString& dockTypeId)
+{
+	CMainDockWidget* dw = dockWidget(dockTypeId);
+	if (dw) {
+		if (dw->isVisible()) {
+			if (dw->isFloating()) {
+				dw->activateWindow();
+				dw->raise();
+			}
+		}
+		else {
+			dw->showNormal();
+		}
+		QAction* action_var = m_toolsActionList.value(dockTypeId);
+		if (action_var)
+			action_var->setChecked(dw->isVisible());
+	}
+}
+
+
+//
+// Initialize tools menu
+//
+void CMainTabWidget::onTabEnter(CMainTabWidget* previousTab)
+{
+	foreach(const QString& dockTypeId, m_toolsActionList.keys()) {
+		QAction* action_var = m_toolsActionList.value(dockTypeId);
+		if (action_var) {
+			CMainDockWidget* dw = dockWidget(dockTypeId);
+			if (dw) {
+				action_var->setEnabled(true);
+				action_var->setChecked(dw->isVisible());
+			}
+			else {
+				action_var->setEnabled(false);
+				action_var->setChecked(false);
+			}
+		}
 	}
 }

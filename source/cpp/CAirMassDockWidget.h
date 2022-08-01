@@ -21,14 +21,11 @@
 */
 #pragma once
 
-#include <QtWidgets>
-
 #include "ui_CAirMassDockWidget.h"
 
+#include "CMainDockWidget.h"
 #include "CJulianDate.h"
 #include "CDateTime.h"
-
-class CSharedData;
 
 /*!
 * \brief The "Air mass" tool
@@ -39,7 +36,7 @@ class CSharedData;
 * The time is specified in the shared data and can be modified 
 * in the tool.
 */
-class CAirMassDockWidget : public QDockWidget, private Ui::CAirMassDockWidget
+class CAirMassDockWidget : public CMainDockWidget, private Ui::CAirMassDockWidget
 {
 	Q_OBJECT
 
@@ -49,7 +46,11 @@ public:
 	* \param data shared data container
 	* \param parent parent widget
 	*/
-	CAirMassDockWidget(CSharedData* data, QWidget* parent);
+	CAirMassDockWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
+
+	static constexpr const char* type_id = "airmass";
+
+	static constexpr const char* caption = QT_TR_NOOP("Air mass");
 
 protected slots:
 	void onDateTimeChanged();
@@ -77,7 +78,6 @@ protected slots:
 	void on_jdButton_toggled(bool checked);
 
 private:
-	CSharedData* m_sharedData;
 	QDateTime m_dateTimeLocal;
 	CEquCoordinates m_equloc;
 	CGeoCoordinates m_geoloc;

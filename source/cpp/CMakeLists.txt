@@ -47,10 +47,14 @@ set(ui_sources
  "CMoonWidget.h"
  "CMainTabWidget.cpp"
  "CMainTabWidget.h"
+ "CMainDockWidget.cpp"
+ "CMainDockWidget.h"
  "CSkyChartTab.cpp"
  "CSkyChartTab.h"
  "UtilsQt.cpp"
  "UtilsQt.h"
+ "CConfigSupport.cpp"
+ "CConfigSupport.h"
 )
 
 set(uiTargetName "ephemerides")

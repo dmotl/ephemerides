@@ -21,13 +21,9 @@
 */
 #pragma once
 
-#include <QtWidgets>
-
 #include "CMainTabWidget.h"
 
 #include "ui_CStarEphemerisTab.h"
-
-class CMainWindow;
 
 /*!
 * \brief The "Star ephemeris" tab
@@ -48,25 +44,14 @@ public:
 	*/
 	CStarEphemerisTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent);
 
-	void onTabEnter(CMainTabWidget* previousTab) override;
+	static constexpr const char* type_id = "vstar";
+
+	static constexpr const char* caption = QT_TR_NOOP("Variable star ephemerides");
 
 private:
-	QToolBar* m_toolBar;
-
-	QToolButton* m_toolsBtn;
-
-	QMenu* m_toolsMenu;
 
 	QAction* m_updateAction, * m_sortAction, * m_deleteAction, * m_findAction;
 	QAction* m_printAction, * m_exportAction, * m_copyAction;
-	QAction* m_toolsAction, * m_sunAction, * m_moonAction, * m_chartAction;
-	QAction* m_jdConvAction, * m_helCorrAction, * m_airMassAction;
-	QAction* m_setupAction, * m_helpAction;
 
-	QSignalMapper* m_toolsActionMapper;
-
-	void createToolBar();
-
-private slots:
-	void onToolsAction(int dockWidgetId);
+	void addCustomToolBarActions();
 };

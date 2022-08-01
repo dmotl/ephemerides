@@ -21,13 +21,10 @@
 */
 #pragma once
 
-#include <QtWidgets>
-
+#include "CMainDockWidget.h"
 #include "CGeoCoordinates.h"
 
 #include "ui_CSunDockWidget.h"
-
-class CSharedData;
 
 /*!
 * \brief The "Solar ephemeris" tool
@@ -38,7 +35,7 @@ class CSharedData;
 *
 * The time and geographic coordinates are specified in the shared data.
 */
-class CSunDockWidget : public QDockWidget, private Ui::CSunDockWidget
+class CSunDockWidget : public CMainDockWidget, private Ui::CSunDockWidget
 {
 	Q_OBJECT
 
@@ -48,7 +45,11 @@ public:
 	* \param data shared data container
 	* \param parent parent widget
 	*/
-	CSunDockWidget(CSharedData* data, QWidget* parent);
+	CSunDockWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
+
+	static constexpr const char* type_id = "sun";
+
+	static constexpr const char* caption = QT_TR_NOOP("Sun");
 
 protected slots:
 	void onDateTimeChanged();
@@ -66,9 +67,6 @@ protected slots:
 	void on_universalTimeButton_toggled(bool checked);
 
 private:
-	// Shared data
-	CSharedData* m_sharedData;
-
 	// Date 
 	QDateTime m_dateTime;
 

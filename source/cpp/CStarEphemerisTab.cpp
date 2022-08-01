@@ -23,76 +23,71 @@
 
 #include "UtilsQt.h"
 
+#include "CSunDockWidget.h"
+#include "CMoonDockWidget.h"
+#include "CChartDockWidget.h"
+#include "CJulianDateConverterDockWidget.h"
+#include "CHeliocentricCorrectionDockWidget.h"
+#include "CAirMassDockWidget.h"
+
 // Constructor
-CStarEphemerisTab::CStarEphemerisTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(sharedData, mainWnd, parent), m_toolBar(NULL)
+CStarEphemerisTab::CStarEphemerisTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(sharedData, mainWnd, parent)
 {
+	registerTabWidget(type_id);
+
 	setupUi(this);
-	setText(tr("Star ephemeris"));
+
 	layout()->setContentsMargins(0, 0, 0, 0);
 	toolBox->layout()->setContentsMargins(9, 9, 9, 9);
 
-	m_toolsActionMapper = new QSignalMapper(this);
-	connect(m_toolsActionMapper, &QSignalMapper::mappedInt, this, &CStarEphemerisTab::onToolsAction);
+	m_updateAction = new QAction(this);
+	m_updateAction->setText(tr("Update"));
 
-	createToolBar();
+	m_sortAction = new QAction(this);
+	m_sortAction->setText(tr("Sort"));
+
+	m_deleteAction = new QAction(this);
+	m_deleteAction->setText(tr("Delete"));
+
+	m_findAction = new QAction(this);
+	m_findAction->setText(tr("Find"));
+
+	m_printAction = new QAction(this);
+	m_printAction->setText(tr("Print"));
+
+	m_exportAction = new QAction(this);
+	m_exportAction->setText(tr("Export"));
+
+	m_copyAction = new QAction(this);
+	m_copyAction->setText(tr("Copy"));
+
+	createToolBar(mainFrame);
+	addCustomToolBarActions();
 }
 
-//
-// Initialize tools menu
-//
-void CStarEphemerisTab::onTabEnter(CMainTabWidget* previousTab)
+void CStarEphemerisTab::addCustomToolBarActions()
 {
-	INIT_DOCK_WIDGET_ACTION(m_sunAction);
-	INIT_DOCK_WIDGET_ACTION(m_moonAction);
-	INIT_DOCK_WIDGET_ACTION(m_chartAction);
-	INIT_DOCK_WIDGET_ACTION(m_jdConvAction);
-	INIT_DOCK_WIDGET_ACTION(m_helCorrAction);
-	INIT_DOCK_WIDGET_ACTION(m_airMassAction);
-}
+	if (m_toolBar) {
+		m_toolBar->insertAction(m_toolsAction, m_updateAction);
 
-void CStarEphemerisTab::createToolBar()
-{
-	m_toolBar = new QToolBar(this);
-	static_cast<QVBoxLayout*>(mainFrame->layout())->insertWidget(0, m_toolBar);
-	m_toolBar->setFloatable(false);
-	m_toolBar->setMovable(false);
+		m_toolBar->insertSeparator(m_toolsAction);
 
-	m_updateAction = m_toolBar->addAction(tr("Update"));
-	m_toolBar->addSeparator();
-	m_sortAction = m_toolBar->addAction(tr("Sort"));
-	m_deleteAction = m_toolBar->addAction(tr("Delete"));
-	m_findAction = m_toolBar->addAction(tr("Find"));
-	m_toolBar->addSeparator();
-	m_printAction = m_toolBar->addAction(tr("Print"));
-	m_exportAction = m_toolBar->addAction(tr("Export"));
-	m_copyAction = m_toolBar->addAction(tr("Copy"));
-	m_toolBar->addSeparator();
-	m_sunAction = m_toolBar->addAction(tr("Sun"));
-	m_moonAction = m_toolBar->addAction(tr("Moon"));
-	m_chartAction = m_toolBar->addAction(tr("Chart"));
-	m_toolBar->addSeparator();
+		m_toolBar->insertAction(m_toolsAction, m_sortAction);
+		m_toolBar->insertAction(m_toolsAction, m_deleteAction);
+		m_toolBar->insertAction(m_toolsAction, m_findAction);
 
-	m_toolsMenu = new QMenu(this);
-	CREATE_DOCK_WIDGET_TOOL(m_sunAction, SUN_DOCK_WIDGET, tr("Sun"));
-	CREATE_DOCK_WIDGET_TOOL(m_moonAction, MOON_DOCK_WIDGET, tr("Moon"));
-	CREATE_DOCK_WIDGET_TOOL(m_chartAction, SKY_CHART_DOCK_WIDGET, tr("Sky chart"));
-	m_toolsMenu->addSeparator();
-	CREATE_DOCK_WIDGET_TOOL(m_jdConvAction, JD_CONVERTER_DOCK_WIDGET, tr("Julian date converter"));
-	CREATE_DOCK_WIDGET_TOOL(m_helCorrAction, HELIOC_CORRECTION_DOCK_WIDGET, tr("Heliocentric correction"));
-	CREATE_DOCK_WIDGET_TOOL(m_airMassAction, AIR_MASS_DOCK_WIDGET, tr("Air mass"));
-	m_toolsMenu->addSeparator();
-	m_setupAction = m_toolsMenu->addAction(tr("Options"));
+		m_toolBar->insertSeparator(m_toolsAction);
 
-	m_toolsBtn = new QToolButton(this);
-	m_toolsBtn->setText(tr("Tools"));
-	m_toolsBtn->setPopupMode(QToolButton::InstantPopup);
-	m_toolsBtn->setMenu(m_toolsMenu);
-	m_toolsAction = m_toolBar->addWidget(m_toolsBtn);
+		m_toolBar->insertAction(m_toolsAction, m_printAction);
+		m_toolBar->insertAction(m_toolsAction, m_exportAction);
+		m_toolBar->insertAction(m_toolsAction, m_copyAction);
 
-	m_helpAction = m_toolsMenu->addAction(tr("Help"));
-}
+		m_toolBar->insertSeparator(m_toolsAction);
 
-void CStarEphemerisTab::onToolsAction(int dockWidgetId)
-{
-	DOCK_WIDGET_ACTION_TRIGGERED(dockWidgetId);
+		m_toolBar->insertAction(m_toolsAction, DOCK_WIDGET_ACTION(CSunDockWidget));
+		m_toolBar->insertAction(m_toolsAction, DOCK_WIDGET_ACTION(CMoonDockWidget));
+		m_toolBar->insertAction(m_toolsAction, DOCK_WIDGET_ACTION(CChartDockWidget));
+
+		m_toolBar->insertSeparator(m_toolsAction);
+	}
 }

@@ -49,23 +49,11 @@ public:
 	*/
 	CSkyChartTab(CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
 
-private:
-	QToolBar* m_toolBar;
+	static constexpr const char* type_id = "skycharttab";
 
-	QToolButton* m_toolsBtn;
-
-	QMenu* m_toolsMenu;
-
-	QSignalMapper* m_toolsActionMapper;
-
-	QAction* m_helpAction, * m_toolsAction;
-
-	// Create toolbar and actions
-	void createToolBar(void);
+	static constexpr const char* caption = QT_TR_NOOP("Sky chart");
 
 private slots:
-	void onToolsAction(int dockWidgetId);
-
 	void on_view_viewChanged(void);
 
 	void on_raSpinBox_valueChanged(double value);

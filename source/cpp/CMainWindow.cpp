@@ -37,10 +37,11 @@
 #include "CSetupDialog.h"
 #include "CAboutDialog.h"
 #include "CSkyChartTab.h"
+#include "UtilsQt.h"
 
-#define SHOW_NIGHTLY_EPHEMERIS_TAB 0
+#define SHOW_NIGHTLY_EPHEMERIS_TAB 1
 #define SHOW_STAR_EPHEMERIS_TAB 0
-#define SHOW_SKY_CHART_TAB 1
+#define SHOW_SKY_CHART_TAB 0
 
 #define SHOW_SUN_DOCK_WIDGET 0
 #define SHOW_MOON_DOCK_WIDGET 0
@@ -53,9 +54,7 @@
 //
 // Constructor
 //
-CMainWindow::CMainWindow() : QMainWindow(NULL, Qt::Window), m_dayTabWidget(NULL), m_dayTabIndex(-1), m_starTabWidget(NULL), m_starTabIndex(-1),
-m_skyChartTabWidget(NULL), m_skyChartTabIndex(-1), m_sunDockWidget(NULL), m_moonDockWidget(NULL), m_chartDockWidget(NULL),
-m_propertiesDockWidget(NULL), m_julianDateDockWidget(NULL), m_heliocentricCorrectionDockWidget(NULL), m_airMassDockWidget(NULL)
+CMainWindow::CMainWindow() : QMainWindow(NULL, Qt::Window)
 {
     m_tabWidget = new QTabWidget(this);
     m_tabWidget->setDocumentMode(true);
@@ -147,20 +146,15 @@ void CMainWindow::createDockWindows()
 void CMainWindow::createTabs()
 {
 #if SHOW_NIGHTLY_EPHEMERIS_TAB
-    m_dayTabWidget = new CNightlyEphemerisTab(m_sharedData, this, this);
-    m_dayTabIndex = m_tabWidget->addTab(m_dayTabWidget->text());
-    m_stackedWidget->addWidget(m_dayTabWidget);
+    new CNightlyEphemerisTab(m_sharedData, this, this);
 #endif
 
 #if SHOW_STAR_EPHEMERIS_TAB
-    m_starTabWidget = new CStarEphemerisTab(m_sharedData, this, this);
-    m_starTabIndex = m_tabWidget->addTab(m_starTabWidget->text());
-    m_stackedWidget->addWidget(m_starTabWidget);
+    new CStarEphemerisTab(m_sharedData, this, this);
 #endif
 
 #if SHOW_SKY_CHART_TAB 
-    m_skyChartTabWidget = new CSkyChartTab(m_sharedData, this, this);
-    m_starTabIndex = m_tabWidget->addTab(m_skyChartTabWidget, m_skyChartTabWidget->text());
+    new CSkyChartTab(m_sharedData, this, this);
 #endif
 }
 
@@ -197,7 +191,55 @@ void CMainWindow::createActions()
 
 //
 // Create a status bar
+//
 void CMainWindow::createStatusBar()
 {
     statusBar()->showMessage(tr("Ready"));
+}
+
+
+//
+// Register a tab widget
+//
+QString CMainWindow::registerTabWidget(const char* typeId, CMainTabWidget* wnd)
+{
+    assert(wnd != nullptr);
+   
+    int lastSuffix = 0;
+    foreach(const CMainTabWidget * tab, m_tabWidgetsByType.values(typeId)) {
+        if (tab == wnd)
+            return wnd->uniqueId();
+        int suffix;
+        if (UtilsQt::parseUniqueId(tab->uniqueId(), nullptr, &suffix) && suffix > lastSuffix)
+            lastSuffix = suffix;
+    }
+    QString uniqueId = UtilsQt::createUniqueId(typeId, lastSuffix + 1);
+    m_tabWidgets.append(wnd);
+    m_tabWidgetsByType.insert(typeId, wnd);
+    m_tabWidgetById.insert(uniqueId, wnd);
+    m_tabWidget->addTab(wnd, QString::fromLatin1(typeId));
+    return uniqueId;
+}
+
+
+//
+// Register a dock widget
+//
+QString CMainWindow::registerDockWidget(const char* typeId, CMainDockWidget* wnd)
+{
+    assert(wnd != nullptr);
+
+    int lastSuffix = 0;
+    foreach(const CMainDockWidget * dock, m_dockWidgetsByType.values(typeId)) {
+        if (dock == wnd)
+            return wnd->uniqueId();
+        int suffix;
+        if (UtilsQt::parseUniqueId(dock->uniqueId(), nullptr, &suffix) && suffix > lastSuffix)
+            lastSuffix = suffix;
+    }
+    QString uniqueId = UtilsQt::createUniqueId(typeId, lastSuffix + 1);
+    m_dockWidgets.append(wnd);
+    m_dockWidgetsByType.insert(typeId, wnd);
+    m_dockWidgetById.insert(uniqueId, wnd);
+    return uniqueId;
 }

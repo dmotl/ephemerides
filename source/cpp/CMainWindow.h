@@ -25,6 +25,7 @@
 
 class CSharedData;
 class CMainTabWidget;
+class CMainDockWidget;
 
 /*!
 * \brief Main application window
@@ -55,51 +56,40 @@ protected:
 
 private:
     friend class CMainTabWidget;
-
-    // Main tab container
-    QTabWidget* m_tabWidget;
-
-    // The "Nightly epehemeris" section
-    CMainTabWidget* m_dayTabWidget;
-
-    // Tab index for the "Nightly epehemeris" section
-    int m_dayTabIndex;
-
-    // The "Star ephemeris" section
-    CMainTabWidget* m_starTabWidget;
-
-    // Tab index for the "Star ephemeris" section
-    int m_starTabIndex;
-
-    // The "Sky chart" section
-    CMainTabWidget* m_skyChartTabWidget;
-
-    // Tab index for the "Sky chart" section
-    int m_skyChartTabIndex;
+    friend class CMainDockWidget;
 
     // Data shared with tools and windows
     CSharedData* m_sharedData;
 
-    // The "Sun ephemeris" tool
-    QDockWidget* m_sunDockWidget;
+    // Main tab container
+    QTabWidget* m_tabWidget;
 
-    // The "Lunar ephemeris" tool
-    QDockWidget* m_moonDockWidget;
+    // Tab widgets
+    QList<CMainTabWidget*> m_tabWidgets;
 
-    // The "Properties" tool
-    QDockWidget* m_propertiesDockWidget;
+    // Map of tab widgets (unique id --> pointer)
+    QMap<QString, CMainTabWidget*> m_tabWidgetById;
 
-    // The "Sky chart" tool
-    QDockWidget* m_chartDockWidget;
+    // Map of tab widgets by type
+    QMultiMap<const char*, CMainTabWidget*> m_tabWidgetsByType;
 
-    // The "Julian date" tool
-    QDockWidget* m_julianDateDockWidget;
+    // List of dock widget
+    QList<CMainDockWidget*> m_dockWidgets;
 
-    // The "Heliocentric correction" tool
-    QDockWidget* m_heliocentricCorrectionDockWidget;
+    // Dock widgets
+    QMap<QString, CMainDockWidget*> m_dockWidgetById;
 
-    // The "Air mass" tool
-    QDockWidget* m_airMassDockWidget;
+    // Dock widgets
+    QMultiMap<const char*, CMainDockWidget*> m_dockWidgetsByType;
+
+    // Register a tab widget
+    QString registerTabWidget(const char* typeId, CMainTabWidget* wnd);
+
+    // Register a dock widget
+    QString registerDockWidget(const char* typeId, CMainDockWidget* wnd);
+
+    // Get list of dock widgets by type
+    QList<CMainDockWidget*> dockWidgetsByType(const char* typeId) const { return m_dockWidgetsByType.values(typeId); }
 
     // Create sections (tabs)
     void createTabs();

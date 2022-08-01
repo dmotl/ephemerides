@@ -90,34 +90,44 @@ namespace UtilsQt
 	* \return compass point name
 	*/
 	QString compassPointName(CAzimuth::tCompassPoint pt);
+
+
+	inline bool parseUniqueId(const QString& uniqueId, QString* typeId, int* suffix)
+	{
+		int pos = uniqueId.indexOf(QLatin1Char(':'));
+		if (pos >= 0) {
+			if (typeId)
+				*typeId = uniqueId.first(pos);
+			if (suffix)
+				*suffix = uniqueId.mid(pos + 1).toInt();
+			return true;
+		}
+		return false;
+	}
+
+	inline QString createUniqueId(const char* typeId, int suffix)
+	{
+		return QString::fromLatin1(typeId) + QStringLiteral(":") + QString::number(suffix);
+	}
 }
 
-#define CREATE_DOCK_WIDGET_TOOL(action_var, widget_id, caption) { \
-	action_var = new QAction(this); \
-	action_var->setText(caption); \
-	action_var->setCheckable(true); \
-	action_var->setData(widget_id); \
-	connect(action_var, SIGNAL(triggered(bool)), m_toolsActionMapper, SLOT(map())); \
-}
-
-#define INIT_DOCK_WIDGET_ACTION(action_var) { \
-    tDockWidgetId widget_id = static_cast<tDockWidgetId>(action_var->data().toInt()); \
-	QDockWidget *dw = dockWidget(widget_id); \
-	action_var->setEnabled(dw != NULL); \
-	action_var->setChecked(dw && dw->isVisible()); \
-}
-
-#define DOCK_WIDGET_ACTION_TRIGGERED(widget_id) { \
-	QDockWidget *dw = dockWidget(static_cast<tDockWidgetId>(widget_id)); \
-	if (dw) { \
-		if (dw->isVisible()) { \
-			if (dw->isFloating()) { \
-				dw->activateWindow(); \
-				dw->raise(); \
-			} \
-		} \
-		else { \
-			dw->showNormal(); \
-		} \
+#define CREATE_DOCK_WIDGET_TOOL(class_name) { \
+    QString typeId = QString::fromLatin1(class_name::type_id, -1); \
+	if (!m_toolsActionList.contains(typeId)) { \
+		QAction* action_var = new QAction(this); \
+		action_var->setText(QString::fromLatin1(class_name::caption, -1)); \
+		action_var->setCheckable(true); \
+		m_toolsActionMapper->setMapping(action_var, typeId); \
+		m_toolsActionList.insert(typeId, action_var); \
+		connect(action_var, SIGNAL(triggered(bool)), m_toolsActionMapper, SLOT(map())); \
 	} \
 }
+
+#define ADD_DOCK_WIDGET_ACTION(class_name) {\
+	QAction* action_var = m_toolsActionList.value(QString::fromLatin1(class_name::type_id, -1)); \
+	if (action_var) \
+		m_toolsMenu->addAction(action_var); \
+}
+
+#define DOCK_WIDGET_ACTION(class_name) m_toolsActionList.value(QString::fromLatin1(class_name::type_id, -1))
+

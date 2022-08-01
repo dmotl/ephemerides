@@ -29,10 +29,11 @@
 //
 // Constructor
 //
-CMoonDockWidget::CMoonDockWidget(CSharedData* data, QWidget* parent) : QDockWidget(parent), m_sharedData(data)
+CMoonDockWidget::CMoonDockWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent) : CMainDockWidget(data, mainWnd, parent)
 {
+	registerDockWidget(type_id);
+
 	setupUi(this);
-	setWindowTitle(tr("Moon"));
 
 	localTimeButton->blockSignals(true);
 	localTimeButton->setChecked(true);

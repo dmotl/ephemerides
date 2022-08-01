@@ -21,13 +21,10 @@
 */
 #pragma once
 
-#include <QtWidgets>
-
+#include "CMainDockWidget.h"
 #include "CGeoCoordinates.h"
 
 #include "ui_CMoonDockWidget.h"
-
-class CSharedData;
 
 /*!
 * \brief The "Lunar ephemeris" tool
@@ -39,7 +36,7 @@ class CSharedData;
 *
 * The time and geographic coordinates are specified in the shared data.
 */
-class CMoonDockWidget : public QDockWidget, private Ui::CMoonDockWidget
+class CMoonDockWidget : public CMainDockWidget, private Ui::CMoonDockWidget
 {
 	Q_OBJECT
 
@@ -49,7 +46,11 @@ public:
 	* \param data shared data container
 	* \param parent parent widget
 	*/
-	CMoonDockWidget(CSharedData* data, QWidget* parent);
+	CMoonDockWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
+
+	static constexpr const char* type_id = "moon";
+
+	static constexpr const char* caption = QT_TR_NOOP("Moon");
 
 protected slots:
 	void onDateTimeChanged();
@@ -67,7 +68,6 @@ protected slots:
 	void on_universalTimeButton_toggled(bool checked);
 
 private:
-	CSharedData* m_sharedData;
 	QDateTime m_dateTime;
 	CGeoCoordinates m_geoloc;
 

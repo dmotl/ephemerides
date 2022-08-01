@@ -1,7 +1,7 @@
 /*!
-*  \file      CPropertiesDockWidget.h
+*  \file      CMainDockWidget.cpp
 *  \author    David Motl
-*  \date      2022-01-31
+*  \date      2022-05-11
 *
 *  \copyright
 *
@@ -19,39 +19,36 @@
 *      to endorse or promote products derived from this software without specific prior written
 *      permission.
 */
-#pragma once
-
 #include "CMainDockWidget.h"
 
-/*!
-* \brief The "Properties" tool
-*
-* The CPropertiesDockWidget class implements a dock widget that shows 
-* details for a selected row it the table of ephemeris.
-* 
-* The ephemeris is specified in the shared data.
-*/
-class CPropertiesDockWidget : public CMainDockWidget
+#include "CMainWindow.h"
+
+//
+// Constructor
+//
+CMainDockWidget::CMainDockWidget(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : QDockWidget(parent), m_mainWnd(mainWnd), m_sharedData(sharedData)
 {
-	Q_OBJECT
+	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+}
 
-public:
-	/*!
-	* \brief Constructor
-	* 
-	* \param data shared data container
-	* \param parent parent widget
-	*/
-	CPropertiesDockWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
 
-	static constexpr const char* type_id = "properties";
+//
+// Register a tab widget
+//
+void CMainDockWidget::registerDockWidget(const char* typeId)
+{
+	assert(typeId != nullptr && m_mainWnd != nullptr);
+	m_uniqueId = m_mainWnd->registerDockWidget(typeId, this);
+}
 
-	static constexpr const char* caption = QT_TR_NOOP("Properties");
 
-private:
-	// Shared data
-	CSharedData* m_sharedData;
-
-	// Tree view
-	QWidget* m_treeView;
-};
+//
+// Set tab caption
+//
+void CMainDockWidget::setText(const QString& text)
+{
+	if (m_text != text) {
+		m_text = text;
+		emit captionChanged();
+	}
+}

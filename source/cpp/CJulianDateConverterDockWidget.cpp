@@ -26,14 +26,16 @@
 #include "CPlanets.h"
 #include "Utils.h"
 #include "UtilsQt.h"
+#include "CMainWindow.h"
 
 //
 // Constructor
 //
-CJulianDateConverterDockWidget::CJulianDateConverterDockWidget(CSharedData* data, QWidget* parent) : QDockWidget(parent), m_sharedData(data)
+CJulianDateConverterDockWidget::CJulianDateConverterDockWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent) : CMainDockWidget(data, mainWnd, parent)
 {
+	registerDockWidget(type_id);
+
 	setupUi(this);
-	setWindowTitle(tr("Julian date converter"));
 
 	toJDButton->blockSignals(true);
 	toJDButton->setChecked(true);

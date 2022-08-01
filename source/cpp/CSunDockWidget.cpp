@@ -30,10 +30,12 @@
 //
 // Constructor
 //
-CSunDockWidget::CSunDockWidget(CSharedData* data, QWidget* parent) : QDockWidget(parent), m_sharedData(data)
+CSunDockWidget::CSunDockWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent) : CMainDockWidget(data, mainWnd, parent)
 {
+	registerDockWidget(type_id);
+
 	setupUi(this);
-	setWindowTitle(tr("Sun"));
+	setWindowTitle(tr(caption));
 
 	localTimeButton->blockSignals(true);
 	localTimeButton->setChecked(true);

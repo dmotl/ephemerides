@@ -21,10 +21,9 @@
 */
 #pragma once
 
-#include <QtWidgets>
-
 #include "ui_CJulianDateConverterDockWidget.h"
 
+#include "CMainDockWidget.h"
 #include "CJulianDate.h"
 #include "CDateTime.h"
 
@@ -39,7 +38,7 @@ class CSharedData;
 * The time is specified in the shared data and can be modified 
 * in the tool.
 */
-class CJulianDateConverterDockWidget : public QDockWidget, private Ui::CJulianDateConverterDockWidget
+class CJulianDateConverterDockWidget : public CMainDockWidget, private Ui::CJulianDateConverterDockWidget
 {
 	Q_OBJECT
 
@@ -49,7 +48,13 @@ public:
 	* \param data shared data container
 	* \param parent parent widget
 	*/
-	CJulianDateConverterDockWidget(CSharedData* data, QWidget* parent);
+	CJulianDateConverterDockWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
+
+	// Type identifier
+	static constexpr const char *type_id = "jdate";
+
+	static constexpr const char* caption = QT_TR_NOOP("Julian date converter");
+
 
 protected slots:
 	void onDateTimeChanged();
@@ -66,7 +71,6 @@ protected slots:
 	void on_fromJDButton_toggled(bool checked);
 
 private:
-	CSharedData* m_sharedData;
 	QDateTime m_dateTimeLocal;
 
 	void reset();

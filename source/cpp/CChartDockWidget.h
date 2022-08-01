@@ -21,10 +21,7 @@
 */
 #pragma once
 
-#include <QtWidgets>
-#include <CEquGridDataset.h>
-
-class CSharedData;
+#include "CMainDockWidget.h"
 
 /*! 
 * \brief The "Sky chart" tool
@@ -37,7 +34,7 @@ class CSharedData;
 * The time and celestial coordinates are specified in the shared data. The chart
 * has constant view field. 
 */
-class CChartDockWidget : public QDockWidget
+class CChartDockWidget : public CMainDockWidget
 {
 	Q_OBJECT
 
@@ -47,14 +44,16 @@ public:
 	* \param data shared data container
 	* \param parent parent widget
 	*/
-	CChartDockWidget(CSharedData* data, QWidget* parent);
+	CChartDockWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
+
+	static constexpr const char* type_id = "skychart";
+
+	static constexpr const char* caption = QT_TR_NOOP("Sky chart");
+
 
 private:
 	// Shared data
 	CSharedData* m_sharedData;
-
-	// Equatorial grid
-	CEquGridDataset* m_equGrid;
 
 	// Chart widget
 	QWidget* m_chartView;
