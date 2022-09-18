@@ -72,9 +72,9 @@ m_initialized(false)
 //
 // Restore settings
 //
-void CNightlyEphemerisTab::loadState(const QDomElement& xml) 
+void CNightlyEphemerisTab::loadState(const JSON::CObject& obj) 
 {
-	int date = loadXmlValueInt(xml, "Date");
+	int date = configGetValueInt(obj, "Date");
 	if (date > 0) {
 		dateEdit->blockSignals(true);
 		dateEdit->setDate(QDate::fromJulianDay(date));
@@ -87,117 +87,117 @@ void CNightlyEphemerisTab::loadState(const QDomElement& xml)
 	}
 
 	tonightCheck->blockSignals(true);
-	tonightCheck->setChecked(loadXmlValueBool(xml, "DateTonight"));
+	tonightCheck->setChecked(configGetValueBool(obj, "DateTonight"));
 	tonightCheck->blockSignals(false);
 
-	m_checkedCatalogs = loadXmlValueMap(xml, "Catalogs");
+	m_checkedCatalogs = configGetValueMap(obj, "Catalogs");
 
 	timeCheck->blockSignals(true);
-	timeCheck->setChecked(loadXmlValueBool(xml, "FilterTimeCheck"));
+	timeCheck->setChecked(configGetValueBool(obj, "FilterTimeCheck"));
 	timeCheck->blockSignals(false);
 
 	timeFromEdit->blockSignals(true);
-	timeFromEdit->setValue(loadXmlValueReal(xml, "FilterTimeFrom"));
+	timeFromEdit->setValue(configGetValueReal(obj, "FilterTimeFrom"));
 	timeFromEdit->blockSignals(false);
 
 	timeToEdit->blockSignals(true);
-	timeToEdit->setValue(loadXmlValueReal(xml, "FilterTimeTo"));
+	timeToEdit->setValue(configGetValueReal(obj, "FilterTimeTo"));
 	timeToEdit->blockSignals(false);
 
 	nightCheck->blockSignals(true);
-	nightCheck->setChecked(loadXmlValueReal(xml, "FilterTimeAuto"));
+	nightCheck->setChecked(configGetValueReal(obj, "FilterTimeAuto"));
 	nightCheck->blockSignals(false);
 
 	altCheck->blockSignals(true); 
-	altCheck->setChecked(loadXmlValueBool(xml, "FilterAltCheck"));
+	altCheck->setChecked(configGetValueBool(obj, "FilterAltCheck"));
 	altCheck->blockSignals(false);
 
 	altFromEdit->blockSignals(true);
-	altFromEdit->setValue(loadXmlValueInt(xml, "FilterAltFrom"));
+	altFromEdit->setValue(configGetValueInt(obj, "FilterAltFrom"));
 	altFromEdit->blockSignals(false);
 
 	altToEdit->blockSignals(true);
-	altToEdit->setValue(loadXmlValueInt(xml, "FilterAltTo"));
+	altToEdit->setValue(configGetValueInt(obj, "FilterAltTo"));
 	altToEdit->blockSignals(false);
 
 	magCheck->blockSignals(true); 
-	magCheck->setChecked(loadXmlValueBool(xml, "FilterMagCheck"));
+	magCheck->setChecked(configGetValueBool(obj, "FilterMagCheck"));
 	magCheck->blockSignals(false);
 
 	magFromEdit->blockSignals(true);
-	magFromEdit->setValue(loadXmlValueReal(xml, "FilterMagFrom"));
+	magFromEdit->setValue(configGetValueReal(obj, "FilterMagFrom"));
 	magFromEdit->blockSignals(false);
 
 	magToEdit->blockSignals(true);
-	magToEdit->setValue(loadXmlValueReal(xml, "FilterMagTo"));
+	magToEdit->setValue(configGetValueReal(obj, "FilterMagTo"));
 	magToEdit->blockSignals(false);
 
 	ptsCheck->blockSignals(true);
-	ptsCheck->setChecked(loadXmlValueBool(xml, "FilterPtsCheck"));
+	ptsCheck->setChecked(configGetValueBool(obj, "FilterPtsCheck"));
 	ptsCheck->blockSignals(false);
 
 	ptsFromEdit->blockSignals(true);
-	ptsFromEdit->setValue(loadXmlValueInt(xml, "FilterPtsFrom"));
+	ptsFromEdit->setValue(configGetValueInt(obj, "FilterPtsFrom"));
 	ptsFromEdit->blockSignals(false);
 
 	ptsToEdit->blockSignals(true);
-	ptsToEdit->setValue(loadXmlValueInt(xml, "FilterPtsTo"));
+	ptsToEdit->setValue(configGetValueInt(obj, "FilterPtsTo"));
 	ptsToEdit->blockSignals(false);
 
 	rascCheck->blockSignals(true);
-	rascCheck->setChecked(loadXmlValueBool(xml, "FilterRaCheck"));
+	rascCheck->setChecked(configGetValueBool(obj, "FilterRaCheck"));
 	rascCheck->blockSignals(false);
 
 	rascFromEdit->blockSignals(true);
-	rascFromEdit->setValue(loadXmlValueReal(xml, "FilterRaFrom"));
+	rascFromEdit->setValue(configGetValueReal(obj, "FilterRaFrom"));
 	rascFromEdit->blockSignals(false);
 
 	rascToEdit->blockSignals(true);
-	rascToEdit->setValue(loadXmlValueReal(xml, "FilterRaTo"));
+	rascToEdit->setValue(configGetValueReal(obj, "FilterRaTo"));
 	rascToEdit->blockSignals(false);
 
 	decCheck->blockSignals(true);
-	decCheck->setChecked(loadXmlValueBool(xml, "FilterDecCheck"));
+	decCheck->setChecked(configGetValueBool(obj, "FilterDecCheck"));
 	decCheck->blockSignals(false);
 
 	decFromEdit->blockSignals(true);
-	decFromEdit->setValue(loadXmlValueReal(xml, "FilterRaFrom"));
+	decFromEdit->setValue(configGetValueReal(obj, "FilterRaFrom"));
 	decFromEdit->blockSignals(false);
 
 	decToEdit->blockSignals(true);
-	decToEdit->setValue(loadXmlValueReal(xml, "FilterDecTo"));
+	decToEdit->setValue(configGetValueReal(obj, "FilterDecTo"));
 	decToEdit->blockSignals(false);
 
 	consCheck->blockSignals(true);
-	consCheck->setChecked(loadXmlValueBool(xml, "FilterConsCheck"));
+	consCheck->setChecked(configGetValueBool(obj, "FilterConsCheck"));
 	consCheck->blockSignals(false);
 
-	m_constellationList = loadXmlValueList(xml, "FilterConsList");
+	m_constellationList = configGetValueList(obj, "FilterConsList");
 
 	typesCheck->blockSignals(true);
-	typesCheck->setChecked(loadXmlValueBool(xml, "FilterTypeCheck"));
+	typesCheck->setChecked(configGetValueBool(obj, "FilterTypeCheck"));
 	typesCheck->blockSignals(false);
 
-	m_varTypesList = loadXmlValueList(xml, "FilterTypeList");
+	m_varTypesList = configGetValueList(obj, "FilterTypeList");
 
 	aziCheck->blockSignals(true);
-	aziCheck->setChecked(loadXmlValueBool(xml, "FilterAzCheck"));
+	aziCheck->setChecked(configGetValueBool(obj, "FilterAzCheck"));
 	aziCheck->blockSignals(false);
 
 	aziFromEdit->blockSignals(true);
-	aziFromEdit->setValue(loadXmlValueInt(xml, "FilterAzFrom"));
+	aziFromEdit->setValue(configGetValueInt(obj, "FilterAzFrom"));
 	aziFromEdit->blockSignals(false);
 
 	aziToEdit->blockSignals(true);
-	aziToEdit->setValue(loadXmlValueInt(xml, "FilterAzTo"));
+	aziToEdit->setValue(configGetValueInt(obj, "FilterAzTo"));
 	aziToEdit->blockSignals(false);
 
 	omdCheck->blockSignals(true);
-	omdCheck->setChecked(loadXmlValueBool(xml, "FilterOMDCheck"));
+	omdCheck->setChecked(configGetValueBool(obj, "FilterOMDCheck"));
 	omdCheck->blockSignals(false);
 
 	omdFromEdit->blockSignals(true);
-	omdFromEdit->setValue(loadXmlValueInt(xml, "FilterOMDFrom"));
+	omdFromEdit->setValue(configGetValueInt(obj, "FilterOMDFrom"));
 	omdFromEdit->blockSignals(false);
 
 	updateCaption();
@@ -207,50 +207,50 @@ void CNightlyEphemerisTab::loadState(const QDomElement& xml)
 //
 // Save settings
 //
-void CNightlyEphemerisTab::saveState(QDomElement& xml) 
+void CNightlyEphemerisTab::saveState(JSON::CObject& obj) 
 {
-	setXmlValue(xml, "Date", dateEdit->date().toJulianDay());
-	setXmlValue(xml, "DateTonight", tonightCheck->isChecked());
+	configSetValue(obj, "Date", dateEdit->date().toJulianDay());
+	configSetValue(obj, "DateTonight", tonightCheck->isChecked());
 
-	setXmlValue(xml, "Catalogs", m_checkedCatalogs);
+	configSetValue(obj, "Catalogs", m_checkedCatalogs);
 
-	setXmlValue(xml, "FilterTimeCheck", timeCheck->isChecked());
-	setXmlValue(xml, "FilterTimeFrom", QString::number(timeFromEdit->value(), 'f', 1));
-	setXmlValue(xml, "FilterTimeTo", QString::number(timeToEdit->value(), 'f', 1));
-	setXmlValue(xml, "FilterTimeAuto", nightCheck->isChecked());
+	configSetValue(obj, "FilterTimeCheck", timeCheck->isChecked());
+	configSetValue(obj, "FilterTimeFrom", QString::number(timeFromEdit->value(), 'f', 1));
+	configSetValue(obj, "FilterTimeTo", QString::number(timeToEdit->value(), 'f', 1));
+	configSetValue(obj, "FilterTimeAuto", nightCheck->isChecked());
 
-	setXmlValue(xml, "FilterAltCheck", altCheck->isChecked());
-	setXmlValue(xml, "FilterAltFrom", altFromEdit->value());
-	setXmlValue(xml, "FilterAltTo", altToEdit->value());
+	configSetValue(obj, "FilterAltCheck", altCheck->isChecked());
+	configSetValue(obj, "FilterAltFrom", altFromEdit->value());
+	configSetValue(obj, "FilterAltTo", altToEdit->value());
 
-	setXmlValue(xml, "FilterMagCheck", magCheck->isChecked());
-	setXmlValue(xml, "FilterMagFrom", QString::number(magFromEdit->value(), 'f', 1));
-	setXmlValue(xml, "FilterMagTo", QString::number(magToEdit->value(), 'f', 1));
+	configSetValue(obj, "FilterMagCheck", magCheck->isChecked());
+	configSetValue(obj, "FilterMagFrom", QString::number(magFromEdit->value(), 'f', 1));
+	configSetValue(obj, "FilterMagTo", QString::number(magToEdit->value(), 'f', 1));
 
-	setXmlValue(xml, "FilterPtsCheck", ptsCheck->isChecked());
-	setXmlValue(xml, "FilterPtsFrom", ptsFromEdit->value());
-	setXmlValue(xml, "FilterPtsTo", ptsToEdit->value());
+	configSetValue(obj, "FilterPtsCheck", ptsCheck->isChecked());
+	configSetValue(obj, "FilterPtsFrom", ptsFromEdit->value());
+	configSetValue(obj, "FilterPtsTo", ptsToEdit->value());
 
-	setXmlValue(xml, "FilterRaCheck", rascCheck->isChecked());
-	setXmlValue(xml, "FilterRaFrom", QString::number(rascFromEdit->value(), 'f', 1));
-	setXmlValue(xml, "FilterRaTo", QString::number(rascToEdit->value(), 'f', 1));
+	configSetValue(obj, "FilterRaCheck", rascCheck->isChecked());
+	configSetValue(obj, "FilterRaFrom", QString::number(rascFromEdit->value(), 'f', 1));
+	configSetValue(obj, "FilterRaTo", QString::number(rascToEdit->value(), 'f', 1));
 
-	setXmlValue(xml, "FilterDecCheck", decCheck->isChecked());
-	setXmlValue(xml, "FilterDecFrom", decFromEdit->value());
-	setXmlValue(xml, "FilterDecTo", decToEdit->value());
+	configSetValue(obj, "FilterDecCheck", decCheck->isChecked());
+	configSetValue(obj, "FilterDecFrom", decFromEdit->value());
+	configSetValue(obj, "FilterDecTo", decToEdit->value());
 
-	setXmlValue(xml, "FilterConsCheck", consCheck->isChecked());
-	setXmlValue(xml, "FilterConsList", m_constellationList);
+	configSetValue(obj, "FilterConsCheck", consCheck->isChecked());
+	configSetValue(obj, "FilterConsList", m_constellationList);
 
-	setXmlValue(xml, "FilterTypeCheck", typesCheck->isChecked());
-	setXmlValue(xml, "FilterTypeList", m_varTypesList);
+	configSetValue(obj, "FilterTypeCheck", typesCheck->isChecked());
+	configSetValue(obj, "FilterTypeList", m_varTypesList);
 
-	setXmlValue(xml, "FilterAzCheck", aziCheck->isChecked());
-	setXmlValue(xml, "FilterAzFrom", aziFromEdit->value());
-	setXmlValue(xml, "FilterAzTo", aziToEdit->value());
+	configSetValue(obj, "FilterAzCheck", aziCheck->isChecked());
+	configSetValue(obj, "FilterAzFrom", aziFromEdit->value());
+	configSetValue(obj, "FilterAzTo", aziToEdit->value());
 
-	setXmlValue(xml, "FilterOMDCheck", omdCheck->isChecked());
-	setXmlValue(xml, "FilterOMDFrom", omdFromEdit->value());
+	configSetValue(obj, "FilterOMDCheck", omdCheck->isChecked());
+	configSetValue(obj, "FilterOMDFrom", omdFromEdit->value());
 }
 
 

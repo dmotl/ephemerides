@@ -21,47 +21,47 @@
 */
 #include "CConfigSupport.h"
 
-void CConfigSupport::setXmlValue(QDomElement& xml, const char* elementName, int value)
+void CConfigSupport::configSetValue(JSON::CObject& obj, const char* elementName, int value)
 {
 
 }
 
-void CConfigSupport::setXmlValue(QDomElement& xml, const char* elementName, const QString& value)
+void CConfigSupport::configSetValue(JSON::CObject& obj, const char* elementName, const QString& value)
 {
 
 }
 
-void CConfigSupport::setXmlValue(QDomElement& xml, const char* elementName, const QStringList& values)
+void CConfigSupport::configSetValue(JSON::CObject& obj, const char* elementName, const QStringList& values)
 {
 
 }
 
-void CConfigSupport::setXmlValue(QDomElement& xml, const char* elementName, const QMap<QString, bool>& value)
+void CConfigSupport::configSetValue(JSON::CObject& obj, const char* elementName, const QMap<QString, bool>& value)
 {
 
 }
 
-int CConfigSupport::loadXmlValueInt(const QDomElement& xml, const char* elementName, int defaultValue)
-{
-	return defaultValue;
-}
-
-bool CConfigSupport::loadXmlValueBool(const QDomElement& xml, const char* elementName, bool defaultValue)
+int CConfigSupport::configGetValueInt(const JSON::CObject& obj, const char* elementName, int defaultValue)
 {
 	return defaultValue;
 }
 
-double CConfigSupport::loadXmlValueReal(const QDomElement& xml, const char* elementName, double defaultValue)
+bool CConfigSupport::configGetValueBool(const JSON::CObject& obj, const char* elementName, bool defaultValue)
 {
 	return defaultValue;
 }
 
-QMap<QString, bool> CConfigSupport::loadXmlValueMap(const QDomElement& xml, const char* elementName)
+double CConfigSupport::configGetValueReal(const JSON::CObject& obj, const char* elementName, double defaultValue)
+{
+	return defaultValue;
+}
+
+QMap<QString, bool> CConfigSupport::configGetValueMap(const JSON::CObject& obj, const char* elementName)
 {
 	return QMap<QString, bool>();
 }
 
-QStringList CConfigSupport::loadXmlValueList(const QDomElement& xml, const char* elementName)
+QStringList CConfigSupport::configGetValueList(const JSON::CObject& obj, const char* elementName)
 {
 	return QStringList();
 }

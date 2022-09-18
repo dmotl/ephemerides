@@ -1,8 +1,9 @@
 cmake_minimum_required (VERSION 3.19)
 
 if(ephem_build_tests)
+	set(targetName "tests_skychart")
 
-	add_executable(tests 
+	add_executable(${targetName} 
 	"CPlanets_test.cpp" 
 	"test_main.cpp" 
 	"CJulianDate_test.cpp" 
@@ -18,9 +19,9 @@ if(ephem_build_tests)
 	"CVector3_test.cpp"
 	"CTransform_test.cpp")
 
-	target_link_libraries(tests GTest::gtest vsop87 vsop87_tests elp82 skychartcorelib skychartmodels skycharttables)
-	target_include_directories(tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-	gtest_discover_tests(tests)
+	target_link_libraries(${targetName} GTest::gtest vsop87 vsop87_tests elp82 skychartcorelib skychartmodels skycharttables)
+	target_include_directories(${targetName} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+	gtest_discover_tests(${targetName})
 
 	configure_file(test_config.h.in test_config.h)
 

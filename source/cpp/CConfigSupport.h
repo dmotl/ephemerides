@@ -21,21 +21,21 @@
 */
 #pragma once
 
-#include <QtXml>
+#include "CObject.h"
 
 class CConfigSupport
 {
 public:
 	CConfigSupport() = default;
 
-	static void setXmlValue(QDomElement& xml, const char* elementName, int value);
-	static void setXmlValue(QDomElement& xml, const char* elementName, const QString& value);
-	static void setXmlValue(QDomElement& xml, const char* elementName, const QStringList& values);
-	static void setXmlValue(QDomElement& xml, const char* elementName, const QMap<QString, bool>& value);
+	static void configSetValue(JSON::CObject& obj, const char* elementName, int value);
+	static void configSetValue(JSON::CObject& obj, const char* elementName, const QString& value);
+	static void configSetValue(JSON::CObject& obj, const char* elementName, const QStringList& values);
+	static void configSetValue(JSON::CObject& obj, const char* elementName, const QMap<QString, bool>& value);
 
-	static int loadXmlValueInt(const QDomElement& xml, const char* elementName, int defaultValue = 0);
-	static bool loadXmlValueBool(const QDomElement& xml, const char* elementName, bool defaultValue = false);
-	static double loadXmlValueReal(const QDomElement& xml, const char* elementName, double defaultValue = 0);
-	static QMap<QString, bool> loadXmlValueMap(const QDomElement& xml, const char* elementName);
-	static QStringList loadXmlValueList(const QDomElement& xml, const char* elementName);
+	static int configGetValueInt(const JSON::CObject& obj, const char* elementName, int defaultValue = 0);
+	static bool configGetValueBool(const JSON::CObject& obj, const char* elementName, bool defaultValue = false);
+	static double configGetValueReal(const JSON::CObject& obj, const char* elementName, double defaultValue = 0);
+	static QMap<QString, bool> configGetValueMap(const JSON::CObject& obj, const char* elementName);
+	static QStringList configGetValueList(const JSON::CObject& obj, const char* elementName);
 };

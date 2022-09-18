@@ -11,9 +11,10 @@ DESCRIPTION "Ephemerides for variable stars"
 )
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_C_EXTENSIONS OFF)
+
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
@@ -35,6 +36,9 @@ include(GNUInstallDirs)
 
 # Needed to include config.h
 include_directories(${CMAKE_BINARY_DIR})
+
+# Bison
+find_package(BISON 3 REQUIRED)
 
 # Qt5 stuff
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Xml)

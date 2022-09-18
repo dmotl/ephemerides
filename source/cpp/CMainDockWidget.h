@@ -50,7 +50,7 @@ public:
 	*
 	* The function loads the state of a tab from the XML tree
 	*/
-	virtual void loadState(const QDomElement& xml) {}
+	virtual void loadState(const JSON::CObject& obj) {}
 
 	/*!
 	* \brief Save last state
@@ -58,7 +58,7 @@ public:
 	* The function updates content of the given XML element
 	* with the current state of the tab.
 	*/
-	virtual void saveState(QDomElement& xml) {}
+	virtual void saveState(JSON::CObject& obj) {}
 
 public slots:
 	/*!

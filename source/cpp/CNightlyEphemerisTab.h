@@ -52,9 +52,9 @@ public:
 
 	static constexpr const char* caption = QT_TR_NOOP("Nightly ephemerides");
 
-	void loadState(const QDomElement& xml) override;
+	void loadState(const JSON::CObject& obj) override;
 
-	void saveState(QDomElement& xml) override;
+	void saveState(JSON::CObject& obj) override;
 
 private:
 	bool m_initialized;
