@@ -23,6 +23,7 @@
 
 #include <QtWidgets>
 
+class CMainApp;
 class CSharedData;
 class CMainTabWidget;
 class CMainDockWidget;
@@ -42,7 +43,7 @@ class CMainWindow : public QMainWindow
 
 public:
     /*! \brief Constructor */
-    CMainWindow();
+    explicit CMainWindow(CMainApp* app, QWidget* parentWidget = nullptr);
 
 protected:
     /*! \brief Save settings and close the window */
@@ -57,6 +58,9 @@ protected:
 private:
     friend class CMainTabWidget;
     friend class CMainDockWidget;
+
+    // Application's global data
+    CMainApp* m_app;
 
     // Data shared with tools and windows
     CSharedData* m_sharedData;

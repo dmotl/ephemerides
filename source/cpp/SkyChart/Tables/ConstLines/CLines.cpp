@@ -23,7 +23,7 @@
 
 #include "constlines_tables.h"
 
-CLines::CLines(const CBSC1991& bsc)
+CLines::CLines(const CBSC1991_Embedded& bsc)
 {
 	int length = sizeof(constlines) / sizeof(tConstLinesTable);
 	for (int i = 0; i < length; i++) {

@@ -1,5 +1,14 @@
 /* Define to the version of this package. */
-#define APPLICATION_NAME "@EPHEMERIDES_PROJECT_NAME@"
+#define APPLICATION_NAME "@CMAKE_PROJECT_NAME@"
 
 /* Version number of package */
-#define VERSION_STRING "@EPHEMERIDES_PROJECT_VERSION@"
+#define VERSION_STRING "@CMAKE_PROJECT_VERSION@"
+
+/* Directory with shared configuration files, documentation, state, etc. */
+#define DATA_ROOT_DIR "@EPHEMERIDES_DATA_ROOT_DIR@"
+
+/* Direcotry with user-specific configuration files, documentation, state, etc. */
+#define DATA_HOME_DIR "@EPHEMERIDES_DATA_HOME_DIR@"
+
+/* Directory with system configuration files */
+#define SYS_CONFIG_DIR "@EPHEMERIDES_SYS_CONFIG_DIR@"

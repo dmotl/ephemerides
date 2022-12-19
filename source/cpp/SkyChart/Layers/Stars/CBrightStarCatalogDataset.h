@@ -1,6 +1,14 @@
 #pragma once
 
+#define USE_EMBEDED_BSC1991 1
+
 #include "CSkyChartDataset.h"
+
+#if USE_EMBEDED_BSC1991
+class CBSC1991_Embedded;
+using CBSC1991 = CBSC1991_Embedded;
+#endif
+
 #include "CBSC1991.h"
 
 class CBrightStarCatalogDataset : public CSkyChartDataset

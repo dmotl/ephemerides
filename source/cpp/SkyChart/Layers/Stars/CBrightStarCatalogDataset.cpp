@@ -1,6 +1,8 @@
 #include "CBrightStarCatalogDataset.h"
 
+#if USE_EMBEDED_BSC1991
 #include "CBSC1991.h"
+#endif
 
 static const int MIN_MAG = -2000;
 static const int MAG_RANGE = 12800;
@@ -17,7 +19,7 @@ static const double EYE_RESOLUTION = 0.25;
 static const double MAX_LINEAR_RADIUS = 8.0;
 
 CBrightStarCatalogDataset::CBrightStarCatalogDataset(const CBSC1991* file, QObject* parent) : CSkyChartDataset(parent),
-m_rcmag(RCMAG_TABLE_SIZE), m_fov(-DBL_MAX)
+m_rcmag(RCMAG_TABLE_SIZE), m_fov(-DBL_MAX), m_lnfovFactor(1), m_starLinearScale(1), m_inputScale(1), m_limitMagIndex(0)
 {
 	if (file) {
 		auto begin = file->data().begin(), end = file->data().end();

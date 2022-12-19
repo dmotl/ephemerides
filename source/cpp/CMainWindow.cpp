@@ -54,7 +54,7 @@
 //
 // Constructor
 //
-CMainWindow::CMainWindow() : QMainWindow(NULL, Qt::Window)
+CMainWindow::CMainWindow(CMainApp* app, QWidget* parentWidget) : QMainWindow(parentWidget, Qt::Window), m_app(app)
 {
     m_tabWidget = new QTabWidget(this);
     m_tabWidget->setDocumentMode(true);

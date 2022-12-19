@@ -28,7 +28,7 @@
 
 #include "CEquCoordinates.h"
 
-class CBSC1991
+class CBSC1991_Embedded
 {
 public:
 	struct CObject
@@ -48,9 +48,9 @@ public:
 	};
 
 public:
-	CBSC1991();
+	CBSC1991_Embedded();
 
-	~CBSC1991();
+	~CBSC1991_Embedded();
 
 	const std::vector<CObject*>& data() const
 	{
@@ -66,6 +66,6 @@ private:
 	std::vector<CObject*> m_list;
 	std::map<int, CObject*> m_bs_id_map, m_hd_id_map;
 
-	CBSC1991(const CBSC1991&) = delete;
-	CBSC1991& operator=(const CBSC1991&) const = delete;
+	CBSC1991_Embedded(const CBSC1991_Embedded&) = delete;
+	CBSC1991_Embedded& operator=(const CBSC1991_Embedded&) const = delete;
 };

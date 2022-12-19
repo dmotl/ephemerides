@@ -53,7 +53,7 @@ static std::string ltrim(const std::string& s)
 
 #include "bsc91_tables.h"
 
-CBSC1991::CBSC1991()
+CBSC1991_Embedded::CBSC1991_Embedded()
 {
     int length = sizeof(bsc91_table) / sizeof(tBSC91Table);
     for (int i = 0; i < length; i++) {
@@ -69,7 +69,7 @@ CBSC1991::CBSC1991()
     }
 }
 
-CBSC1991::~CBSC1991()
+CBSC1991_Embedded::~CBSC1991_Embedded()
 {
     auto begin = m_list.begin(), end = m_list.end();
     while (begin != end) {
@@ -80,7 +80,7 @@ CBSC1991::~CBSC1991()
 
 #if 0
 
-void CBSC1991::clear()
+void CBSC1991_Embedded::clear()
 {
     auto begin = m_list.begin(), end = m_list.end();
     while (begin != end) {
@@ -93,7 +93,7 @@ void CBSC1991::clear()
     m_hd_id_map.clear();
 }
 
-bool CBSC1991::load(const char* dirPath)
+bool CBSC1991_Embedded::load(const char* dirPath)
 {
     clear();
 
@@ -189,7 +189,7 @@ bool CBSC1991::load(const char* dirPath)
 }
 #endif
 
-CBSC1991::CObject* CBSC1991::find_bs(int bs_num) const
+CBSC1991_Embedded::CObject* CBSC1991_Embedded::find_bs(int bs_num) const
 {
     auto it = m_bs_id_map.find(bs_num);
     if (it != m_bs_id_map.end())
@@ -197,7 +197,7 @@ CBSC1991::CObject* CBSC1991::find_bs(int bs_num) const
     return NULL;
 }
 
-CBSC1991::CObject* CBSC1991::find_hd(int hd_num) const
+CBSC1991_Embedded::CObject* CBSC1991_Embedded::find_hd(int hd_num) const
 {
     auto it = m_hd_id_map.find(hd_num);
     if (it != m_hd_id_map.end())

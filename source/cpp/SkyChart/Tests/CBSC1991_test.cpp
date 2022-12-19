@@ -28,7 +28,7 @@
 
 #include "CBSC1991.h"
 
-#include "test_config.h"
+#include "tests_config.h"
 
 #undef RA_TO_RAD
 #define RA_TO_RAD(h, m, s) (((h) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 12 * M_PI)
@@ -39,18 +39,18 @@
 /*2491  9Alp CMaBD-16 1591  48915151881 257I   5423           064044.6-163444064508.9-164258227.22-08.88-1.46   0.00 -0.05 -0.03   A1Vm               -0.553-1.205 +.375-008SBO    13 10.3  11.2AB   4* */
 static const double Sirius[3] = { RA_TO_RAD(06, 45, 08.9), -DEC_TO_RAD(16, 42, 58), -1.46 };
 
-TEST(CBSC1991, Size)
+TEST(CBSC1991_Embedded, Size)
 {
-	CBSC1991 file;
+	CBSC1991_Embedded file;
 
 	EXPECT_EQ(file.data().size(), 9096);
 }
 
-TEST(CBSC1991, Sirius)
+TEST(CBSC1991_Embedded, Sirius)
 {
-	CBSC1991 file;
+	CBSC1991_Embedded file;
 
-	CBSC1991::CObject* obj = file.find_bs(2491);
+	CBSC1991_Embedded::CObject* obj = file.find_bs(2491);
 	EXPECT_FALSE(obj == nullptr);
 	EXPECT_NEAR(obj->equatorialJ2000().rightAscension().radians(), Sirius[0], 1e-6);
 	EXPECT_NEAR(obj->equatorialJ2000().declination().radians(), Sirius[1], 1e-6);

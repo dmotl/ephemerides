@@ -46,7 +46,7 @@ public:
 		tConstellation m_cons;
 	};
 
-	explicit CLines(const CBSC1991& bsc);
+	explicit CLines(const CBSC1991_Embedded& bsc);
 
 	const std::vector<CLine>& data() const { return m_list; }
 

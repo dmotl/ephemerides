@@ -19,12 +19,11 @@
 *      to endorse or promote products derived from this software without specific prior written
 *      permission.
 */
-#include <string>
-#include <Windows.h>
-
-#include <QtWidgets>
+#include "CMainApp.h"
 
 #include "config.h"
+
+#include <Windows.h>
 
 static _CRT_REPORT_HOOK gs_prevHook = NULL;
 
@@ -76,35 +75,17 @@ static void setFilterDebugHook(void)
 	gs_prevHook = _CrtSetReportHook(reportingHook);
 }
 
-#include "CMainWindow.h"
-
-
 //
 // Main function
 //
 int main(int argc, char *argv[]) 
 {
-	int exitCode = 0;
-
 	// Initialize windows memory leak detector
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	setFilterDebugHook();
 
-	QApplication a(argc, argv);
+	srand((unsigned)time(0));
 
-	// Set default encoding to utf-8
-	//QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-
-	// Taskbar icon
-    qApp->setWindowIcon(QIcon(QStringLiteral(":/Resources/ephemerides.ico")));
-
-	// Version
-    qApp->setApplicationName(QLatin1String(APPLICATION_NAME));
-	qApp->setApplicationVersion(QLatin1String(VERSION_STRING));
-
-	CMainWindow mainWin;
-	mainWin.show();
-	exitCode = a.exec();
-
-	return exitCode;
+	CMainApp a(argc, argv);
+	return a.exec();
 }

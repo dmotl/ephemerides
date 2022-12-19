@@ -3,9 +3,9 @@ function(add_constbnd_cc target)
 
 	add_custom_command(
 	    OUTPUT ${outfile}
-		COMMAND "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/constbnd_conv.py" "${CMAKE_SOURCE_DIR}/share/cbound89/constbnd.dat" "${CMAKE_SOURCE_DIR}/share/misc/constellation_names.dat" "${outfile}"
-		MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/share/cbound89/constbnd.dat"
-		DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/constbnd_conv.py" "${CMAKE_SOURCE_DIR}/share/misc/constellation_names.dat"
+		COMMAND "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/constbnd_conv.py" "${CMAKE_SOURCE_DIR}/share/Catalogs/Constellations/cbound89/constbnd.dat" "${CMAKE_SOURCE_DIR}/share/Catalogs/Constellations/constellation_names.dat" "${outfile}"
+		MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/share/Catalogs/Constellations/cbound89/constbnd.dat"
+		DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/constbnd_conv.py" "${CMAKE_SOURCE_DIR}/share/Catalogs/Constellations/constellation_names.dat"
 		COMMENT "Converting constellation boundaries..."
 		VERBATIM
 	)
@@ -20,9 +20,9 @@ function(add_constellation_names_cc target)
 
 	add_custom_command(
 	    OUTPUT ${outfile_h} ${outfile_c}
-		COMMAND "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/constellation_names.py" "${CMAKE_SOURCE_DIR}/share/misc/constellation_names.dat" "${outfile_h}"
-		MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/share/misc/constellation_names.dat"
-		DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/constellation_names.py" "${CMAKE_SOURCE_DIR}/share/misc/constellation_names.dat"
+		COMMAND "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/constellation_names.py" "${CMAKE_SOURCE_DIR}/share/Catalogs/Constellations/constellation_names.dat" "${outfile_h}"
+		MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/share/Catalogs/Constellations/constellation_names.dat"
+		DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/constellation_names.py" "${CMAKE_SOURCE_DIR}/share/Catalogs/Constellations/constellation_names.dat"
 		COMMENT "Converting constellation names..."
 		VERBATIM
 	)

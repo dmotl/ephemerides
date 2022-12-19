@@ -24,4 +24,4 @@ target_include_directories(skycharttables
 )
 target_compile_options(skycharttables PRIVATE /W3 /WX)
 target_link_libraries(skycharttables PRIVATE vsop87 elp82 bsc91 skychartcorelib constbnd constlines)
-target_compile_definitions(skycharttables PRIVATE QT_NO_CAST_FROM_ASCII QT_NO_CAST_TO_ASCII)
+

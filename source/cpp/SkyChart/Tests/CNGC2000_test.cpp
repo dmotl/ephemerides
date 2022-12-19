@@ -28,7 +28,7 @@
 
 #include "CNGC2000.h"
 
-#include "test_config.h"
+#include "tests_config.h"
 
 #undef RA_TO_RAD
 #define RA_TO_RAD(h, m) (((h) + static_cast<double>(m) / 60) / 12 * M_PI)

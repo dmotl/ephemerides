@@ -3,8 +3,8 @@ function(add_constlines_cc target)
 
 	add_custom_command(
 	    OUTPUT ${outfile}
-		COMMAND "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/constlines_conv.py" "${CMAKE_SOURCE_DIR}/share/clines/constellationship.fab" "${CMAKE_SOURCE_DIR}/share/hip93/hip2hd" "${outfile}"
-		MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/share/clines/constellationship.fab" "${CMAKE_SOURCE_DIR}/share/hip93/hip2hd"
+		COMMAND "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/constlines_conv.py" "${CMAKE_SOURCE_DIR}/share/Catalogs/Constellations/clines/constellationship.fab" "${CMAKE_SOURCE_DIR}/share/Catalogs/Stars/hip93/hip2hd" "${outfile}"
+		MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/share/Catalogs/Constellations/clines/constellationship.fab" "${CMAKE_SOURCE_DIR}/share/Catalogs/Stars/hip93/hip2hd"
 		DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/constlines_conv.py"
 		COMMENT "Converting constellation lines..."
 		VERBATIM

@@ -32,6 +32,11 @@
           "name": "CMAKE_EXE_LINKER_FLAGS_DEBUG",
           "value": "/debug /INCREMENTAL /LTCG:OFF",
           "type": "STRING"
+        },
+        {
+          "name": "EPHEMERIDES_DATA_ROOT_DIR",
+          "value": "${env.InstallDir}/share",
+          "type": "PATH"
         }
       ]
     },
@@ -45,7 +50,13 @@
       "cmakeCommandArgs": "",
       "buildCommandArgs": "-k 0",
       "ctestCommandArgs": "",
-      "variables": []
+      "variables": [
+        {
+          "name": "EPHEM_DATA_DIR",
+          "value": "${env.InstallDir}/share",
+          "type": "PATH"
+        }
+      ]
     }
   ]
 }
