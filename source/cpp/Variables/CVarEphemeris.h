@@ -22,17 +22,29 @@
 #pragma once
 
 #include "CEphemerisBase.h"
+#include "CFilterStack.h"
+
+class CSource;
 
 /*
 * \brief Variable star ephemeris
 *
 * The CVarEphemeris implements the computation
-* of ephemeris of the given variable star and 
-* range of dates.
+* of ephemeris of variable stars and range of dates.
 *
 */
 class CVarEphemeris: public CEphemerisBase
 {
 public:
-	CVarEphemeris() {}
+	// Constructor
+	CVarEphemeris(const CGeoCoordinates& location, CSource* source, const CFilterStack& filter) : m_loc(location), m_source(source), m_filter(filter) {}
+
+	// Update ephemeris
+	void update(CJulianDate start, CJulianDate end, tCancelledFn cbCancelled, tSetCaption cbSetCaption, tSetProgressMaxFn 
+		cbSetProgressRange, tSetProgressValueFn cbSetProgressValue) override;
+
+protected:
+	CGeoCoordinates m_loc;
+	CSource* m_source;
+	CFilterStack m_filter;
 };

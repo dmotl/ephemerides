@@ -29,9 +29,11 @@
 #include "CJulianDateConverterDockWidget.h"
 #include "CHeliocentricCorrectionDockWidget.h"
 #include "CAirMassDockWidget.h"
+#include "CVarEphemeris.h"
 
 // Constructor
-CStarEphemerisTab::CStarEphemerisTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(sharedData, mainWnd, parent)
+CStarEphemerisTab::CStarEphemerisTab(CMainApp* app, CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(app, sharedData, mainWnd, parent),
+	m_data(nullptr), m_model(nullptr)
 {
 	registerTabWidget(type_id);
 
@@ -63,6 +65,11 @@ CStarEphemerisTab::CStarEphemerisTab(CSharedData* sharedData, CMainWindow* mainW
 
 	createToolBar(mainFrame);
 	addCustomToolBarActions();
+}
+
+CStarEphemerisTab::~CStarEphemerisTab()
+{
+	delete m_data;
 }
 
 void CStarEphemerisTab::addCustomToolBarActions()

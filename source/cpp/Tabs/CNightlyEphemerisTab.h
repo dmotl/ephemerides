@@ -23,11 +23,18 @@
 
 #include <QtWidgets>
 
-#include "CMainTabWidget.h"
-
 #include "ui_CNightlyEphemerisTab.h"
 
+#include "CMainTabWidget.h"
+#include "CConstellation.h"
+
+class CMainApp;
 class CMainWindow;
+class CVarEphemeris;
+class CEVNightlyEphemerisModel;
+class CCatalogSelectionModel;
+class CCatalogList;
+
 
 /*!
 * \brief The "Nightly ephemeris" tab
@@ -46,7 +53,9 @@ public:
 	* \param mainWnd main window
 	* \param parent parent widget
 	*/
-	CNightlyEphemerisTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent);
+	CNightlyEphemerisTab(CMainApp* app, CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent);
+
+	~CNightlyEphemerisTab() override;
 
 	static constexpr const char* type_id = "nightly";
 
@@ -58,8 +67,13 @@ public:
 
 private:
 	bool m_initialized;
-	QStringList m_constellationList, m_varTypesList;
+	QList<CConstellation> m_constellationList;
+	QStringList m_varTypesList;
 	QMap<QString, bool> m_checkedCatalogs;
+
+	CVarEphemeris *m_data;
+	CEVNightlyEphemerisModel* m_model;
+	CCatalogSelectionModel* m_catalogSelectionModel;
 
 	QAction* m_updateAction, * m_sortAction, * m_deleteAction, * m_findAction;
 	QAction* m_printAction, * m_exportAction, * m_copyAction;
@@ -67,4 +81,11 @@ private:
 	void addCustomToolBarActions();
 
 	void updateCaption();
+
+	void updateCatalogsList();
+
+protected slots:
+	void onUpdateAction();
+
+	void onCatalogSelectionDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QList<int>& roles = QList<int>());
 };

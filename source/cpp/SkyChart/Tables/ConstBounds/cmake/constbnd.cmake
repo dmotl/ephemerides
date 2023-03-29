@@ -28,5 +28,6 @@ function(add_constellation_names_cc target)
 	)
 
 	add_library(constellation_names OBJECT ${outfile_h} ${outfile_c})
+	target_include_directories(constellation_names PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 	add_dependencies(${target} constellation_names)
 endfunction(add_constellation_names_cc)

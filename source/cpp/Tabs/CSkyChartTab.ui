@@ -410,7 +410,7 @@
   <customwidget>
    <class>CSkyChartView</class>
    <extends>QWidget</extends>
-   <header>cskychartview.h</header>
+   <header>CSkyChartView.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

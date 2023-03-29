@@ -171,48 +171,6 @@ public:
 		return { at(0), at(1) };
 	}
 
-	/*! Get a point with x and y coordinates */
-	CPointd toPointF(void) const
-	{
-		return CPointd(at(0), at(1));
-	}
-
-	/*!
-	* \brief Get normalized vector
-	*
-	* The function returns a vector that has the same direction
-	* but the unit length. If the vector has zero length, the function
-	* returns a null vector.
-	*/
-	CVector3<T> normalized(void) const
-	{
-		T l = length();
-		return (l > 0 ? *this / l : CVector3<T>());
-	}
-
-	/*!
-	* \brief Normalize vector
-	*
-	* The function modifies the vector so the vector has the same direction
-	* but the unit length. If the vector has zero length, the function
-	* does nothing.
-	*/
-	void normalize(void)
-	{
-		T l = length();
-		if (l > 0) {
-			at(0) /= l;
-			at(1) /= l;
-			at(2) /= l;
-		}
-	}
-
-	/*! Returns Euclidean length of the vector. */
-	double length() const
-	{
-		return std::hypot(at(0), at(1), at(2));
-	}
-
 	/*! Returns the dot product of the vector with itself. */
 	T lengthSquared() const
 	{
@@ -343,4 +301,89 @@ public:
 	}
 };
 
-using CVector3d = CVector3<double>;
+class CVector3d : public CVector3<double>
+{
+public:
+	/*!
+	* \brief Default constructor
+	*
+	* Creates a null vector
+	*/
+	CVector3d() {}
+
+	/*! Copy constructor */
+	CVector3d(const CVector3d& other) : CVector3<double>(other) {}
+
+	/*! Copy constructor */
+	CVector3d(const CVector3<double>& other) : CVector3<double>(other) {}
+
+	/*!
+	* \brief Constructor
+	*
+	* Creates a point with coordinates (x, y, z)
+	* \param x x coordinate
+	* \param y y coordinate
+	* \param z z coordinate
+	*/
+	CVector3d(const double& x, const double& y, const double& z) : CVector3<double>(x, y, z) {}
+
+	/*!
+	* \brief Constructor
+	*
+	* Creates a point with coordinates from an array
+	* \param n size of array (must be 3)
+	* \param xyz array of T with coordinates [x, y, z]
+	*/
+	CVector3d(int n, const double* xyz) : CVector3<double>(n, xyz) {}
+
+	/*!
+	* \brief Constructor
+	*
+	* Creates a point with coordinates (p.x(), p.y(), z)
+	* \param p point
+	* \param z coordinate
+	*/
+	CVector3d(const CPoint<double>& p, const double& z = 0) : CVector3<double>(p, z) {}
+
+	/*!
+	* \brief Get normalized vector
+	*
+	* The function returns a vector that has the same direction
+	* but the unit length. If the vector has zero length, the function
+	* returns a null vector.
+	*/
+	CVector3d normalized(void) const
+	{
+		double l = length();
+		return (l > 0 ? CVector3d(at(0) / l, at(1) / l, at(2) / l) : CVector3d());
+	}
+
+	/*!
+	* \brief Normalize vector
+	*
+	* The function modifies the vector so the vector has the same direction
+	* but the unit length. If the vector has zero length, the function
+	* does nothing.
+	*/
+	void normalize(void)
+	{
+		double l = length();
+		if (l > 0) {
+			at(0) /= l;
+			at(1) /= l;
+			at(2) /= l;
+		}
+	}
+
+	/*! Get a point with x and y coordinates */
+	CPointd toPointF(void) const
+	{
+		return CPointd(at(0), at(1));
+	}
+
+	/*! Returns Euclidean length of the vector. */
+	double length() const
+	{
+		return std::hypot(at(0), at(1), at(2));
+	}
+};

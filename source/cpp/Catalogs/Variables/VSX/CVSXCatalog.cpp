@@ -141,6 +141,7 @@ bool CVSXCatalog::open(tCancelledFn cbCancelled, tSetProgressMaxFn cbSetProgress
 void CVSXCatalog::reset()
 {
 	m_objects.clear();
+	m_index = -1;
 }
 
 void CVSXCatalog::pickle(QIODevice* os)
@@ -196,4 +197,24 @@ void CVSXCatalog::unpickle(QIODevice* is)
 		m_objects.push_back(object);
 		m_objects[index].ptr = new CVSXCatalogObject(this, &m_objects[index]);
 	}
+}
+
+const CCatalogObject* CVSXCatalog::first()
+{
+	m_index = 0;
+	return find();
+}
+
+const CCatalogObject* CVSXCatalog::next()
+{
+	assert(m_index >= 0 && m_index < m_objects.size());
+	++m_index;
+	return find();
+}
+
+const CCatalogObject* CVSXCatalog::find() const
+{
+	if (m_index != m_objects.size())
+		return m_objects[m_index].ptr;
+	return nullptr;
 }

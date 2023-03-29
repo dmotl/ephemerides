@@ -25,6 +25,8 @@
 
 #include "Utils.h"
 #include "CAzimuth.h"
+#include "CDateTime.h"
+#include "constellation_names.h"
 
 namespace UtilsQt
 {
@@ -81,6 +83,22 @@ namespace UtilsQt
 	}
 
 	/*
+	* \brief Convert UTC date time to local date and time
+	*
+	* The function takes time as Julian date in UTC and returns
+	* corresponding local date and time.
+	*
+	* \param dateTime local time
+	* \return Julian date
+	*/
+	inline QDateTime fromUTC(const CDateTime& utc)
+	{
+		if (utc.isValid()) 
+			return QDateTime(QDate(utc.year(), utc.month(), utc.day()), QTime(utc.hour(), utc.minute(), utc.second(), utc.millisecond()), Qt::UTC).toLocalTime();
+		return QDateTime();
+	}
+
+	/*
 	* \brief Compass point name
 	* 
 	* The function returns a name of a specified point on 16-point 
@@ -109,6 +127,8 @@ namespace UtilsQt
 	{
 		return QString::fromLatin1(typeId) + QStringLiteral(":") + QString::number(suffix);
 	}
+
+	QString eventTypeShortCaption(tEventType evtype);
 }
 
 #define CREATE_DOCK_WIDGET_TOOL(class_name) { \

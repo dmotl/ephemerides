@@ -65,6 +65,8 @@ static double getDouble(const char* buf, int start, int length, bool* ok = nullp
 	return retval;
 }
 
+#if 0
+
 static std::string getStdString(const char* buf, int start, int length)
 {
 	int j = 0;
@@ -73,6 +75,8 @@ static std::string getStdString(const char* buf, int start, int length)
 		++buf_ptr, ++j;
 	return std::string(buf + start, j);
 }
+
+#endif
 
 bool CBSC1991Catalog::open(tCancelledFn cbCancelled, tSetProgressMaxFn cbSetProgressRange, tSetProgressValueFn cbSetProgressValue)
 {
@@ -192,4 +196,24 @@ void CBSC1991Catalog::unpickle(QIODevice* is)
 		m_objects.push_back(object);
 		m_objects[index].ptr = new CBSCCatalogObject(this, &m_objects[index]);
 	}
+}
+
+const CCatalogObject* CBSC1991Catalog::first()
+{
+	m_index = 0;
+	return find();
+}
+
+const CCatalogObject* CBSC1991Catalog::next()
+{
+	assert(m_index >= 0 && m_index < m_objects.size());
+	++m_index;
+	return find();
+}
+
+const CCatalogObject* CBSC1991Catalog::find() const
+{
+	if (m_index != m_objects.size())
+		return m_objects[m_index].ptr;
+	return nullptr;
 }

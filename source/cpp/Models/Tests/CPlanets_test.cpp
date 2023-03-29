@@ -67,7 +67,7 @@ static const double Uranus[3] = { RA_TO_RAD(02, 34, 38.2), DEC_TO_RAD(14, 43, 34
 static const double Neptune[3] = { RA_TO_RAD(23, 27, 30.1), -DEC_TO_RAD(4, 44, 25.0), 30.24 };
 
 // Pluto ephemerides for JD0
-static const double Pluto[3] = { RA_TO_RAD(19, 53, 05.9), -DEC_TO_RAD(22, 39, 21.6), 35.38 };
+//static const double Pluto[3] = { RA_TO_RAD(19, 53, 05.9), -DEC_TO_RAD(22, 39, 21.6), 35.38 };
 
 static double CompareAngles(double alpha, double beta)
 {

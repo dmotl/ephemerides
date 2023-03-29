@@ -32,7 +32,7 @@
 //
 // Constructor
 //
-int CCatalogsList::open(tCancelledFn cbCancelled, tSetCaption cbSetCaption, tSetProgressMaxFn cbSetProgressRange, tSetProgressValueFn cbSetProgressValue)
+int CCatalogList::open(tCancelledFn cbCancelled, tSetCaption cbSetCaption, tSetProgressMaxFn cbSetProgressRange, tSetProgressValueFn cbSetProgressValue)
 {
 	close();
 
@@ -98,7 +98,7 @@ int CCatalogsList::open(tCancelledFn cbCancelled, tSetCaption cbSetCaption, tSet
 	return 0;
 }
 
-void CCatalogsList::saveChanges()
+void CCatalogList::saveChanges()
 {
 	if (m_userConfigModified && !m_userCatalogsDir.isEmpty()) {
 		if (!m_userConfig.isEmpty())
@@ -116,7 +116,7 @@ void CCatalogsList::saveChanges()
 	}
 }
 
-void CCatalogsList::close()
+void CCatalogList::close()
 {
 	saveChanges();
 
@@ -126,7 +126,7 @@ void CCatalogsList::close()
 	m_userCatalogsDir.clear();
 }
 
-void CCatalogsList::loadCatalog(int catalogIndex, CCatalog* catalog, 
+void CCatalogList::loadCatalog(int catalogIndex, CCatalog* catalog,
 	tCancelledFn cbCancelled, tSetCaption cbSetCaption, tSetProgressMaxFn cbSetProgressRange, tSetProgressValueFn cbSetProgressValue)
 {
 	cbSetCaption(QStringLiteral("Loading ") + catalog->name());
@@ -269,7 +269,7 @@ void CCatalogsList::loadCatalog(int catalogIndex, CCatalog* catalog,
 	}
 }
 
-QString CCatalogsList::makeUniqueFile(const QString& dirPath, const QString& suffix)
+QString CCatalogList::makeUniqueFile(const QString& dirPath, const QString& suffix)
 {
 	static const char* chars = "0123456789abcdefghijklmnopqrstuvwxyz";
 	static const int len = (int)strlen(chars);
@@ -286,4 +286,17 @@ QString CCatalogsList::makeUniqueFile(const QString& dirPath, const QString& suf
 		}
 	}
 	return QString();
+}
+
+CCatalog* CCatalogList::find(const QString& name) const
+{
+	for (int i = 0; i < m_catalogs.count(); i++) {
+		CCatalog* c = m_catalogs[i];
+
+		assert(c != nullptr);
+
+		if (c->name() == name)
+			return c;
+	}
+	return nullptr;
 }

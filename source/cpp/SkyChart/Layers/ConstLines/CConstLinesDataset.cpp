@@ -62,7 +62,6 @@ static bool checkDotProducts(int n, const CPointd* points)
 
 CConstLinesDataset::CConstLinesDataset(const CLines* file, QObject* parent) : CSkyChartDataset(parent)
 {
-	tConstellation cons_last = tConstellation::EndOfConstellations;
 	CVector3d previous_pos;
 	QList<QPair<CVector3d, CVector3d>> pairs;
 	

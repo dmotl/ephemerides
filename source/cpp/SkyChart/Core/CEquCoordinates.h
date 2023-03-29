@@ -97,6 +97,35 @@ public:
 	/*! \brief convert to rectangular coordinates */
 	CVector3d toXYZ(void) const { return Utils::sphericalToRectangular(m_rightAscension.radians(), m_declination.radians()); }
 
+	/*! 
+	* \brief Angular distance 
+	* 
+	* The function returns an angular distance in radians to another point
+	* on the celestial sphere. The angular distance is defined as length of shortest arc on 
+	* the celestial sphere that connects this point and given point.
+	* 
+	* \param other other point
+	* \return angular distance in radians (0..pi)
+	*/
+	double distanceTo(const CEquCoordinates& other) const { return distanceBetween(*this, other); }
+
+	/*! 
+	* \brief Angular distance
+	*
+	* The function returns an angular distance in radians between two given points 
+	* on the celestial sphere. The angular distance is defined as length of shortest arc on 
+	* the celestial sphere that connects the two given points.
+	* 
+	* \param first first point
+	* \param second second point
+	* \return angular distance in radians (0..pi)
+	*/
+	static double distanceBetween(const CEquCoordinates& first, const CEquCoordinates& second)
+	{
+		return Utils::AngularDistance(first.m_rightAscension.radians(), first.m_declination.radians(),
+			second.m_rightAscension.radians(), second.declination().radians());
+	}
+
 private:
 	CRightAscension m_rightAscension;
 	CDeclination m_declination;

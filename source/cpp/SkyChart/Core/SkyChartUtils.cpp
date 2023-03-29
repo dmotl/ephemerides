@@ -168,8 +168,8 @@ void Utils::cubic(CVector3d point[], const CVector3d& p_start, const CVector3d& 
 		start[2] = end[2] = 0;
 	}
 
-	double AplusBlength = (start + end).length();
-	double AminusBlength = (start - end).length();
+	double AplusBlength = CVector3d(start + end).length();
+	double AminusBlength = CVector3d(start - end).length();
 	double radius = start.length();
 	assert(radius > 0 && AplusBlength > 0 && AminusBlength > 0);
 

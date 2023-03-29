@@ -20,7 +20,7 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 if(MSVC)
     set(gtest_force_shared_crt ON)
-    add_compile_options (/permissive-)
+    add_compile_options (/W3 /WX /permissive-)
     add_compile_definitions(_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING)
 endif(MSVC)
 

@@ -1,7 +1,7 @@
 /*!
-*  \file      CNightlyEphemeris.cpp
+*  \file      CEphemerisUpdaterThread.h
 *  \author    David Motl
-*  \date      2022-01-31
+*  \date      2022-12-19
 *
 *  \copyright
 *
@@ -19,5 +19,29 @@
 *      to endorse or promote products derived from this software without specific prior written
 *      permission.
 */
-#include "CNightlyEphemeris.h"
+#pragma once
 
+#include <QtCore>
+
+class CEphemerisUpdater;
+
+/*!
+* \brief Catalog loader (work thread)
+*
+* The CEphemerisUpdaterThread implements a work thread
+* that is reposponsible for loading known catalogs
+* at application start.
+*
+*/
+class CEphemerisUpdaterThread :public QThread
+{
+public:
+	CEphemerisUpdaterThread(CEphemerisUpdater* process, QObject* parent) : QThread(parent), m_process(process) {}
+
+protected:
+	friend class CCatalogLoaderDialog;
+
+	CEphemerisUpdater* m_process;
+
+	virtual void run();
+};

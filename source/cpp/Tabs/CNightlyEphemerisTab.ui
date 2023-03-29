@@ -90,7 +90,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QListWidget" name="catalogsList"/>
+       <widget class="QListView" name="catalogsList">
+        <property name="uniformItemSizes">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QLabel" name="filtersLabel">

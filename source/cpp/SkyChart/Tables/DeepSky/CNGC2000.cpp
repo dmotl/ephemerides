@@ -26,31 +26,31 @@
 #include <filesystem>
 #include <iostream>
 
-static const struct { std::string id, description; CNGC2000::tObjectType val; } classes[] = {
-    { "Gx", "Galaxy", CNGC2000::tObjectType::GALAXY },
-    { "OC", "Open star cluster", CNGC2000::tObjectType::OPEN_CLUSTER },
-    { "Gb", "Globular star cluster", CNGC2000::tObjectType::GLOB_CLUSTER },
-    { "Nb", "Bright emission or reflection nebula", CNGC2000::tObjectType::NEBULA },
-    { "Pl", "Planetary nebula", CNGC2000::tObjectType::PLAN_NEBULA },
-    { "C+N", "Cluster associated with nebulosity", CNGC2000::tObjectType::CL_AND_NB },
-    { "Ast", "Asterism or group of a few stars", CNGC2000::tObjectType::ASTERISM },
-    { "Kt", "Knot or nebulous region in an external galaxy", CNGC2000::tObjectType::KNOT },
-    { "***", "Triple star", CNGC2000::tObjectType::TRIPPLE_STAR },
-    { "D*", "Double star", CNGC2000::tObjectType::DOUBLE_STAR },
-    { "*", "Single star", CNGC2000::tObjectType::STAR },
-    { "?", "Uncertain type or may not exist", CNGC2000::tObjectType::UNCERTAIN },
-    { "-", "Object called nonexistent in the RNGC", CNGC2000::tObjectType::NON_EXISTENT },
-    { "PD", "Photographic plate defect", CNGC2000::tObjectType::DEFECT },
-    { "", "", CNGC2000::tObjectType::UNKNOWN }
+static const struct { std::string id, description; tObjectType val; } classes[] = {
+    { "Gx", "Galaxy", tObjectType::GALAXY },
+    { "OC", "Open star cluster", tObjectType::OPEN_CLUSTER },
+    { "Gb", "Globular star cluster", tObjectType::GLOB_CLUSTER },
+    { "Nb", "Bright emission or reflection nebula", tObjectType::NEBULA },
+    { "Pl", "Planetary nebula", tObjectType::PLAN_NEBULA },
+    { "C+N", "Cluster associated with nebulosity", tObjectType::CL_AND_NB },
+    { "Ast", "Asterism or group of a few stars", tObjectType::ASTERISM },
+    { "Kt", "Knot or nebulous region in an external galaxy", tObjectType::KNOT },
+    { "***", "Triple star", tObjectType::TRIPPLE_STAR },
+    { "D*", "Double star", tObjectType::DOUBLE_STAR },
+    { "*", "Single star", tObjectType::STAR },
+    { "?", "Uncertain type or may not exist", tObjectType::UNCERTAIN },
+    { "-", "Object called nonexistent in the RNGC", tObjectType::NON_EXISTENT },
+    { "PD", "Photographic plate defect", tObjectType::DEFECT },
+    { "", "", tObjectType::UNKNOWN }
 };
 
-static CNGC2000::tObjectType strToType(const std::string& cls)
+static tObjectType strToType(const std::string& cls)
 {
-    for (int i = 0; classes[i].val != CNGC2000::tObjectType::UNKNOWN; i++) {
+    for (int i = 0; classes[i].val != tObjectType::UNKNOWN; i++) {
         if (cls == classes[i].id) 
             return classes[i].val;
     }
-    return CNGC2000::tObjectType::UNKNOWN;
+    return tObjectType::UNKNOWN;
 }
 
 static void strToFloat(const std::string& str, double& value)
@@ -62,14 +62,10 @@ static void strToFloat(const std::string& str, double& value)
     iss >> value;
 }
 
-static std::string rtrim(const std::string& s)
-{
-    static const std::string WHITESPACE = " \n\r\t\f\v";
 
-    size_t end = s.find_last_not_of(WHITESPACE);
-    return (end == std::string::npos) ? "" : s.substr(0, end + 1);
-}
-
+//
+// Trim leading whitechars
+//
 static std::string ltrim(const std::string& s)
 {
     static const std::string WHITESPACE = " \n\r\t\f\v";

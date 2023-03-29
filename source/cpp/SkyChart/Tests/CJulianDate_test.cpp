@@ -170,7 +170,6 @@ TEST(CJulianDate, RaDeToAltAz)
 
 	static const double AZ = DMS_TO_RAD(31, 07, 12), ALT = -DMS_TO_RAD(61, 01, 48);
 
-	double az, alt;
 	CAzAltCoordinates z = CJulianDate(JD0).RaDeToAzAlt(CEquCoordinates(RA, DEC), CGeoCoordinates(LON, LAT));
 	EXPECT_NEAR(z.azimuth().radians(), AZ, DEG_TO_RAD(1));
 	EXPECT_NEAR(z.elevation().radians(), ALT, DEG_TO_RAD(1));

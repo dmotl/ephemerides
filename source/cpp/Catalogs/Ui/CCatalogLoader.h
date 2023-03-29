@@ -23,7 +23,7 @@
 
 #include <QtWidgets>
 
-class CCatalogsList;
+class CCatalogList;
 class CCatalogLoaderDialog;
 class CCatalogLoaderThread;
 
@@ -42,7 +42,7 @@ class CCatalogLoader :public QObject
 	Q_OBJECT
 
 public:
-	explicit CCatalogLoader(CCatalogsList* catalogs, QWidget* parent = nullptr);
+	explicit CCatalogLoader(CCatalogList* catalogs, QWidget* parent = nullptr);
 
 	virtual int exec();
 
@@ -53,7 +53,7 @@ signals:
 	void setValue(int value);
 
 protected:
-	CCatalogsList* m_catalogs;
+	CCatalogList* m_catalogs;
 
 	virtual int run();
 

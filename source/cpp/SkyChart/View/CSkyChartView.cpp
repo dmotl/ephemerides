@@ -55,8 +55,8 @@ CVector3d CSkyChartView::toXYZ(const CPointd& xy) const
 		return CVector3d(x, y, 0.5 / sqrt(h)).normalized();
 }
 
-CSkyChartView::CSkyChartView(QWidget* parent) : QWidget(parent), m_centerCoords({ 0.0, 0.0, 1.0 }),
-m_scale(3.0), m_viewSize(0), m_rotating(false), m_width(0), m_height(0)
+CSkyChartView::CSkyChartView(QWidget* parent) : QWidget(parent), m_rotating(false), 
+m_scale(3.0), m_viewSize(0), m_width(0), m_height(0), m_centerCoords({ 0.0, 0.0, 1.0 })
 {
 	m_projector = new COrthographicProjection(this);
 	m_rotMatrix = toRotationMatrix(m_centerCoords);

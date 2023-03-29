@@ -34,7 +34,7 @@ class CCatalog;
 * The CCatalogsList class holds multitude catalogs of objects.
 * 
 */
-class CCatalogsList : public CConfigSupport
+class CCatalogList : public QObject, CConfigSupport
 {
 public:
 	using tCancelledFn = std::function<bool()>;
@@ -43,9 +43,9 @@ public:
 	using tSetProgressValueFn = std::function<void(int)>;
 
 	// Constructor
-	explicit CCatalogsList(CCoreApp* app) : m_app(app), m_userConfigModified(false), m_sharedConfigModified(false) {}
+	explicit CCatalogList(CCoreApp* app, QObject* parent = nullptr) : QObject(parent), m_app(app), m_userConfigModified(false), m_sharedConfigModified(false) {}
 
-	~CCatalogsList() { close(); }
+	~CCatalogList() override { close(); }
 	
 	int open(tCancelledFn cbCancelled, tSetCaption cbSetCaption, tSetProgressMaxFn cbSetProgressRange, tSetProgressValueFn cbSetProgressValue);
 
@@ -63,6 +63,8 @@ public:
 	// Get catalog by index
 	CCatalog* at(int index) const { return m_catalogs.at(index); }
 
+	CCatalog* find(const QString& name) const;
+
 private:
 	CCoreApp* m_app;
 
@@ -76,9 +78,6 @@ private:
 	QJsonDocument m_userConfig, m_sharedConfig;
 
 	bool m_userConfigModified, m_sharedConfigModified;
-
-	CCatalogsList(const CCatalogsList&) = delete;
-	CCatalogsList& operator=(const CCatalogsList&) = delete;
 
 	void loadCatalog(int catalogIndex, CCatalog* catalog,
 		tCancelledFn cbCancelled, tSetCaption cbSetCaption,

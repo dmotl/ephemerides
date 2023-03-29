@@ -21,7 +21,9 @@
 */
 #pragma once
 
-#include "CCatalogLoader.h"
+#include <QtCore>
+
+class CCatalogLoader;
 
 /*!
 * \brief Catalog loader (work thread)
@@ -41,10 +43,5 @@ protected:
 
 	CCatalogLoader* m_process;
 
-	virtual void run()
-	{
-		assert(m_process != nullptr);
-
-		m_process->m_retval = m_process->run();
-	}
+	virtual void run();
 };

@@ -21,6 +21,8 @@
 */
 #pragma once
 
+#include <QtCore>
+
 #include "CEquCoordinates.h"
 
 class CCatalog;
@@ -39,6 +41,10 @@ public:
 	virtual ~CCatalogObject() {}
 
 	CCatalog* catalog() const { return m_catalog; }
+
+	virtual tObjectType objectType(void) const = 0;
+
+	virtual QString remarks(void) const { return QString(); }
 
 protected:
 	CCatalog* m_catalog;
@@ -83,13 +89,19 @@ class CVariableStar : public CStellarObject
 public:
 	explicit CVariableStar(CCatalog* catalog = nullptr) : CStellarObject(catalog) {}
 
-	virtual const std::string& variableName(void) const = 0;
+	tObjectType objectType() const override { return tObjectType::VARIABLE_STAR; }
+
+	virtual QString variableName(void) const = 0;
 
 	virtual int rating() const = 0;
 
 	virtual double minimumMag() const = 0;
 
+	virtual double maximumMag() const = 0;
+
 	virtual double period() const = 0;
 
 	virtual double epoch() const = 0;
+
+	virtual QString varTypeString(void) const = 0;
 };

@@ -33,6 +33,8 @@
 static const double LON_DEG = 16.6103878; // 16d 36m 37.40s
 static const double LON_RAD = DEG_TO_RAD(LON_DEG);
 
+#if 0
+
 static double CompareAngles(double alpha, double beta)
 {
 	while (alpha > 2 * M_PI)
@@ -49,6 +51,8 @@ static double CompareAngles(double alpha, double beta)
 		diff = 2 * M_PI - diff;
 	return diff;
 }
+
+#endif
 
 TEST(CLongitude, fromDegrees)
 {

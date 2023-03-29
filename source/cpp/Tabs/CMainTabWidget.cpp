@@ -36,8 +36,9 @@
 //
 // Constructor
 //
-CMainTabWidget::CMainTabWidget(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : QWidget(parent), m_mainWnd(mainWnd), m_sharedData(sharedData),
-m_toolBar(nullptr), m_toolsMenu(nullptr), m_toolsBtn(nullptr), m_toolsAction(nullptr)
+CMainTabWidget::CMainTabWidget(CMainApp* app, CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : QWidget(parent), 
+	m_app(app), m_mainWnd(mainWnd), m_sharedData(sharedData), m_toolsAction(nullptr), m_setupAction(nullptr), m_helpAction(nullptr),
+	m_toolBar(nullptr), m_toolsMenu(nullptr), m_toolsBtn(nullptr)
 {
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 

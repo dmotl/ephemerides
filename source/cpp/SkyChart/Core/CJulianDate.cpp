@@ -402,12 +402,9 @@ double CJulianDate::RaDeToTransit(const CEquCoordinates& equ, const CGeoCoordina
 {
 	if (equ.isValid() && geo.isValid() && !isNull()) {
 
-		double RA = equ.rightAscension().radians(), DE = equ.declination().radians();
-		double LON = geo.longitude().radians(), LAT = geo.latitude().radians();
-
 		// Hour angle [rad]
-		double ha = siderealtime() * (2 * M_PI) + (LON - RA);
-		double TTrans = -ha / (2 * M_PI);
+		double HourAngle = siderealtime() * (2 * M_PI) + (geo.longitude().radians() - equ.rightAscension().radians());
+		double TTrans = -HourAngle / (2 * M_PI);
 		TTrans = TTrans - floor(TTrans);
 		if ((type == rtNearest && TTrans > 0.5) || (type == rtBefore && TTrans > 0.0))
 			TTrans -= 1.0;

@@ -22,6 +22,7 @@
 #include "CCatalogLoaderDialog.h"
 
 #include "CCatalogLoaderThread.h"
+#include "CCatalogLoader.h"
 
 CCatalogLoaderDialog::CCatalogLoaderDialog(CCatalogLoader* process, QWidget* parent) :QDialog(parent), m_process(process)
 {

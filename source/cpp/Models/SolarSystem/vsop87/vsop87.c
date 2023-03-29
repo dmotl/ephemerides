@@ -41,7 +41,6 @@
 #include "vsop87c.ura.h"
 #include "vsop87c.nep.h"
 
-static const dpi = 2 * 3.14159265358979323846;
 static const double t2000 = 2451545.0;
 static const double a1000 = 365250;
 

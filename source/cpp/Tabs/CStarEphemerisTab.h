@@ -25,6 +25,10 @@
 
 #include "ui_CStarEphemerisTab.h"
 
+class CVarEphemeris;
+class CEVStarEphemerisModel;
+
+
 /*!
 * \brief The "Star ephemeris" tab
 *
@@ -42,7 +46,9 @@ public:
 	* \param mainWnd main window
 	* \param parent parent widget
 	*/
-	CStarEphemerisTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent);
+	CStarEphemerisTab(CMainApp* app, CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent);
+
+	~CStarEphemerisTab() override;
 
 	static constexpr const char* type_id = "vstar";
 
@@ -57,6 +63,9 @@ private:
 
 	QAction* m_updateAction, * m_sortAction, * m_deleteAction, * m_findAction;
 	QAction* m_printAction, * m_exportAction, * m_copyAction;
+
+	CVarEphemeris* m_data;
+	CEVStarEphemerisModel* m_model;
 
 	void addCustomToolBarActions();
 

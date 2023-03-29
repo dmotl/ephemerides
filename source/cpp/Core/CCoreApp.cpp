@@ -91,7 +91,7 @@ CCoreApp::CCoreApp(int argc, char* argv[]) : QApplication(argc, argv)
 		m_stateHomeDir = QDir(userDataDir).filePath(QStringLiteral("state"));
 	}
 
-	m_catalogs = new CCatalogsList(this);
+	m_catalogs = new CCatalogList(this);
 }
 
 CCoreApp::~CCoreApp()

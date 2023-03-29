@@ -61,3 +61,16 @@ QString UtilsQt::compassPointName(CAzimuth::tCompassPoint pt)
 		return QString();
 	}
 }
+
+QString UtilsQt::eventTypeShortCaption(tEventType evtype)
+{
+	switch (evtype)
+	{
+	case tEventType::PRIMARY_MINIMUM:
+		return QCoreApplication::translate("EventTypeShort", "P");
+	case tEventType::SECONDARY_MINIMUM:
+		return QCoreApplication::translate("EventTypeShort", "S");
+	default:
+		return QString();
+	}
+}

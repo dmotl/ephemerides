@@ -59,6 +59,24 @@ TEST(CPoint, zeros)
 	EXPECT_EQ(p.y(), 0);
 	EXPECT_EQ(p.at(0), 0);
 	EXPECT_EQ(p.at(1), 0);
+	EXPECT_EQ(p.transposed(), p);
+	EXPECT_TRUE(p.isNull());
+	EXPECT_EQ(-p, p);
+	EXPECT_EQ(+p, p);
+	EXPECT_EQ(1234 * p, p);
+	EXPECT_EQ(p * 1234, p);
+	EXPECT_EQ(p / 3, p);
+	EXPECT_EQ(p / 3, p);
+	EXPECT_EQ(p + p, p);
+}
+
+TEST(CPointd, zeros)
+{
+	CPointd p;
+	EXPECT_EQ(p.x(), 0);
+	EXPECT_EQ(p.y(), 0);
+	EXPECT_EQ(p.at(0), 0);
+	EXPECT_EQ(p.at(1), 0);
 	EXPECT_EQ(p.normalized(), p);
 	EXPECT_EQ(p.transposed(), p);
 	EXPECT_TRUE(p.isNull());
@@ -81,11 +99,11 @@ TEST(CPoint, item_access)
 	EXPECT_EQ(p.at(1), 3);
 }
 
-TEST(CPoint, normalization)
+TEST(CPointd, normalization)
 {
-	EXPECT_EQ(CPoint(1.0, 1.0).normalized(), CPoint(sqrt(2.0), sqrt(2.0)));
-	EXPECT_EQ(CPoint(1.0, 0.0).normalized(), CPoint(1.0, 0.0));
-	EXPECT_EQ(CPoint(0.0, 1.0).normalized(), CPoint(0.0, 1.0));
+	EXPECT_EQ(CPointd(1.0, 1.0).normalized(), CPoint(sqrt(2.0), sqrt(2.0)));
+	EXPECT_EQ(CPointd(1.0, 0.0).normalized(), CPoint(1.0, 0.0));
+	EXPECT_EQ(CPointd(0.0, 1.0).normalized(), CPoint(0.0, 1.0));
 }
 
 TEST(CPoint, transposition)
@@ -102,16 +120,12 @@ TEST(CPoint, isnull)
 	EXPECT_FALSE(CPoint(1, 1).isNull());
 }
 
-#if 0
-
-TEST(CPoint, length)
+TEST(CPointd, length)
 {
 	EXPECT_EQ(CPointd().length(), 0);
 	EXPECT_EQ(CPointd(1, 1).length(), sqrt(2.0));
 	EXPECT_EQ(CPointd(3, 4).length(), 5);
 }
-
-#endif
 
 TEST(CPoint, unary_minus)
 {

@@ -51,15 +51,27 @@ set(ui_sources
  "DockWidgets/CMainDockWidget.h"
  "Tabs/CSkyChartTab.cpp"
  "Tabs/CSkyChartTab.h"
- )
+ "Dialogs/CEphemerisUpdater.h"
+ "Dialogs/CEphemerisUpdater.cpp"
+ "Dialogs/CEphemerisUpdaterThread.h"
+ "Dialogs/CEphemerisUpdaterThread.cpp"
+ "Dialogs/CEphemerisUpdaterDialog.h"
+ "Dialogs/CEphemerisUpdaterDialog.cpp"
+ "Tabs/ItemModels/CEVEphemerisItemModel.cpp" 
+ "Tabs/ItemModels/CEVEphemerisItemModel.h" 
+ "Tabs/ItemModels/CEVNightlyEphemerisModel.cpp"
+ "Tabs/ItemModels/CEVNightlyEphemerisModel.h"
+ "Tabs/ItemModels/CEVStarEphemerisModel.cpp"
+ "Tabs/ItemModels/CEVStarEphemerisModel.h"
+ "Tabs/ItemModels/CCatalogSelectionModel.h" "Tabs/ItemModels/CCatalogSelectionModel.cpp")
 
 set(uiTargetName "ephemerides")
 add_executable(${uiTargetName} WIN32 ${ui_sources})
 target_compile_options(${uiTargetName} PRIVATE /W3 /WX)
 #target_precompile_headers(${uiTargetName} PRIVATE PrecompiledHeader.h)
-target_link_libraries(${uiTargetName} PRIVATE Qt6::Core Qt6::Xml Qt6::Gui Qt6::Widgets skychart catalogs core vstars)
+target_link_libraries(${uiTargetName} PRIVATE Qt6::Core Qt6::Xml Qt6::Gui Qt6::Widgets skychart catalogs core vstars constellations)
 target_compile_definitions(${uiTargetName} PRIVATE QT_NO_CAST_FROM_ASCII QT_NO_CAST_TO_ASCII)
-target_include_directories(${uiTargetName} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} Core Dialogs DockWidgets Tabs Widgets)
+target_include_directories(${uiTargetName} PRIVATE . Core Dialogs DockWidgets Tabs Widgets Tabs/ItemModels)
 
 if(WIN32)
 	configure_file(ephemerides.rc.in ephemerides.rc @ONLY)

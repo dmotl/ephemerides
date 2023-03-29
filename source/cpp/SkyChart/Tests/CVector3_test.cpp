@@ -78,6 +78,25 @@ TEST(CVector3, zeros)
 	EXPECT_EQ(p.at(0), 0);
 	EXPECT_EQ(p.at(1), 0);
 	EXPECT_EQ(p.at(2), 0);
+	EXPECT_TRUE(p.isNull());
+	EXPECT_EQ(-p, p);
+	EXPECT_EQ(+p, p);
+	EXPECT_EQ(1234 * p, p);
+	EXPECT_EQ(p * 1234, p);
+	EXPECT_EQ(p / 3, p);
+	EXPECT_EQ(p / 3, p);
+	EXPECT_EQ(p + p, p);
+}
+
+TEST(CVector3d, zeros)
+{
+	CVector3d p;
+	EXPECT_EQ(p.x(), 0);
+	EXPECT_EQ(p.y(), 0);
+	EXPECT_EQ(p.z(), 0);
+	EXPECT_EQ(p.at(0), 0);
+	EXPECT_EQ(p.at(1), 0);
+	EXPECT_EQ(p.at(2), 0);
 	EXPECT_EQ(p.normalized(), p);
 	EXPECT_TRUE(p.isNull());
 	EXPECT_EQ(p.length(), 0);
@@ -101,15 +120,15 @@ TEST(CVector3, item_access)
 	EXPECT_EQ(p.at(2), 4);
 }
 
-TEST(CVector3, normalization)
+TEST(CVector3d, normalization)
 {
-	EXPECT_EQ(CVector3(1.0, 1.0, 0.0).normalized(), CVector3(sqrt(2.0), sqrt(2.0), 0.0));
-	EXPECT_EQ(CVector3(1.0, 0.0, 1.0).normalized(), CVector3(sqrt(2.0), 0.0, sqrt(2.0)));
-	EXPECT_EQ(CVector3(0.0, 1.0, 1.0).normalized(), CVector3(0.0, sqrt(2.0), sqrt(2.0)));
+	EXPECT_EQ(CVector3d(1.0, 1.0, 0.0).normalized(), CVector3(sqrt(2.0), sqrt(2.0), 0.0));
+	EXPECT_EQ(CVector3d(1.0, 0.0, 1.0).normalized(), CVector3(sqrt(2.0), 0.0, sqrt(2.0)));
+	EXPECT_EQ(CVector3d(0.0, 1.0, 1.0).normalized(), CVector3(0.0, sqrt(2.0), sqrt(2.0)));
 
-	EXPECT_EQ(CVector3(1.0, 0.0, 0.0).normalized(), CVector3(1.0, 0.0, 0.0));
-	EXPECT_EQ(CVector3(0.0, 0.0, 1.0).normalized(), CVector3(0.0, 0.0, 1.0));
-	EXPECT_EQ(CVector3(0.0, 1.0, 0.0).normalized(), CVector3(0.0, 1.0, 0.0));
+	EXPECT_EQ(CVector3d(1.0, 0.0, 0.0).normalized(), CVector3(1.0, 0.0, 0.0));
+	EXPECT_EQ(CVector3d(0.0, 0.0, 1.0).normalized(), CVector3(0.0, 0.0, 1.0));
+	EXPECT_EQ(CVector3d(0.0, 1.0, 0.0).normalized(), CVector3(0.0, 1.0, 0.0));
 }
 
 TEST(CVector3, isnull)

@@ -33,6 +33,8 @@
 static const double LAT_DEG = 49.1944631 / 180 * M_PI; // 49d 11m 40.07s
 static const double LAT_RAD = DEG_TO_RAD(LAT_DEG);
 
+#if 0
+
 static double CompareAngles(double alpha, double beta)
 {
 	if (alpha > M_PI)
@@ -46,6 +48,8 @@ static double CompareAngles(double alpha, double beta)
 
 	return fabs(alpha - beta);
 }
+
+#endif
 
 TEST(CLatitude, fromDegrees)
 {

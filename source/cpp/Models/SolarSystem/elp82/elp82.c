@@ -247,7 +247,7 @@ int elp82b(int ibody, double tjd, tELP82_Rect* xyz)
 
                 int iz = tab->i[0];
                 ilu[1] = tab->i[1], ilu[2] = tab->i[2], ilu[3] = tab->i[3], ilu[4] = tab->i[4];
-                double pha = tab->B[0], x = tab->B[1], per = tab->B[3];
+                double pha = tab->B[0], x = tab->B[1];
 
                 if (ific >= 7 && ific <= 9)
                     x *= t[2];
@@ -286,7 +286,7 @@ int elp82b(int ibody, double tjd, tELP82_Rect* xyz)
                 ipla[6] = tab->i[5], ipla[7] = tab->i[6], ipla[8] = tab->i[7], ipla[9] = tab->i[8], ipla[10] = tab->i[9];
                 ipla[11] = tab->i[10];
 
-                double pha = tab->B[0], x = tab->B[1], per = tab->B[2];
+                double pha = tab->B[0], x = tab->B[1];
 
                 if (ific >= 13 && ific <= 15)
                     x *= t[2];
@@ -337,7 +337,7 @@ int elp82b(int ibody, double tjd, tELP82_Rect* xyz)
 
                 int iz = tab->i[0];
                 ilu[0] = 0, ilu[1] = tab->i[1], ilu[2] = tab->i[2], ilu[3] = tab->i[3], ilu[4] = tab->i[4];
-                double pha = tab->B[0], x = tab->B[1], per = tab->B[3];
+                double pha = tab->B[0], x = tab->B[1];
 
                 if (ific >= 25 && ific <= 27)
                     x *= t[2];
@@ -375,7 +375,7 @@ int elp82b(int ibody, double tjd, tELP82_Rect* xyz)
 
                 int iz = tab->i[0];
                 ilu[1] = tab->i[1], ilu[2] = tab->i[2], ilu[3] = tab->i[3], ilu[4] = tab->i[4];
-                double pha = tab->B[0], x = tab->B[1], per = tab->B[3];
+                double pha = tab->B[0], x = tab->B[1];
 
                 double y = pha * deg;
                 for (int k = 1; k <= 2; k++) {
@@ -411,7 +411,7 @@ int elp82b(int ibody, double tjd, tELP82_Rect* xyz)
 
                 int iz = tab->i[0];
                 ilu[0] = 0, ilu[1] = tab->i[1], ilu[2] = tab->i[2], ilu[3] = tab->i[3], ilu[4] = tab->i[4];
-                double pha = tab->B[0], x = tab->B[1], per = tab->B[3];
+                double pha = tab->B[0], x = tab->B[1];
 
                 if (ific >= 34 && ific <= 36)
                     x *= t[3];

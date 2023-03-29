@@ -43,7 +43,7 @@ static const double NGC_1[3] = { RA_TO_RAD(0, 7.3), DEC_TO_RAD(27, 43), 13.0 };
 static const double IC_1[3] = { RA_TO_RAD(0, 8.4), DEC_TO_RAD(27, 43), CNGC2000::invalidMagnitude() };
 
 /*  1952  Nb  5 34.5  +22 01 s  Tau   6.    8.4  vB, vL, E 135deg +/- , vglbM, r; = M1              */
-static const double M_1[3] = { RA_TO_RAD(5, 34.5), DEC_TO_RAD(22, 01), 8.4 };
+//static const double M_1[3] = { RA_TO_RAD(5, 34.5), DEC_TO_RAD(22, 01), 8.4 };
 
 /* Directory */
 static const std::filesystem::path src_dir = std::filesystem::path(CMAKE_SOURCE_DIR).lexically_normal() / "share" / "ngc2000";

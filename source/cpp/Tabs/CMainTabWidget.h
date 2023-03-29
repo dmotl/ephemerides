@@ -25,6 +25,7 @@
 
 #include <QtWidgets>
 
+class CMainApp;
 class CSharedData;
 class CMainWindow;
 class CMainDockWidget;
@@ -45,7 +46,7 @@ public:
 	* \param mainWnd main window
 	* \param parent parent widget
 	*/
-	CMainTabWidget(CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
+	CMainTabWidget(CMainApp* app, CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
 
 	/*!
 	* \brief Unique window identifier 
@@ -88,6 +89,10 @@ signals:
 	 */
 	void captionChanged();
 
+private:
+	// Application
+	CMainApp* m_app;
+
 protected:
 	// Unique identifier
 	QString m_uniqueId;
@@ -127,6 +132,8 @@ protected:
 
 	// Create a toolbar
 	void createToolBar(QWidget* mainFrame);
+
+	CMainApp* app(void) const { return m_app; }
 
 protected slots:
 	// Toolbox actions

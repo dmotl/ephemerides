@@ -11,7 +11,7 @@ public:
 		LINES
 	};
 
-	CEquGridDataset(QObject* parent = nullptr) : CSkyChartDataset(parent), m_longitudeStep(15), m_latitudeStep(15), m_style(tStyle::LINES), m_dirty(true) {}
+	CEquGridDataset(QObject* parent = nullptr) : CSkyChartDataset(parent), m_style(tStyle::LINES), m_longitudeStep(15), m_latitudeStep(15), m_dirty(true) {}
 	CEquGridDataset(tStyle style, double longitudeStep, double latitudeStep) : m_style(style), m_longitudeStep(longitudeStep), m_latitudeStep(latitudeStep), m_dirty(true) {}
 
 	void paint(QPainter& painter, const CMatrix3d& q,

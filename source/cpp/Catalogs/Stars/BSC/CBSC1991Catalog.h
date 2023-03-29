@@ -34,7 +34,7 @@
 class CBSC1991Catalog : public CCatalogFile
 {
 public:
-	explicit CBSC1991Catalog(const QString& filePath) : CCatalogFile(filePath) {}
+	explicit CBSC1991Catalog(const QString& filePath) : CCatalogFile(filePath), m_index(-1) {}
 
 	bool open(tCancelledFn cbCancelled, tSetProgressMaxFn cbSetProgressRange, tSetProgressValueFn cbSetProgressValue) override;
 
@@ -44,25 +44,19 @@ public:
 
 	size_t count() const override { return m_objects.size(); }
 
-	const CCatalogObject* at(int index) const override { return m_objects.at(index).ptr; }
+	const CCatalogObject* at(int index) const override;
 
 	void pickle(QIODevice*) override;
 
 	void unpickle(QIODevice*) override;
 
+	const CCatalogObject* first() override;
+
+	const CCatalogObject* next() override;
+
 protected:
 	struct tObject;
-
-	class CBSCCatalogObject : public CCatalogObject
-	{
-	public:
-		CBSCCatalogObject(CCatalog* _p, const tObject* _q) : CCatalogObject(_p), q(_q) {}
-
-	private:
-		friend struct tObject;
-
-		const tObject* q;
-	};
+	class CBSCCatalogObject;
 
 	struct tObject
 	{
@@ -129,10 +123,33 @@ protected:
 		~tObject() { delete ptr; }
 	};
 
+	class CBSCCatalogObject : public CStellarObject
+	{
+	public:
+		CBSCCatalogObject(CCatalog* _p, const tObject* _q) : CStellarObject(_p), q(_q) {}
+
+		tObjectType objectType(void) const override { return tObjectType::STAR; }
+		CEquCoordinates coords(void) const override { return q->coords; }
+		double vmag(void) const override { return q->mag; }
+
+	private:
+		friend struct tObject;
+
+		const tObject* q;
+	};
+
 	QByteArray m_data;
 	QList<tObject> m_objects;
 	QString m_errorMessage;
 
-	void reset() { m_objects.clear(); }
+	int m_index;
+
+	void reset() { m_objects.clear(); m_index = -1; }
+
+	const CCatalogObject* find() const;
 };
 
+inline const CCatalogObject* CBSC1991Catalog::at(int index) const 
+{ 
+	return m_objects.at(index).ptr; 
+}

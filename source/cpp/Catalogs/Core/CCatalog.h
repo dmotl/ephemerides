@@ -23,6 +23,8 @@
 
 #include <QtCore>
 
+#include "CSource.h"
+
 #include <functional>
 
 class CCatalogObject;
@@ -34,7 +36,7 @@ class CCatalogObject;
 * loading, caching and querying catalogs of objects, 
 * such as variable stars, stars, deep-sky objects, etc.
 */
-class CCatalog
+class CCatalog : public CSource
 {
 public:
 	using tCancelledFn = std::function<bool()>;

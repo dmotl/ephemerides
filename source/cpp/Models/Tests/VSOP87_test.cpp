@@ -161,18 +161,22 @@ static double CompareAngles(double alpha, double beta)
 	return diff;
 }
 
+#if 0
+
 static std::string radToString(double rad)
 {
-	int i = (fabs(rad) / M_PI * 12 * 3600 + 0.5);
+	int i = static_cast<int>(fabs(rad) / M_PI * 12 * 3600 + 0.5);
 	
 	std::ostringstream s;
 	s << i / 3600 << " h " << (i / 60) % 60 << " m " << (i % 60) << " s ";
 
-	i = (fabs(rad) / M_PI * 180 * 3600 + 0.5);
+	i = static_cast<int>(fabs(rad) / M_PI * 180 * 3600 + 0.5);
 	s << i / 3600 << " d " << (i / 60) % 60 << " m " << (i % 60) << " s ";
 
 	return s.str();
 }
+
+#endif
 
 static void PrintAngularDist(std::string prefix, double _rad1, double _rad2)
 {
@@ -220,49 +224,49 @@ TEST(VSOP87, Sun_J2000)
 
 TEST(VSOP87, Mercury_J2000) 
 {
-	static const double Mercury[2] = { 1.14, 0.78 };
+	//static const double Mercury[2] = { 1.14, 0.78 };
 	VSOP87_TEST_J2000(1, HMS_TO_RAD(20, 01, 25.5), -DEC_TO_RAD(22, 22, 08.0), 
 		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Venus_J2000)
 {
-	static const double Venus[2] = { 0.27, 0.02 };
+	//static const double Venus[2] = { 0.27, 0.02 };
 	VSOP87_TEST_J2000(2, HMS_TO_RAD(19, 37, 13.2), -DEC_TO_RAD(18, 38, 20.4),
 		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Mars_J2000)
 {
-	static const double Mars[2] = { 2.34, 0.98 };
+	//static const double Mars[2] = { 2.34, 0.98 };
 	VSOP87_TEST_J2000(4, HMS_TO_RAD(16, 45, 20.4), -DEC_TO_RAD(22, 27, 40.0),
 		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Jupiter_J2000)
 {
-	static const double Jupiter[1] = { 5.57 };
+	//static const double Jupiter[1] = { 5.57 };
 	VSOP87_TEST_J2000(5, HMS_TO_RAD(22, 10, 43.6), -DEC_TO_RAD(12, 19, 01.8),
 		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Saturn_J2000)
 {
-	static const double Saturn[1] = { 14.94 };
+	//static const double Saturn[1] = { 14.94 };
 	VSOP87_TEST_J2000(6, HMS_TO_RAD(20, 57, 10.2), -DEC_TO_RAD(18, 05, 46.7),
 		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Uranus_J2000)
 {
-	static const double Uranus[1] = { 19.2 };
+	//static const double Uranus[1] = { 19.2 };
 	VSOP87_TEST_J2000(7, HMS_TO_RAD(02, 33, 26.7), DEC_TO_RAD(14, 37, 51.2),
 		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Neptune_J2000)
 {
-	static const double Neptune[1] = { 30.24 };
+	//static const double Neptune[1] = { 30.24 };
 	VSOP87_TEST_J2000(8, HMS_TO_RAD(23, 26, 22.9), -DEC_TO_RAD(4, 51, 35.2),
 		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
@@ -303,49 +307,49 @@ TEST(VSOP87, Sun_DATE)
 
 TEST(VSOP87, Mercury_DATE)
 {
-	static const double Mercury[2] = { 1.14, 0.78 };
+	//static const double Mercury[2] = { 1.14, 0.78 };
 	VSOP87_TEST_DATE(1, HMS_TO_RAD(20, 02, 42.6), -DEC_TO_RAD(22, 18, 30.4),
 		HMS_TO_RAD(0, 0, 5), DEC_TO_RAD(0, 0, 10));
 }
 
 TEST(VSOP87, Venus_DATE)
 {
-	static const double Venus[2] = { 0.27, 0.02 };
+	//static const double Venus[2] = { 0.27, 0.02 };
 	VSOP87_TEST_DATE(2, HMS_TO_RAD(19, 38, 28.8), -DEC_TO_RAD(18, 35, 24.3),
 		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Mars_DATE)
 {
-	static const double Mars[2] = { 2.34, 0.98 };
+	//static const double Mars[2] = { 2.34, 0.98 };
 	VSOP87_TEST_DATE(4, HMS_TO_RAD(16, 46, 38.6), -DEC_TO_RAD(22, 30, 02.0),
 		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Jupiter_DATE)
 {
-	static const double Jupiter[1] = { 5.57 };
+	//static const double Jupiter[1] = { 5.57 };
 	VSOP87_TEST_DATE(5, HMS_TO_RAD(22, 11, 53.3), -DEC_TO_RAD(12, 12, 36.5),
 		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Saturn_DATE)
 {
-	static const double Saturn[1] = { 14.94 };
+	//static const double Saturn[1] = { 14.94 };
 	VSOP87_TEST_DATE(6, HMS_TO_RAD(20, 58, 23.8), -DEC_TO_RAD(18, 00, 44.8),
 		DEC_TO_RAD(0, 0, 45), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Uranus_DATE)
 {
-	static const double Uranus[1] = { 19.2 };
+	//static const double Uranus[1] = { 19.2 };
 	VSOP87_TEST_DATE(7, HMS_TO_RAD(02, 34, 38.2), DEC_TO_RAD(14, 43, 34.4),
 		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }
 
 TEST(VSOP87, Neptune_DATE)
 {
-	static const double Neptune[1] = { 30.24 };
+	//static const double Neptune[1] = { 30.24 };
 	VSOP87_TEST_DATE(8, HMS_TO_RAD(23, 27, 30.1), -DEC_TO_RAD(4, 44, 25.0),
 		DEC_TO_RAD(0, 0, 30), DEC_TO_RAD(0, 0, 30));
 }

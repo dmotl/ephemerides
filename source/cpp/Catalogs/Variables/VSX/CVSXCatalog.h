@@ -37,19 +37,19 @@ class CVSXCatalogObject : public CVariableStar
 public:
 	CVSXCatalogObject(int oid) : m_oid(oid), m_minmag(-99), m_period(0), m_epoch(0) {}
 
-	const std::string& variableName(void) const { return m_varName; }
+	QString variableName(void) const override { return m_varName; }
 
-	CEquCoordinates coords(void) const { return m_coords; }
+	CEquCoordinates coords(void) const override { return m_coords; }
 
-	double minimumMag() const { return m_minmag; }
+	double minimumMag() const override { return m_minmag; }
 
-	int rating() const { return 1; }
+	int rating() const override { return 1; }
 
-	const std::string& type() const { return m_varType; }
+	QString type() const { return m_varType; }
 
-	double period() const { return m_period; }
+	double period() const override { return m_period; }
 
-	double epoch() const { return m_epoch; }
+	double epoch() const override { return m_epoch; }
 
 	double vmag() const override { return m_minmag; }
 
@@ -58,7 +58,7 @@ protected:
 
 	int m_oid;
 
-	std::string m_varName, m_varType;
+	QString m_varName, m_varType;
 
 	CEquCoordinates m_coords;
 
@@ -68,7 +68,7 @@ protected:
 class CVSXCatalog : public CCatalogFile
 {
 public:
-	explicit CVSXCatalog(const QString& filePath) : CCatalogFile(filePath) {}
+	explicit CVSXCatalog(const QString& filePath) : CCatalogFile(filePath), m_index(-1) {}
 
 	bool open(tCancelledFn cbCancelled, tSetProgressMaxFn cbSetProgressRange, tSetProgressValueFn cbSetProgressValue) override;
 
@@ -84,26 +84,24 @@ public:
 
 	void unpickle(QIODevice*) override;
 
+	const CCatalogObject* first() override;
+
+	const CCatalogObject* next() override;
+
 protected:
 	struct tObject;
-
-	class CVSXCatalogObject : public CCatalogObject
-	{
-	public:
-		CVSXCatalogObject(CCatalog* _p, const tObject* _q) : CCatalogObject(_p), q(_q) {}
-
-	private:
-		friend struct tObject;
-
-		const tObject* q;
-	};
+	class CVSXCatalogObject;
 
 	struct tObject
 	{
+		// Values of the variables below are pickled
+
 		size_t offset, length;
 		int OID;
 		CEquCoordinates coords;
 		double epoch, period;
+
+		// Members below are not stored in pickle
 
 		CVSXCatalogObject* ptr;
 
@@ -111,15 +109,15 @@ protected:
 
 		tObject() : offset(0), length(0), OID(0), epoch(0), period(0), ptr(nullptr) {}
 
-		tObject(const tObject& other) : offset(other.offset), length(other.length), OID(other.OID), varName(other.varName), varType(other.varType), coords(other.coords), 
-			epoch(other.epoch), period(other.period), ptr(nullptr) 
+		tObject(const tObject& other) : offset(other.offset), length(other.length), OID(other.OID), coords(other.coords), 
+			epoch(other.epoch), period(other.period), ptr(nullptr), varName(other.varName), varType(other.varType) 
 		{ 
 			if (other.ptr)
 				ptr = new CVSXCatalogObject(other.ptr->catalog(), this);
 		}
 
-		tObject(tObject&& other): offset(other.offset), length(other.length), OID(other.OID), varName(other.varName), varType(other.varType), coords(other.coords),
-			epoch(other.epoch), period(other.period), ptr(nullptr)
+		tObject(tObject&& other) noexcept: offset(other.offset), length(other.length), OID(other.OID), coords(other.coords),
+			epoch(other.epoch), period(other.period), ptr(nullptr), varName(other.varName), varType(other.varType)
 		{
 			std::swap(ptr, other.ptr);
 			if (ptr) 
@@ -170,9 +168,35 @@ protected:
 		~tObject() { delete ptr; }
 	};
 
+	class CVSXCatalogObject : public CVariableStar
+	{
+	public:
+		CVSXCatalogObject(CCatalog* _p, const tObject* _q) : CVariableStar(_p), q(_q) {}
+
+		CEquCoordinates coords(void) const override { return q->coords; }
+		double vmag(void) const override { return 0; }
+		QString variableName(void) const override { return q->varName; }
+		int rating() const override { return 0; }
+		double minimumMag() const override { return INVALID_MAG; }
+		double maximumMag() const override { return INVALID_MAG; }
+		double period() const override { return q->period; }
+		double epoch() const override { return q->epoch; }
+		QString varTypeString(void) const override { return QString(); }
+
+	private:
+		friend struct tObject;
+
+		const tObject* q;
+	};
+
 	QByteArray m_data;
 	QString m_errorMessage;
 	QList<tObject> m_objects;
 
+	int m_index;
+
 	void reset();
+
+	const CCatalogObject* find() const;
+
 };

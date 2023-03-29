@@ -33,7 +33,7 @@
 //
 // Constructor
 //
-CSkyChartTab::CSkyChartTab(CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(sharedData, mainWnd, parent)
+CSkyChartTab::CSkyChartTab(CMainApp* app, CSharedData* sharedData, CMainWindow* mainWnd, QWidget* parent) : CMainTabWidget(app, sharedData, mainWnd, parent)
 {
 	registerTabWidget(type_id);
 

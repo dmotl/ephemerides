@@ -25,8 +25,8 @@
 #include "CCatalogLoaderThread.h"
 #include "CCatalogList.h"
 
-CCatalogLoader::CCatalogLoader(CCatalogsList* catalogs, QWidget* parent) :QObject(parent), m_catalogs(catalogs), 
-	m_cancelled(false), m_dialog(NULL), m_thread(NULL), m_retval(0)
+CCatalogLoader::CCatalogLoader(CCatalogList* catalogs, QWidget* parent) :QObject(parent), m_catalogs(catalogs),
+m_retval(0), m_cancelled(false), m_dialog(NULL), m_thread(NULL)
 {
 	m_dialog = new CCatalogLoaderDialog(this, parent);
 	connect(this, SIGNAL(setCancelEnabled(bool)), m_dialog, SLOT(setCancelEnabled(bool)));

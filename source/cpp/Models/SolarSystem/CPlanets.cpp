@@ -40,40 +40,6 @@ inline double frac(double x) { double y;  return modf(x, &y); }
 
 
 //
-// Normalize angle to range of 0 .. 2pi
-//
-static double normalizeAngle(double rad)
-{
-    double i;
-
-    if (rad > 2 * M_PI) {
-        rad = modf(rad / (2 * M_PI), &i);
-        rad = rad * (2 * M_PI);
-    }
-    else if (rad < 0) {
-        rad = modf(-rad / (2 * M_PI), &i);
-        rad = (1 - rad) * (2 * M_PI);
-    }
-    if (rad == 2 * M_PI)
-        return 0;
-    return rad;
-}
-
-
-//
-// Crop angle to range of -pi .. pi
-//
-static double cropAngle(double rad)
-{
-    if (rad > M_PI_2)
-        return M_PI_2;
-    else if (rad < -M_PI_2)
-        return -M_PI_2;
-    else
-        return rad;
-}
-
-//
 // Constructor
 //
 CPlanets::CPlanets(double jd) : m_jd(0)

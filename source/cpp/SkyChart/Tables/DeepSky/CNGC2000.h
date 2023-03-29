@@ -27,30 +27,11 @@
 #include <vector>
 
 #include "CEquCoordinates.h"
+#include "Utils.h"
 
 class CNGC2000
 {
 public:
-	enum class tObjectType
-	{
-		UNKNOWN,
-		GALAXY,
-		OPEN_CLUSTER,
-		GLOB_CLUSTER,
-		NEBULA,
-		PLAN_NEBULA,
-		TRIPPLE_STAR,
-		DOUBLE_STAR,
-		STAR,
-		UNCERTAIN,
-		CL_AND_NB,
-		ASTERISM,
-		KNOT,
-		NON_EXISTENT,
-		DEFECT,
-		SUPERNOVA,
-	};
-
 	enum class tCatalog 
 	{ 
 		UNDEFINED,
@@ -61,7 +42,6 @@ public:
 	class CObjectDesignation
 	{
 	public:
-
 		tCatalog cat;
 		int number;
 

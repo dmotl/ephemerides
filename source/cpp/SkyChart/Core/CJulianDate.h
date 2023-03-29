@@ -136,6 +136,26 @@ public:
 	*/
 	double HeliocentricCorrection(const CEquCoordinates& equ) const;
 
+	/*!
+	* \brief Convert to heliocentric Julian date
+	* 
+	* This is equivalent to JD + JD.heliocentricCorrection(equ)
+	*/
+	inline CJulianDate toHeliocentric(const CEquCoordinates& equ) const
+	{
+		return jd_utc() + HeliocentricCorrection(equ);
+	}
+
+	/*!
+	* \brief Convert to geocentric Julian date
+	*
+	* This is equivalent to JD - JD.heliocentricCorrection(equ)
+	*/
+	inline CJulianDate toGeocentric(const CEquCoordinates& equ) const
+	{
+		return jd_utc() - HeliocentricCorrection(equ);
+	}
+
 	/*! 
 	* \brief Greenwich Mean Sidereal Time 
 	* 

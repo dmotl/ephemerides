@@ -18,8 +18,8 @@ static const double EYE_RESOLUTION = 0.25;
 // Maximum radius
 static const double MAX_LINEAR_RADIUS = 8.0;
 
-CBrightStarCatalogDataset::CBrightStarCatalogDataset(const CBSC1991* file, QObject* parent) : CSkyChartDataset(parent),
-m_rcmag(RCMAG_TABLE_SIZE), m_fov(-DBL_MAX), m_lnfovFactor(1), m_starLinearScale(1), m_inputScale(1), m_limitMagIndex(0)
+CBrightStarCatalogDataset::CBrightStarCatalogDataset(const CBSC1991* file, QObject* parent) : CSkyChartDataset(parent), m_fov(-DBL_MAX), 
+m_rcmag(RCMAG_TABLE_SIZE), m_limitMagIndex(0), m_lnfovFactor(1), m_starLinearScale(1), m_inputScale(1)
 {
 	if (file) {
 		auto begin = file->data().begin(), end = file->data().end();
@@ -73,7 +73,6 @@ void CBrightStarCatalogDataset::updateRCMagTable()
 	m_limitMagIndex = RCMAG_TABLE_SIZE;
 	for (int i = 0; i < RCMAG_TABLE_SIZE; i++) {
 		const float mag = mag_min + k * i;
-		double radius = 0, luminance = 0;
 		if (!computeRCMag(mag, m_rcmag[i].first, m_rcmag[i].second)) {
 			m_limitMagIndex = i - 1;
 			break;
@@ -85,8 +84,6 @@ void CBrightStarCatalogDataset::updateRCMagTable()
 
 void CBrightStarCatalogDataset::paint(QPainter& painter, const CMatrix3d& q, const CProjection& p, const CTransformd& m, const QRectF& paint_rect)
 {
-	Qt::GlobalColor color = Qt::transparent;
-
 	painter.setBrush(Qt::white);
 
 	// Equatorial grid
@@ -121,7 +118,7 @@ double CBrightStarCatalogDataset::adaptLuminanceScaledLn(double lnWorldLuminance
 {
 	double lnInputScale = std::log(m_inputScale);
 
-	static const double Lda = 50.0, Lwa = 3.753, maxDisplayLuminance = 100.0, Gamma = 2.2222;
+	static const double Lda = 50.0, Lwa = 3.753, maxDisplayLuminance = 100.0; // Gamma = 2.2222;
 
 	// Update alphaDa and betaDa values
 	float log10Lwa = std::log10(Lwa);
@@ -134,15 +131,15 @@ double CBrightStarCatalogDataset::adaptLuminanceScaledLn(double lnWorldLuminance
 	double betaDa = -0.4f * log10Lda * log10Lda + 0.218f * log10Lda + 6.1642f;
 
 	double oneOverMaxdL = 1.0 / maxDisplayLuminance;
-	double oneOverGamma = 1.0 / Gamma;
+	//double oneOverGamma = 1.0 / Gamma;
 	double lnOneOverMaxdL = std::log(oneOverMaxdL);
 
 	// Update terms
 	double alphaWaOverAlphaDa = alphaWa / alphaDa;
 	double term2 = (std::exp((betaWa - betaDa) / alphaDa * 2.3025850930) / (M_PI * 0.0001));
 	double lnTerm2 = std::log(term2);
-	double term2TimesOneOverMaxdL = term2 * oneOverMaxdL;
-	double term2TimesOneOverMaxdLpOneOverGamma = std::pow(term2TimesOneOverMaxdL, oneOverGamma);
+	//double term2TimesOneOverMaxdL = term2 * oneOverMaxdL;
+	//double term2TimesOneOverMaxdLpOneOverGamma = std::pow(term2TimesOneOverMaxdL, oneOverGamma);
 
 	const float lnPix0p0001 = static_cast<float>(log(M_PI * 1e-4)); //  -8.0656104861f; // conversion factor, log(lambert to cd/m^2). See Devlin et al. 4.2
 	return std::exp(((lnInputScale + lnWorldLuminance + lnPix0p0001) * alphaWaOverAlphaDa + lnTerm2 + lnOneOverMaxdL) * pFact);

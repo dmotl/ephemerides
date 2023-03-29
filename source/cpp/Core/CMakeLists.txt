@@ -7,8 +7,6 @@ set(core_sources
  "CSharedData.h"
  "CConfigSupport.cpp"
  "CConfigSupport.h"
- 
- 
  "UtilsQt.cpp"
  "UtilsQt.h"
 )
@@ -16,4 +14,4 @@ set(core_sources
 add_library(core STATIC ${core_sources})
 target_compile_options(core PRIVATE /W3 /WX)
 target_link_libraries(core PUBLIC catalogscorelib catalogs_ui skycharttables constbnd)
-target_include_directories(core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(core PUBLIC .)

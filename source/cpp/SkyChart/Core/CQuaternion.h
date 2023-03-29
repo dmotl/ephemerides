@@ -463,20 +463,20 @@ public:
 		return CQuaternion(w, x, y, z);	
 	}
 
-	static CQuaternion rotationTo(const CVector3<T>& from, const CVector3<T>& to)
+	static CQuaternion rotationTo(const CVector3d& from, const CVector3d& to)
 	{
 		// Based on Stan Melax's article in Game Programming Gems
 
-		const CVector3<T> v0(from.normalized());
-		const CVector3<T> v1(to.normalized());
+		const CVector3d v0(from.normalized());
+		const CVector3d v1(to.normalized());
 
-		T d = CVector3<T>::dotProduct(v0, v1) + 1.0;
+		double d = CVector3d::dotProduct(v0, v1) + 1.0;
 
 		// if dest vector is close to the inverse of source vector, ANY axis of rotation is valid
 		if (d == 0) {
-			CVector3<T> axis = CVector3<T>::crossProduct(CVector3<T>(1.0, 0.0, 0.0), v0);
+			CVector3d axis = CVector3d::crossProduct(CVector3d(1.0, 0.0, 0.0), v0);
 			if (axis.lengthSquared() == 0)
-				axis = CVector3<T>::crossProduct(CVector3<T>(0.0, 1.0, 0.0), v0);
+				axis = CVector3d::crossProduct(CVector3d(0.0, 1.0, 0.0), v0);
 			axis.normalize();
 
 			// same as CQuaternion::fromAxisAndAngle(axis, 180.0f)
@@ -484,7 +484,7 @@ public:
 		}
 		else {
 			d = std::sqrt(2.0 * d);
-			const CVector3<T> axis(CVector3<T>::crossProduct(v0, v1) / d);
+			const CVector3d axis(CVector3d::crossProduct(v0, v1) / d);
 			return CQuaternion(d * 0.5, axis).normalized();
 		}
 	}

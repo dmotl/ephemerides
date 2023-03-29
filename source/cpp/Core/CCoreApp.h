@@ -23,7 +23,7 @@
 
 #include <QtWidgets>
 
-class CCatalogsList;
+class CCatalogList;
 
 /*!
 * \brief Core application
@@ -40,7 +40,7 @@ public:
 
 	~CCoreApp() override;
 
-	CCatalogsList& catalogs() { assert(m_catalogs != NULL); return *m_catalogs; }
+	CCatalogList& catalogs() { assert(m_catalogs != NULL); return *m_catalogs; }
 
 	// Path to the directory with read-only architecture-independent data files
 	QString dataDir() const{ return m_dataDir; }
@@ -67,7 +67,7 @@ public:
 	QString stateHomeDir() const { return m_stateHomeDir; }
 
 protected:
-	CCatalogsList *m_catalogs;
+	CCatalogList *m_catalogs;
 
 	// Path to the directory with read-only architecture-independent data files
 	QString m_dataDir;

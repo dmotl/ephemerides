@@ -21,7 +21,9 @@
 */
 #pragma once
 
-#include "CCatalogLoader.h"
+#include <QtWidgets>
+
+class CCatalogLoader;
 
 /*!
 * \brief Catalog loader (progress dialog)

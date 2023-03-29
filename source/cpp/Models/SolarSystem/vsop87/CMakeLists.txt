@@ -16,6 +16,6 @@ endforeach(b)
 
 add_library(vsop87 STATIC vsop87.c vsop87.h)
 target_link_libraries(vsop87 PUBLIC vsop87_tables)
-target_include_directories(vsop87 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(vsop87 PUBLIC .)
 
 add_vsop87_test_cc(vsop87_tests chk)

@@ -21,20 +21,18 @@
 */
 #include "CBSC1991.h"
 
+#include "bsc91_tables.h"
+
 #include <fstream>
 #include <sstream>
 #include <filesystem>
 #include <iostream>
 
-static void strToFloat(const std::string& str, double& value)
-{
-    static std::locale c_locale("C");
+#if 0
 
-    std::istringstream iss(str);
-    iss.imbue(c_locale);
-    iss >> value;
-}
-
+//
+// Trim trailing whitechars
+//
 static std::string rtrim(const std::string& s)
 {
     static const std::string WHITESPACE = " \n\r\t\f\v";
@@ -43,6 +41,10 @@ static std::string rtrim(const std::string& s)
     return (end == std::string::npos) ? "" : s.substr(0, end + 1);
 }
 
+
+//
+// Trim leading whitechars
+//
 static std::string ltrim(const std::string& s)
 {
     static const std::string WHITESPACE = " \n\r\t\f\v";
@@ -51,7 +53,7 @@ static std::string ltrim(const std::string& s)
     return (startpos == std::string::npos) ? "" : s.substr(startpos);
 }
 
-#include "bsc91_tables.h"
+#endif
 
 CBSC1991_Embedded::CBSC1991_Embedded()
 {

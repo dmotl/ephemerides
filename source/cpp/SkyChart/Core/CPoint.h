@@ -141,35 +141,6 @@ public:
 	void setY(const T& value) { at(1) = value; }
 
 	/*!
-	* \brief Get normalized vector
-	* 
-	* The function returns a vector that has the same direction
-	* but the unit length. If the vector has zero length, the function 
-	* returns a null vector.
-	*/
-	CPoint<T> normalized(void) const
-	{
-		T l = length();
-		return (l > 0 ? *this / l : CPoint<T>());
-	}
-
-	/*!
-	* \brief Normalize vector
-	*
-	* The function modifies the vector so the vector has the same direction
-	* but the unit length. If the vector has zero length, the function
-	* does nothing.
-	*/
-	void normalize(void)
-	{
-		T l = length();
-		if (l > 0) {
-			at(0) /= l;
-			at(1) /= l;
-		}
-	}
-
-	/*!
 	* \brief Get transposed vector
 	*
 	* The function returns a vector with x and y coordinates exchanged.
@@ -188,12 +159,6 @@ public:
 	void transpose(void)
 	{
 		std::swap(at(0), at(1));
-	}
-
-	/*! Returns Euclidean length of the vector. */
-	double length() const
-	{
-		return std::hypot(at(0), at(1));
 	}
 
 	/*! Returns the dot product of the vector with itself. */
@@ -307,4 +272,72 @@ public:
 	}
 };
 
-using CPointd = CPoint<double>;
+class CPointd : public CPoint<double>
+{
+public:
+	/*!
+	* \brief Default constructor
+	*
+	* Creates a point with coordinates (0, 0)
+	*/
+	CPointd() {}
+
+	/*! Copy constructor */
+	CPointd(const CPointd& other) : CPoint<double>(other) {}
+
+	/*! Copy constructor */
+	CPointd(const CPoint<double>& other) : CPoint<double>(other) {}
+
+	/*!
+	* \brief Constructor
+	*
+	* Creates a point with coordinates (x, y)
+	* \param x x coordinate
+	* \param y y coordinate
+	*/
+	CPointd(const double& x, const double& y) : CPoint<double>(x, y) {}
+
+	/*!
+	* \brief Constructor
+	*
+	* Creates a point with coordinates in an array
+	* \param n size of array (must be 2)
+	* \param xy array of T with coordinates [x, y]
+	*/
+	CPointd(int n, const double* xy) : CPoint<double>(n, xy) {}
+
+	/*! Returns Euclidean length of the vector. */
+	double length() const
+	{
+		return std::hypot(at(0), at(1));
+	}
+
+	/*!
+	* \brief Get normalized vector
+	*
+	* The function returns a vector that has the same direction
+	* but the unit length. If the vector has zero length, the function
+	* returns a null vector.
+	*/
+	CPointd normalized(void) const
+	{
+		double l = length();
+		return (l > 0 ? CPointd(at(0) / l, at(1) / l) : CPointd());
+	}
+
+	/*!
+	* \brief Normalize vector
+	*
+	* The function modifies the vector so the vector has the same direction
+	* but the unit length. If the vector has zero length, the function
+	* does nothing.
+	*/
+	void normalize(void)
+	{
+		double l = length();
+		if (l > 0) {
+			at(0) /= l;
+			at(1) /= l;
+		}
+	}
+};

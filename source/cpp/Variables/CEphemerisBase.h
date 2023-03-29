@@ -21,13 +21,11 @@
 */
 #pragma once
 
-#include "CGeoCoordinates.h"
+#include <QtCore>
+
 #include "CJulianDate.h"
 
 class CCatalogObject;
-class CCatalog;
-
-#include <vector>
 
 /*
 * \brief Ephemeris (base class)
@@ -36,25 +34,23 @@ class CCatalog;
 * objects that compute ephemeris.
 *
 */
-class CEphemerisBase
+class CEphemerisBase : public QObject
 {
 public:
+	using tCancelledFn = std::function<bool()>;
+	using tSetCaption = std::function<void(const QString&)>;
+	using tSetProgressMaxFn = std::function<void(int)>;
+	using tSetProgressValueFn = std::function<void(int)>;
+
 	struct tEphemeris
 	{
 		CJulianDate jd;
 		const CCatalogObject* object;
-		tEphemeris() : object(nullptr) {}
+		tEventType evtype;
+		tEphemeris() : object(nullptr), evtype(tEventType::Unknown) {}
 	};
 
-	CEphemerisBase() {}
-
-	virtual ~CEphemerisBase() {}
-
-	// Set geographic location
-	void setObserverLocation(const CGeoCoordinates& loc);
-
-	// Add catalogs
-	void addCatalog(CCatalog* catalog);
+	explicit CEphemerisBase(QObject* parent = nullptr) : QObject(parent) {}
 
 	// Delete all records
 	void clear()
@@ -86,20 +82,16 @@ public:
 		return at(index);
 	}
 
-	// Iterator
-	std::vector<tEphemeris>::const_iterator cbegin() const
+	// List of records
+	QList<tEphemeris> list() const
 	{
-		return m_rec.cbegin();
+		return m_rec;
 	}
 
-	// Iterator
-	std::vector<tEphemeris>::const_iterator cend() const
-	{
-		return m_rec.cend();
-	}
+	// Update ephemeris
+	virtual void update(CJulianDate start, CJulianDate end, tCancelledFn cbCancelled, tSetCaption cbSetCaption, 
+		tSetProgressMaxFn cbSetProgressRange, tSetProgressValueFn cbSetProgressValue) = 0;
 
 public:
-	CGeoCoordinates m_loc;
-
-	std::vector<tEphemeris> m_rec;
+	QList<tEphemeris> m_rec;
 };

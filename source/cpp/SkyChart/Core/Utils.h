@@ -21,6 +21,34 @@
 */
 #pragma once
 
+enum class tObjectType
+{
+	UNKNOWN,
+	GALAXY,
+	OPEN_CLUSTER,
+	GLOB_CLUSTER,
+	NEBULA,
+	PLAN_NEBULA,
+	TRIPPLE_STAR,
+	DOUBLE_STAR,
+	STAR,
+	UNCERTAIN,
+	CL_AND_NB,
+	ASTERISM,
+	KNOT,
+	NON_EXISTENT,
+	DEFECT,
+	SUPERNOVA,
+	VARIABLE_STAR
+};
+
+enum class tEventType
+{
+	Unknown,
+	PRIMARY_MINIMUM,
+	SECONDARY_MINIMUM
+};
+
 /*
 * \brief Degrees to radians
 * 
@@ -56,3 +84,10 @@
 * 
 */
 #define HMS_TO_JD(h, m, s) (((h) + static_cast<double>(m) / 60 + static_cast<double>(s) / 3600) / 24)
+
+/*
+* Invalid magnitude value
+* 
+* The value used to indicate an invalid magnitude of an object.
+*/
+#define INVALID_MAG -99

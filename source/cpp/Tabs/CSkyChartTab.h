@@ -47,7 +47,7 @@ public:
 	* \param mainWnd main window
 	* \param parent parent widget
 	*/
-	CSkyChartTab(CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
+	CSkyChartTab(CMainApp* app, CSharedData* data, CMainWindow* mainWnd, QWidget* parent);
 
 	static constexpr const char* type_id = "skycharttab";
 

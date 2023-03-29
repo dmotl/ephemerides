@@ -33,6 +33,7 @@
 #include "CJulianDateConverterDockWidget.h"
 #include "CHeliocentricCorrectionDockWidget.h"
 #include "CAirMassDockWidget.h"
+#include "CMainApp.h"
 
 #include "CSetupDialog.h"
 #include "CAboutDialog.h"
@@ -65,6 +66,12 @@ CMainWindow::CMainWindow(CMainApp* app, QWidget* parentWidget) : QMainWindow(par
     
     m_sharedData = new CSharedData(this);
 
+    if (m_app) {
+        QString userStateDir = m_app->stateHomeDir();
+        if (!userStateDir.isEmpty())
+            m_mainConfig = fromFile(QDir(userStateDir).filePath(QStringLiteral("main.json")));
+    }
+
     createTabs();
     createActions();
     createDockWindows();
@@ -93,8 +100,18 @@ void CMainWindow::closeEvent(QCloseEvent *event)
 //
 void CMainWindow::writeSettings() 
 {
+    QJsonObject cfg = m_mainConfig.object();
     if (m_sharedData)
         m_sharedData->Save();
+    for (int i = 0; i < m_tabWidgets.count(); i++)
+        m_tabWidgets[i]->saveState(cfg);
+    m_mainConfig.setObject(cfg);
+
+    if (m_app) {
+        QString userStateDir = m_app->stateHomeDir();
+        if (!userStateDir.isEmpty()) 
+            toFile(m_mainConfig, QDir(userStateDir).filePath(QStringLiteral("main.json")));
+    }
 }
 
 
@@ -146,16 +163,26 @@ void CMainWindow::createDockWindows()
 void CMainWindow::createTabs()
 {
 #if SHOW_NIGHTLY_EPHEMERIS_TAB
-    new CNightlyEphemerisTab(m_sharedData, this, this);
+    addMainTab(new CNightlyEphemerisTab(m_app, m_sharedData, this, this));
 #endif
 
 #if SHOW_STAR_EPHEMERIS_TAB
-    new CStarEphemerisTab(m_sharedData, this, this);
+    addMainTab(new CStarEphemerisTab(m_app, m_sharedData, this, this));
 #endif
 
 #if SHOW_SKY_CHART_TAB 
-    new CSkyChartTab(m_sharedData, this, this);
+    addMainTab(new CSkyChartTab(m_app, m_sharedData, this, this));
 #endif
+}
+
+
+//
+// Add main tab
+//
+void CMainWindow::addMainTab(CMainTabWidget* tab)
+{
+    if (tab)
+        tab->loadState(m_mainConfig.object());
 }
 
 

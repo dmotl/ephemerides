@@ -21,6 +21,8 @@
 */
 #pragma once
 
+#include "CConfigSupport.h"
+
 #include <QtWidgets>
 
 class CMainApp;
@@ -37,7 +39,7 @@ class CMainDockWidget;
 * 
 * The auxilliaty tools are usually dock widgets.
 */
-class CMainWindow : public QMainWindow
+class CMainWindow : public QMainWindow, CConfigSupport
 {
     Q_OBJECT
 
@@ -61,6 +63,9 @@ private:
 
     // Application's global data
     CMainApp* m_app;
+
+    // Main configuration file
+    QJsonDocument m_mainConfig;
 
     // Data shared with tools and windows
     CSharedData* m_sharedData;
@@ -106,4 +111,7 @@ private:
 
     // Create tools
     void createDockWindows();
+
+    // Add main tab
+    void addMainTab(CMainTabWidget* tab);
 };
