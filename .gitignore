@@ -1,6 +1,6 @@
 .vs/
-out/
-bin/
+/out/
+/bin/
 
 *.chm
 *.dcu

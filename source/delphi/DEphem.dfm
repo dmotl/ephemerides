@@ -1,6 +1,6 @@
 object MainForm: TMainForm
-  Left = 278
-  Top = -4
+  Left = 330
+  Top = 62
   Width = 1165
   Height = 864
   Caption = 'Ephemerides of eclipsing binary stars'
@@ -25,16 +25,16 @@ object MainForm: TMainForm
     Top = 0
     Width = 1157
     Height = 818
-    ActivePage = TabSheet2
+    ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
     OnChange = PagesChange
     object TabSheet1: TTabSheet
       Caption = 'Daily ephemerides'
       object Panel2: TPanel
-        Left = 192
+        Left = 222
         Top = 0
-        Width = 957
+        Width = 927
         Height = 790
         Align = alClient
         BevelOuter = bvNone
@@ -42,7 +42,7 @@ object MainForm: TMainForm
         object List: TListView
           Left = 0
           Top = 36
-          Width = 957
+          Width = 927
           Height = 754
           Align = alClient
           Columns = <
@@ -156,7 +156,7 @@ object MainForm: TMainForm
         object ToolBar1: TToolBar
           Left = 0
           Top = 0
-          Width = 957
+          Width = 927
           Height = 36
           AutoSize = True
           ButtonHeight = 36
@@ -335,18 +335,18 @@ object MainForm: TMainForm
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 192
+        Width = 222
         Height = 790
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 1
         DesignSize = (
-          192
+          222
           790)
         object Label2: TLabel
           Left = 8
           Top = 48
-          Width = 64
+          Width = 205
           Height = 13
           Caption = 'Catalogues'
           Font.Charset = DEFAULT_CHARSET
@@ -359,7 +359,7 @@ object MainForm: TMainForm
         object Label1: TLabel
           Left = 8
           Top = 8
-          Width = 162
+          Width = 205
           Height = 13
           Caption = 'Date (local, before midnight)'
           Font.Charset = DEFAULT_CHARSET
@@ -370,169 +370,169 @@ object MainForm: TMainForm
           ParentFont = False
         end
         object Label3: TLabel
-          Left = 99
-          Top = 423
-          Width = 9
+          Left = 113
+          Top = 409
+          Width = 10
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'to'
         end
         object Label6: TLabel
           Left = 24
-          Top = 423
+          Top = 409
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'from'
         end
         object Label7: TLabel
-          Left = 162
-          Top = 423
-          Width = 20
+          Left = 190
+          Top = 409
+          Width = 25
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'mag'
         end
         object Label4: TLabel
-          Left = 99
-          Top = 311
-          Width = 9
+          Left = 113
+          Top = 309
+          Width = 10
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'to'
         end
         object Label5: TLabel
           Left = 24
-          Top = 311
+          Top = 309
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'from'
         end
         object Label8: TLabel
-          Left = 162
-          Top = 311
+          Left = 190
+          Top = 309
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'hr'
         end
         object Label9: TLabel
-          Left = 99
-          Top = 373
-          Width = 9
+          Left = 113
+          Top = 369
+          Width = 10
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'to'
         end
         object Label10: TLabel
           Left = 24
-          Top = 373
+          Top = 369
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'from'
         end
         object Label11: TLabel
-          Left = 162
-          Top = 373
-          Width = 18
+          Left = 190
+          Top = 369
+          Width = 25
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'deg'
         end
         object Label12: TLabel
-          Left = 99
-          Top = 519
-          Width = 9
+          Left = 113
+          Top = 489
+          Width = 10
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'to'
         end
         object Label13: TLabel
           Left = 24
-          Top = 519
+          Top = 489
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'from'
         end
         object Label14: TLabel
-          Left = 162
-          Top = 519
+          Left = 190
+          Top = 489
           Width = 9
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'hr'
         end
         object Label15: TLabel
-          Left = 99
-          Top = 567
-          Width = 9
+          Left = 113
+          Top = 529
+          Width = 10
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'to'
         end
         object Label16: TLabel
           Left = 24
-          Top = 567
+          Top = 529
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'from'
         end
         object Label17: TLabel
-          Left = 162
-          Top = 567
-          Width = 18
+          Left = 190
+          Top = 529
+          Width = 25
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'deg'
         end
         object Label19: TLabel
-          Left = 99
-          Top = 471
-          Width = 9
+          Left = 113
+          Top = 449
+          Width = 10
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'to'
         end
         object Label20: TLabel
           Left = 24
-          Top = 471
+          Top = 449
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'from'
         end
         object Label21: TLabel
-          Left = 162
-          Top = 471
-          Width = 14
+          Left = 190
+          Top = 449
+          Width = 25
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'pts'
         end
         object Label33: TLabel
           Left = 24
-          Top = 711
+          Top = 729
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'from'
         end
         object Label34: TLabel
-          Left = 99
-          Top = 711
-          Width = 9
+          Left = 113
+          Top = 729
+          Width = 10
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'to'
         end
         object Label35: TLabel
-          Left = 162
-          Top = 711
-          Width = 18
+          Left = 190
+          Top = 729
+          Width = 25
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'deg'
@@ -540,7 +540,7 @@ object MainForm: TMainForm
         object Label39: TLabel
           Left = 8
           Top = 273
-          Width = 35
+          Width = 205
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'Filters'
@@ -553,24 +553,72 @@ object MainForm: TMainForm
         end
         object Label41: TLabel
           Left = 24
-          Top = 759
+          Top = 769
           Width = 20
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'from'
         end
         object Label42: TLabel
-          Left = 99
-          Top = 759
-          Width = 18
+          Left = 113
+          Top = 769
+          Width = 24
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'deg'
         end
+        object Label45: TLabel
+          Left = 24
+          Top = 649
+          Width = 20
+          Height = 13
+          Anchors = [akLeft, akBottom]
+          Caption = 'from'
+        end
+        object Label46: TLabel
+          Left = 113
+          Top = 649
+          Width = 10
+          Height = 13
+          Anchors = [akLeft, akBottom]
+          Caption = 'to'
+        end
+        object Label47: TLabel
+          Left = 190
+          Top = 649
+          Width = 25
+          Height = 13
+          Anchors = [akLeft, akBottom]
+          Caption = 'days'
+        end
+        object Label48: TLabel
+          Left = 24
+          Top = 689
+          Width = 20
+          Height = 13
+          Anchors = [akLeft, akBottom]
+          Caption = 'from'
+        end
+        object Label49: TLabel
+          Left = 113
+          Top = 689
+          Width = 10
+          Height = 13
+          Anchors = [akLeft, akBottom]
+          Caption = 'to'
+        end
+        object Label50: TLabel
+          Left = 190
+          Top = 689
+          Width = 25
+          Height = 13
+          Anchors = [akLeft, akBottom]
+          Caption = 'mag'
+        end
         object Cats: TCheckListBox
           Left = 8
           Top = 64
-          Width = 177
+          Width = 205
           Height = 205
           Hint = 'Check catalogue files, which you want to use'
           Anchors = [akLeft, akTop, akBottom]
@@ -583,7 +631,7 @@ object MainForm: TMainForm
         object Date: TDateTimePicker
           Left = 8
           Top = 24
-          Width = 177
+          Width = 205
           Height = 21
           Hint = 'Enter date of observation (before midnight)'
           Date = 38166.918542002300000000
@@ -594,8 +642,8 @@ object MainForm: TMainForm
         end
         object MagF: TCheckBox
           Left = 8
-          Top = 403
-          Width = 177
+          Top = 389
+          Width = 205
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'Brightness in minimum'
@@ -604,32 +652,28 @@ object MainForm: TMainForm
         end
         object MinF: TCheckBox
           Left = 8
-          Top = 291
-          Width = 177
+          Top = 289
+          Width = 205
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'Time of minimum (UT)'
-          Checked = True
-          State = cbChecked
           TabOrder = 2
           OnClick = Min2Change
         end
         object AltF: TCheckBox
           Left = 8
-          Top = 355
-          Width = 177
+          Top = 349
+          Width = 205
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'Altitude'
-          Checked = True
-          State = cbChecked
           TabOrder = 8
           OnClick = Alt2Change
         end
         object RAF: TCheckBox
           Left = 8
-          Top = 499
-          Width = 177
+          Top = 469
+          Width = 205
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'Right ascension'
@@ -638,8 +682,8 @@ object MainForm: TMainForm
         end
         object DecF: TCheckBox
           Left = 8
-          Top = 547
-          Width = 177
+          Top = 509
+          Width = 205
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'Declination'
@@ -648,8 +692,8 @@ object MainForm: TMainForm
         end
         object PTSF: TCheckBox
           Left = 8
-          Top = 451
-          Width = 177
+          Top = 429
+          Width = 205
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'Rating (points]'
@@ -657,8 +701,8 @@ object MainForm: TMainForm
           OnClick = UpdateControls
         end
         object Mag1SB: TSpinButton
-          Left = 80
-          Top = 419
+          Left = 94
+          Top = 405
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -683,8 +727,8 @@ object MainForm: TMainForm
         end
         object Mag1: TEdit
           Left = 48
-          Top = 419
-          Width = 32
+          Top = 405
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 2
@@ -692,9 +736,9 @@ object MainForm: TMainForm
           OnExit = Mag1Exit
         end
         object Mag2: TEdit
-          Left = 112
-          Top = 419
-          Width = 32
+          Left = 126
+          Top = 405
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 2
@@ -702,8 +746,8 @@ object MainForm: TMainForm
           OnExit = Mag1Exit
         end
         object Mag2SB: TSpinButton
-          Left = 144
-          Top = 419
+          Left = 172
+          Top = 405
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -728,8 +772,8 @@ object MainForm: TMainForm
         end
         object Min1: TEdit
           Left = 48
-          Top = 307
-          Width = 32
+          Top = 305
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 4
@@ -738,8 +782,8 @@ object MainForm: TMainForm
           OnExit = Min2Exit
         end
         object Min1SB: TSpinButton
-          Left = 80
-          Top = 307
+          Left = 94
+          Top = 305
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -763,9 +807,9 @@ object MainForm: TMainForm
           OnUpClick = MinUpClick
         end
         object Min2: TEdit
-          Left = 112
-          Top = 307
-          Width = 32
+          Left = 126
+          Top = 305
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 4
@@ -774,8 +818,8 @@ object MainForm: TMainForm
           OnExit = Min2Exit
         end
         object Min2SB: TSpinButton
-          Left = 144
-          Top = 307
+          Left = 172
+          Top = 305
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -800,8 +844,8 @@ object MainForm: TMainForm
         end
         object Alt1: TEdit
           Left = 48
-          Top = 371
-          Width = 32
+          Top = 365
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 3
@@ -810,8 +854,8 @@ object MainForm: TMainForm
           OnExit = Alt2Exit
         end
         object Alt1SB: TSpinButton
-          Left = 80
-          Top = 371
+          Left = 94
+          Top = 365
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -835,9 +879,9 @@ object MainForm: TMainForm
           OnUpClick = AltUpClick
         end
         object Alt2: TEdit
-          Left = 112
-          Top = 371
-          Width = 32
+          Left = 126
+          Top = 365
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 3
@@ -846,8 +890,8 @@ object MainForm: TMainForm
           OnExit = Alt2Exit
         end
         object Alt2SB: TSpinButton
-          Left = 144
-          Top = 371
+          Left = 172
+          Top = 365
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -872,8 +916,8 @@ object MainForm: TMainForm
         end
         object RA1: TEdit
           Left = 48
-          Top = 515
-          Width = 32
+          Top = 485
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 4
@@ -881,8 +925,8 @@ object MainForm: TMainForm
           OnExit = Min2Exit
         end
         object Ra1SB: TSpinButton
-          Left = 80
-          Top = 515
+          Left = 94
+          Top = 485
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -906,9 +950,9 @@ object MainForm: TMainForm
           OnUpClick = MinUpClick
         end
         object RA2: TEdit
-          Left = 112
-          Top = 515
-          Width = 32
+          Left = 126
+          Top = 485
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 4
@@ -916,8 +960,8 @@ object MainForm: TMainForm
           OnExit = Min2Exit
         end
         object Ra2SB: TSpinButton
-          Left = 144
-          Top = 515
+          Left = 172
+          Top = 485
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -942,8 +986,8 @@ object MainForm: TMainForm
         end
         object Dec1: TEdit
           Left = 48
-          Top = 563
-          Width = 32
+          Top = 525
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 3
@@ -951,8 +995,8 @@ object MainForm: TMainForm
           OnExit = Alt2Exit
         end
         object Dec1SB: TSpinButton
-          Left = 80
-          Top = 563
+          Left = 94
+          Top = 525
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -976,9 +1020,9 @@ object MainForm: TMainForm
           OnUpClick = AltUpClick
         end
         object Dec2: TEdit
-          Left = 112
-          Top = 563
-          Width = 32
+          Left = 126
+          Top = 525
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 3
@@ -986,8 +1030,8 @@ object MainForm: TMainForm
           OnExit = Alt2Exit
         end
         object Dec2SB: TSpinButton
-          Left = 144
-          Top = 563
+          Left = 172
+          Top = 525
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1011,8 +1055,8 @@ object MainForm: TMainForm
           OnUpClick = AltUpClick
         end
         object Pts2SB: TSpinButton
-          Left = 144
-          Top = 467
+          Left = 172
+          Top = 445
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1032,22 +1076,21 @@ object MainForm: TMainForm
             0000000000000000000000420000004200420000000000000000000000420042
             0000004200420042000000000000004200420042000000420042004200420000
             004200420042004200000042004200420042004200420042004200420000}
-          OnDownClick = MagDownClick
-          OnUpClick = MagUpClick
+          OnDownClick = PtsDownClick
+          OnUpClick = PtsUpClick
         end
         object Pts2: TEdit
-          Left = 112
-          Top = 467
-          Width = 32
+          Left = 126
+          Top = 445
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 2
           TabOrder = 21
-          OnExit = Mag1Exit
         end
         object Pts1SB: TSpinButton
-          Left = 80
-          Top = 467
+          Left = 94
+          Top = 445
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1067,45 +1110,42 @@ object MainForm: TMainForm
             0000000000000000000000420000004200420000000000000000000000420042
             0000004200420042000000000000004200420042000000420042004200420000
             004200420042004200000042004200420042004200420042004200420000}
-          OnDownClick = MagDownClick
-          OnUpClick = MagUpClick
+          OnDownClick = PtsDownClick
+          OnUpClick = PtsUpClick
         end
         object Pts1: TEdit
           Left = 48
-          Top = 467
-          Width = 32
+          Top = 445
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 2
           TabOrder = 19
-          OnExit = Mag1Exit
         end
         object AZF: TCheckBox
           Left = 8
-          Top = 691
-          Width = 177
+          Top = 709
+          Width = 205
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'Azimuth (N->E->S->W)'
-          Checked = True
-          State = cbChecked
-          TabOrder = 36
+          TabOrder = 49
           OnClick = AZFClick
         end
         object Az1: TEdit
           Left = 48
-          Top = 707
-          Width = 32
+          Top = 725
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 3
-          TabOrder = 37
+          TabOrder = 50
           OnChange = AZFClick
           OnExit = AzExit
         end
         object Az1SB: TSpinButton
-          Left = 80
-          Top = 707
+          Left = 94
+          Top = 725
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1117,7 +1157,7 @@ object MainForm: TMainForm
             0000004200420000000000000000000000420042000000420000000000000000
             000000000000004200000042004200420042004200420042004200420000}
           FocusControl = Az1
-          TabOrder = 38
+          TabOrder = 51
           UpGlyph.Data = {
             BA000000424DBA00000000000000420000002800000009000000060000000100
             1000030000007800000000000000000000000000000000000000007C0000E003
@@ -1129,19 +1169,19 @@ object MainForm: TMainForm
           OnUpClick = AzUpClick
         end
         object Az2: TEdit
-          Left = 112
-          Top = 707
-          Width = 32
+          Left = 126
+          Top = 725
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
           MaxLength = 3
-          TabOrder = 39
+          TabOrder = 52
           OnChange = AZFClick
           OnExit = AzExit
         end
         object Az2SB: TSpinButton
-          Left = 144
-          Top = 707
+          Left = 172
+          Top = 725
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1153,7 +1193,7 @@ object MainForm: TMainForm
             0000004200420000000000000000000000420042000000420000000000000000
             000000000000004200000042004200420042004200420042004200420000}
           FocusControl = Az2
-          TabOrder = 40
+          TabOrder = 53
           UpGlyph.Data = {
             BA000000424DBA00000000000000420000002800000009000000060000000100
             1000030000007800000000000000000000000000000000000000007C0000E003
@@ -1166,20 +1206,18 @@ object MainForm: TMainForm
         end
         object FNight: TCheckBox
           Left = 24
-          Top = 333
+          Top = 330
           Width = 153
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'during nighttime'
-          Checked = True
-          State = cbChecked
           TabOrder = 7
           OnClick = FNightClick
         end
         object ConF: TCheckBox
           Left = 8
-          Top = 595
-          Width = 177
+          Top = 549
+          Width = 205
           Height = 13
           Anchors = [akLeft, akBottom]
           Caption = 'Constellations (space separated)'
@@ -1188,16 +1226,16 @@ object MainForm: TMainForm
         end
         object Con: TEdit
           Left = 24
-          Top = 611
-          Width = 137
+          Top = 565
+          Width = 167
           Height = 21
           Anchors = [akLeft, akRight, akBottom]
           MaxLength = 512
           TabOrder = 34
         end
         object ConBtn: TButton
-          Left = 160
-          Top = 611
+          Left = 190
+          Top = 565
           Width = 25
           Height = 21
           Anchors = [akRight, akBottom]
@@ -1207,56 +1245,56 @@ object MainForm: TMainForm
         end
         object TypF: TCheckBox
           Left = 8
-          Top = 643
-          Width = 177
+          Top = 589
+          Width = 205
           Height = 17
           Anchors = [akLeft, akBottom]
           Caption = 'Var. types (space separated)'
-          TabOrder = 41
+          TabOrder = 36
           OnClick = UpdateControls
         end
         object Typ: TEdit
           Left = 24
-          Top = 659
-          Width = 137
+          Top = 605
+          Width = 167
           Height = 21
           Anchors = [akLeft, akRight, akBottom]
           MaxLength = 512
-          TabOrder = 42
+          TabOrder = 37
         end
         object TypBtn: TButton
-          Left = 159
-          Top = 659
+          Left = 189
+          Top = 605
           Width = 25
           Height = 21
           Anchors = [akRight, akBottom]
           Caption = '...'
-          TabOrder = 43
+          TabOrder = 38
           OnClick = TypBtnClick
         end
         object OMF: TCheckBox
           Left = 8
-          Top = 739
-          Width = 177
+          Top = 749
+          Width = 205
           Height = 17
           Anchors = [akLeft, akBottom]
           Caption = 'Object-Moon distance'
-          TabOrder = 44
+          TabOrder = 54
           OnClick = OMFClick
         end
         object Om1: TEdit
           Left = 48
-          Top = 755
-          Width = 32
+          Top = 765
+          Width = 46
           Height = 21
           Anchors = [akLeft, akBottom]
-          TabOrder = 45
+          TabOrder = 55
           OnChange = OMFClick
           OnExit = Om1Exit
         end
         object Om1SB: TSpinButton
-          Left = 80
-          Top = 755
+          Left = 94
+          Top = 765
           Width = 15
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -1271,7 +1309,7 @@ object MainForm: TMainForm
             0000000000000000000000808000008080000080800000808000008080000080
             800000808000008080000080800000808000}
           FocusControl = Om1
-          TabOrder = 46
+          TabOrder = 56
           UpGlyph.Data = {
             0E010000424D0E01000000000000360000002800000009000000060000000100
             200000000000D800000000000000000000000000000000000000008080000080
@@ -1284,6 +1322,166 @@ object MainForm: TMainForm
             800000808000008080000080800000808000}
           OnDownClick = Om1SBDownClick
           OnUpClick = Om1SBUpClick
+        end
+        object PerF: TCheckBox
+          Left = 8
+          Top = 629
+          Width = 205
+          Height = 17
+          Anchors = [akLeft, akBottom]
+          Caption = 'Orbital period'
+          TabOrder = 39
+          OnClick = UpdateControls
+        end
+        object DepF: TCheckBox
+          Left = 8
+          Top = 669
+          Width = 205
+          Height = 17
+          Anchors = [akLeft, akBottom]
+          Caption = 'Eclipse depth'
+          TabOrder = 44
+          OnClick = UpdateControls
+        end
+        object Per1: TEdit
+          Left = 48
+          Top = 645
+          Width = 46
+          Height = 21
+          Anchors = [akLeft, akBottom]
+          MaxLength = 3
+          TabOrder = 40
+          OnExit = PerExit
+        end
+        object Per1SB: TSpinButton
+          Left = 94
+          Top = 645
+          Width = 15
+          Height = 21
+          Anchors = [akLeft, akBottom]
+          DownGlyph.Data = {
+            BA000000424DBA00000000000000420000002800000009000000060000000100
+            1000030000007800000000000000000000000000000000000000007C0000E003
+            00001F0000000042004200420042004200420042004200420000004200420042
+            0042000000420042004200420000004200420042000000000000004200420042
+            0000004200420000000000000000000000420042000000420000000000000000
+            000000000000004200000042004200420042004200420042004200420000}
+          FocusControl = Per1
+          TabOrder = 41
+          UpGlyph.Data = {
+            BA000000424DBA00000000000000420000002800000009000000060000000100
+            1000030000007800000000000000000000000000000000000000007C0000E003
+            00001F0000000042004200420042004200420042004200420000004200000000
+            0000000000000000000000420000004200420000000000000000000000420042
+            0000004200420042000000000000004200420042000000420042004200420000
+            004200420042004200000042004200420042004200420042004200420000}
+          OnDownClick = PerDownClick
+          OnUpClick = PerUpClick
+        end
+        object Per2: TEdit
+          Left = 126
+          Top = 645
+          Width = 46
+          Height = 21
+          Anchors = [akLeft, akBottom]
+          MaxLength = 3
+          TabOrder = 42
+          OnExit = PerExit
+        end
+        object Per2SB: TSpinButton
+          Left = 172
+          Top = 645
+          Width = 15
+          Height = 21
+          Anchors = [akLeft, akBottom]
+          DownGlyph.Data = {
+            BA000000424DBA00000000000000420000002800000009000000060000000100
+            1000030000007800000000000000000000000000000000000000007C0000E003
+            00001F0000000042004200420042004200420042004200420000004200420042
+            0042000000420042004200420000004200420042000000000000004200420042
+            0000004200420000000000000000000000420042000000420000000000000000
+            000000000000004200000042004200420042004200420042004200420000}
+          FocusControl = Per2
+          TabOrder = 43
+          UpGlyph.Data = {
+            BA000000424DBA00000000000000420000002800000009000000060000000100
+            1000030000007800000000000000000000000000000000000000007C0000E003
+            00001F0000000042004200420042004200420042004200420000004200000000
+            0000000000000000000000420000004200420000000000000000000000420042
+            0000004200420042000000000000004200420042000000420042004200420000
+            004200420042004200000042004200420042004200420042004200420000}
+          OnDownClick = PerDownClick
+          OnUpClick = PerUpClick
+        end
+        object Dep1: TEdit
+          Left = 48
+          Top = 685
+          Width = 46
+          Height = 21
+          Anchors = [akLeft, akBottom]
+          MaxLength = 3
+          TabOrder = 45
+          OnExit = Mag1Exit
+        end
+        object Dep1SB: TSpinButton
+          Left = 94
+          Top = 685
+          Width = 15
+          Height = 21
+          Anchors = [akLeft, akBottom]
+          DownGlyph.Data = {
+            BA000000424DBA00000000000000420000002800000009000000060000000100
+            1000030000007800000000000000000000000000000000000000007C0000E003
+            00001F0000000042004200420042004200420042004200420000004200420042
+            0042000000420042004200420000004200420042000000000000004200420042
+            0000004200420000000000000000000000420042000000420000000000000000
+            000000000000004200000042004200420042004200420042004200420000}
+          FocusControl = Dep1
+          TabOrder = 46
+          UpGlyph.Data = {
+            BA000000424DBA00000000000000420000002800000009000000060000000100
+            1000030000007800000000000000000000000000000000000000007C0000E003
+            00001F0000000042004200420042004200420042004200420000004200000000
+            0000000000000000000000420000004200420000000000000000000000420042
+            0000004200420042000000000000004200420042000000420042004200420000
+            004200420042004200000042004200420042004200420042004200420000}
+          OnDownClick = MagDownClick
+          OnUpClick = MagUpClick
+        end
+        object Dep2: TEdit
+          Left = 126
+          Top = 685
+          Width = 46
+          Height = 21
+          Anchors = [akLeft, akBottom]
+          MaxLength = 3
+          TabOrder = 47
+          OnExit = Mag1Exit
+        end
+        object Dep2SB: TSpinButton
+          Left = 172
+          Top = 685
+          Width = 15
+          Height = 21
+          Anchors = [akLeft, akBottom]
+          DownGlyph.Data = {
+            BA000000424DBA00000000000000420000002800000009000000060000000100
+            1000030000007800000000000000000000000000000000000000007C0000E003
+            00001F0000000042004200420042004200420042004200420000004200420042
+            0042000000420042004200420000004200420042000000000000004200420042
+            0000004200420000000000000000000000420042000000420000000000000000
+            000000000000004200000042004200420042004200420042004200420000}
+          FocusControl = Dep2
+          TabOrder = 48
+          UpGlyph.Data = {
+            BA000000424DBA00000000000000420000002800000009000000060000000100
+            1000030000007800000000000000000000000000000000000000007C0000E003
+            00001F0000000042004200420042004200420042004200420000004200000000
+            0000000000000000000000420000004200420000000000000000000000420042
+            0000004200420042000000000000004200420042000000420042004200420000
+            004200420042004200000042004200420042004200420042004200420000}
+          OnDownClick = MagDownClick
+          OnUpClick = MagUpClick
         end
       end
     end

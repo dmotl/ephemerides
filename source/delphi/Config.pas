@@ -2,7 +2,7 @@ unit Config;
 
 interface
 
-const MyVersion = '1.22';
+const MyVersion = '1.23';
 
 implementation
 

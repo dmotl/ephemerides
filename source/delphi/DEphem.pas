@@ -14,9 +14,9 @@ type
     DateFrom, DateTo:TDateTime;   // Local time
     JDMin, JDMax:double;          // UTC
     Location:String; Lat, Lon, Twilight:double;
-    FRA, FDec, FMag, FPts, FTime, FNight, FAlt, FAz, FDOW, FCon, FTyp, FObjMoon:boolean;
+    FRA, FDec, FMag, FPts, FTime, FNight, FAlt, FAz, FDOW, FCon, FTyp, FObjMoon, FPer, FDep:boolean;
     TimeFrom, TimeTo, AltFrom, AltTo, AzFrom, AzTo, ObjMoon:double;
-    RaFrom, RaTo, DecFrom, DecTo, MagFrom, MagTo:double;
+    RaFrom, RaTo, DecFrom, DecTo, MagFrom, MagTo, PerFrom, PerTo, DepFrom, DepTo:double;
     PtsFrom, PtsTo:integer;
     DOW:array[1..7] of boolean;
     Cons, Types:String;
@@ -233,6 +233,22 @@ type
     Label44: TLabel;
     CopyUTC: TMenuItem;
     CopyLocT: TMenuItem;
+    PerF: TCheckBox;
+    DepF: TCheckBox;
+    Label45: TLabel;
+    Per1: TEdit;
+    Per1SB: TSpinButton;
+    Label46: TLabel;
+    Per2: TEdit;
+    Per2SB: TSpinButton;
+    Label47: TLabel;
+    Label48: TLabel;
+    Dep1: TEdit;
+    Dep1SB: TSpinButton;
+    Label49: TLabel;
+    Dep2: TEdit;
+    Dep2SB: TSpinButton;
+    Label50: TLabel;
     procedure CloseBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure RunBtnClick(Sender: TObject);
@@ -326,6 +342,11 @@ type
     procedure ObjM1SBUpClick(Sender: TObject);
     procedure CopyUTCClick(Sender: TObject);
     procedure CopyLocTClick(Sender: TObject);
+    procedure PtsDownClick(Sender: TObject);
+    procedure PtsUpClick(Sender: TObject);
+    procedure PerExit(Sender: TObject);
+    procedure PerDownClick(Sender: TObject);
+    procedure PerUpClick(Sender: TObject);
   private
     Updating, FirstRun, AutoSize, AfterStart, KeepDate:boolean;
     Sort, Sort2, X, StartR, StartC: integer;
@@ -526,6 +547,14 @@ begin
      if ok and FFilter1.FPts then begin
        i :=O.Rating;
        if (i<FFilter1.PtsFrom)or(i>FFilter1.PtsTo) then ok:=false;
+     end;
+     if ok and FFilter1.FPer then begin
+       F :=O.Per;
+       if (F<FFilter1.PerFrom)or(F>FFilter1.PerTo) then ok:=false;
+     end;
+     if ok and FFilter1.FDep then begin
+       F:=O.EclipseDepth;
+       if (F<FFilter1.DepFrom)or(F>FFilter1.DepTo) then ok:=false;
      end;
      if ok then begin
        { Make ephemerides }
@@ -1045,6 +1074,12 @@ begin
    PtsF.Checked:=Ini.ReadBool('PtsF');
    Pts1.Text   :=IntToStr(min(99,max(0,Ini.ReadInt('Pts1',1))));
    Pts2.Text   :=IntToStr(min(99,max(0,Ini.ReadInt('Pts2',10))));
+   PerF.Checked:=Ini.ReadBool('PerF');
+   Per1.Text   :=Format('%.1f',[min(9999,max(0,Ini.ReadDouble('Per1',0)))]);
+   Per2.Text   :=Format('%.1f',[min(9999,max(0,Ini.ReadDouble('Per2',9999)))]);
+   DepF.Checked:=Ini.ReadBool('DepF');
+   Dep1.Text   :=Format('%.1f',[min(99,max(0,Ini.ReadDouble('Dep1',0)))]);
+   Dep2.Text   :=Format('%.1f',[min(99,max(0,Ini.ReadDouble('Dep2',99)))]);
    ConF.Checked:=Ini.ReadBool('ConF');
    Con.Text    :=Ini.ReadStr('Cons');
    TypF.Checked:=Ini.ReadBool('TypF');
@@ -1162,6 +1197,12 @@ begin
  Ini.WriteBool('PtsF',PtsF.Checked);
  Ini.WriteStr ('Pts1',Pts1.Text);
  Ini.WriteStr ('Pts2',Pts2.Text);
+ Ini.WriteBool('PerF',PerF.Checked);
+ Ini.WriteStr ('Per1',Per1.Text);
+ Ini.WriteStr ('Per2',Per2.Text);
+ Ini.WriteBool('DepF',DepF.Checked);
+ Ini.WriteStr ('Dep1',Dep1.Text);
+ Ini.WriteStr ('Dep2',Dep2.Text);
  Ini.WriteBool('ConF', ConF.Checked);
  Ini.WriteStr ('Cons', Con.Text);
  Ini.WriteBool('TypF', TypF.Checked);
@@ -1247,6 +1288,10 @@ var i:integer;
        P.Writeln(Format('Brightness in minimum from %.1f to %.1f mag', [MagFrom, MagTo]));
      if FPts then
        P.Writeln(Format('Rating from %d to %d pts.', [PtsFrom, PtsTo]));
+     if FPer then
+       P.Writeln(Format('Period from %.1f to %.1f days', [PerFrom, PerTo]));
+     if FDep then
+       P.Writeln(Format('Eclipse depth from %.1f to %.1f mag.', [DepFrom, DepTo]));
      if FCon then
        P.Writeln(Format('Constellations: %s', [Cons]));
      if FTyp then
@@ -2198,6 +2243,10 @@ begin
      E.Write(Format('Brightness in minimum from %.1f to %.1f mag.\n', [MagFrom, MagTo]));
    if FPts then
      E.Write(Format('Rating from %d to %d pts.\n', [PtsFrom, PtsTo]));
+   if FPer then
+     E.Write(Format('Period from %.1f to %.1f days\n', [PerFrom, PerTo]));
+   if FDep then
+     E.Write(Format('Eclipse depth from %.1f to %.1f mag.\n', [DepFrom, DepTo]));
    if FObjMoon then
      E.Write(Format('Moon-object distance from %1f deg.', [ObjMoon]));
  end;
@@ -2433,6 +2482,24 @@ begin
    Filter.FPts     := false;
  end;
 
+ { Orbital period }
+ if (Pages.ActivePage=TabSheet1) then begin
+   Filter.FPer     := PerF.Checked;
+   Filter.PerFrom  := StrToFloat(Per1.Text);
+   Filter.PerTo    := StrToFloat(Per2.Text);
+ end else begin
+   Filter.FPer     := false;
+ end;
+
+ { Eclipse depth }
+ if (Pages.ActivePage=TabSheet1) then begin
+   Filter.FDep     := DepF.Checked;
+   Filter.DepFrom  := StrToFloat(Dep1.Text);
+   Filter.DepTo    := StrToFloat(Dep2.Text);
+ end else begin
+   Filter.FDep     := false;
+ end;
+
  { Right ascension }
  if (Pages.ActivePage=TabSheet1) then begin
    Filter.FRA      := RaF.Checked;
@@ -2536,6 +2603,24 @@ begin
  Pts2.Enabled:=ok;
  Pts2SB.Enabled:=ok;
  Label21.Enabled:=ok;
+
+ ok:=PerF.Checked;
+ Label45.Enabled:=ok;
+ Per1.Enabled:=ok;
+ Per1SB.Enabled:=ok;
+ Label46.Enabled:=ok;
+ Per2.Enabled:=ok;
+ Per2SB.Enabled:=ok;
+ Label47.Enabled:=ok;
+
+ ok:=DepF.Checked;
+ Label48.Enabled:=ok;
+ Dep1.Enabled:=ok;
+ Dep1SB.Enabled:=ok;
+ Label49.Enabled:=ok;
+ Dep2.Enabled:=ok;
+ Dep2SB.Enabled:=ok;
+ Label50.Enabled:=ok;
 
  ok:=RaF.Checked;
  Label12.Enabled:=ok;
@@ -3022,5 +3107,51 @@ begin
    end;
  end;
 end;
+
+procedure TMainForm.PtsDownClick(Sender: TObject);
+var X:Integer;
+begin
+ if Assigned(TSpinButton(Sender).FocusControl) then begin
+   X:=StrToInt(TEdit(TSpinButton(Sender).FocusControl).Text);
+   if X>1 then
+     TEdit(TSpinButton(Sender).FocusControl).Text:=IntToStr(X-1);
+ end;
+end;
+
+procedure TMainForm.PtsUpClick(Sender: TObject);
+var X:Integer;
+begin
+ if Assigned(TSpinButton(Sender).FocusControl) then begin
+   X:=StrToInt(TEdit(TSpinButton(Sender).FocusControl).Text);
+   if X<99 then
+     TEdit(TSpinButton(Sender).FocusControl).Text:=IntToStr(X+1);
+ end;
+end;
+
+procedure TMainForm.PerExit(Sender: TObject);
+begin
+ TEdit(Sender).Text:=Format('%.1f',[min(9999,max(0,StrToFloatDef(TEdit(Sender).Text,0)))]);
+end;
+
+procedure TMainForm.PerDownClick(Sender: TObject);
+var X:Double;
+begin
+ if Assigned(TSpinButton(Sender).FocusControl) then begin
+   X:=StrToFloatDef(TEdit(TSpinButton(Sender).FocusControl).Text,0);
+   X:=max(0,X-0.5);
+   TEdit(TSpinButton(Sender).FocusControl).Text:=Format('%.1f',[X]);
+ end;
+end;
+
+procedure TMainForm.PerUpClick(Sender: TObject);
+var X:Double;
+begin
+ if Assigned(TSpinButton(Sender).FocusControl) then begin
+   X:=StrToFloatDef(TEdit(TSpinButton(Sender).FocusControl).Text,0);
+   X:=min(9999,X+0.5);
+   TEdit(TSpinButton(Sender).FocusControl).Text:=Format('%.1f',[X]);
+ end;
+end;
+
 end.
 

@@ -33,6 +33,7 @@ type
        Function RA:double;
        Function DEC:double;
        Function Rating:integer;
+       Function EclipseDepth:Double;
        Function Cons:String;
        Function ShrtName:String;
        Function LongName:String;
@@ -355,6 +356,17 @@ begin
  else
    Aux := '';
  Result:=StrToIntDef(Aux,10);
+end;
+
+Function TKatZaznam.EclipseDepth:Double;
+var M1, M2:Double;
+begin
+ M1:=Mag1;
+ M2:=Mag2;
+ if (M1>-99)and(M2>-99)and(M2>=M1) then
+   Result:=M2-M1
+ else
+   Result:=-99;
 end;
 
 Function TKatZaznam.VarTypShort;
